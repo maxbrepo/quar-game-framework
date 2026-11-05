@@ -64,3 +64,11 @@ The D001 interactive demo currently exits when any key is pressed or the window 
 ## Development policy
 
 Visual Quar remains the primary implementation language; the SDK is a separately maintained dependency. New native integrations must preserve earlier functionality, avoid unapproved workarounds and distinguish candidate work from user-validated results.
+
+## License
+
+Quar Game Framework (QGF) is licensed under the **Apache License 2.0**. See [`LICENSE`](LICENSE) for the full license terms.
+
+Third-party software, including Visual Quar / Quar SDK, Python, and SDL3, retains its own licensing terms. See [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md) for dependency information.
+
+Games and applications created using QGF may be distributed under licenses chosen by their authors, subject to any applicable third-party and runtime licensing requirements.
