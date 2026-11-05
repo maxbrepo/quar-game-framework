@@ -1,0 +1,5 @@
+// Chapter 11D: collision boundaries and regression.
+print(collision_box_has_area(0.0,3.0));
+print(collision_box_has_area(2.0,3.0));
+print(collision_circle_has_area(0.0));
+print(collision_circle_has_area(1.0));

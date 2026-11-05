@@ -1,0 +1,6 @@
+// Chapter 11B: collision contact regression
+print(collision_point_distance_squared(0.0,0.0,3.0,4.0));
+print(collision_circle_box_overlap(5.0,2.0,1.0,0.0,0.0,4.0,4.0));
+print(collision_circle_box_strict_overlap(5.0,2.0,1.0,0.0,0.0,4.0,4.0));
+print(collision_box_overlap_area(0.0,0.0,4.0,4.0,2.0,1.0,3.0,3.0));
+print(collision_box_nearest_x(6.0,0.0,4.0));

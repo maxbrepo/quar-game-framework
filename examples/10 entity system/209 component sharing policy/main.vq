@@ -1,0 +1,4 @@
+// Chapter 10B: component sharing policy.
+print(entity_can_share_component(true,true,true));
+print(entity_can_share_component(false,true,true));
+print(entity_can_share_component(true,false,true));

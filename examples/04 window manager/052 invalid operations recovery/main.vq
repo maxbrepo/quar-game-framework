@@ -1,0 +1,6 @@
+// Window policy integration; native SDL3 is not invoked.
+int state = qgf_window_prepare(0, 640, 480);
+print(qgf_window_resize_valid(state, -1, 600));
+print(qgf_window_choose_width(640, state, -1, 600, 320, 240, 1920, 1080));
+print(qgf_window_change_mode(0, state, 99));
+print(qgf_window_open_state(state));

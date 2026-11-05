@@ -1,0 +1,5 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_can_update(true, false));
+print(scene_can_update(true, true));
+print(scene_can_render(true, true));
+print(scene_can_render(false, true));

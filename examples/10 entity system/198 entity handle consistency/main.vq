@@ -1,0 +1,4 @@
+// Chapter 10A: entity handle consistency.
+print(entity_handle_matches(7, 2, 7, 2));
+print(entity_handle_matches(7, 2, 7, 1));
+print(entity_handle_matches(7, 2, 0, 2));

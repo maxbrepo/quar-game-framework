@@ -1,0 +1,100 @@
+
+double vector2_length_squared(double x, double y) {
+    return x * x + y * y;
+}
+
+double vector2_dot(double ax, double ay, double bx, double by) {
+    return ax * bx + ay * by;
+}
+
+double vector2_cross(double ax, double ay, double bx, double by) {
+    return ax * by - ay * bx;
+}
+
+double vector2_distance_squared(double ax, double ay, double bx, double by) {
+    double dx = bx - ax;
+    double dy = by - ay;
+    return vector2_length_squared(dx, dy);
+}
+
+// Add two vectors component-wise. Returns the requested component.
+double vector2_add_x(double ax, double bx) { return ax + bx; }
+double vector2_add_y(double ay, double by) { return ay + by; }
+
+// Subtract two vectors component-wise.
+double vector2_sub_x(double ax, double bx) { return ax - bx; }
+double vector2_sub_y(double ay, double by) { return ay - by; }
+
+// Multiply vector components by a scalar.
+double vector2_scale_x(double x, double scale) { return x * scale; }
+double vector2_scale_y(double y, double scale) { return y * scale; }
+
+// Interpolate one component without clamping t.
+double vector2_lerp_component(double start_value, double end_value, double t) {
+    return start_value + (end_value - start_value) * t;
+}
+
+// A zero-length vector cannot be normalized safely.
+bool vector2_can_normalize(double x, double y) {
+    return vector2_length_squared(x, y) > 0.0;
+}
+
+// Projection numerator, useful when computing scalar projections.
+double vector2_projection_numerator(double ax, double ay, double bx, double by) {
+    return vector2_dot(ax, ay, bx, by);
+}
+
+// Approximate a non-negative square root with Newton iterations.
+// Returns zero for zero input; callers provide squared magnitudes.
+double vector2_sqrt_nonnegative(double value) {
+    if (value <= 0.0) { return 0.0; }
+    double estimate = value;
+    if (value < 1.0) { estimate = 1.0; }
+    int iteration = 0;
+    while (iteration < 32) {
+        estimate = 0.5 * (estimate + value / estimate);
+        iteration = iteration + 1;
+    }
+    return estimate;
+}
+
+// Return the Euclidean length of a vector.
+double vector2_length(double x, double y) {
+    return vector2_sqrt_nonnegative(vector2_length_squared(x, y));
+}
+
+// Return the Euclidean distance between two points.
+double vector2_distance(double ax, double ay, double bx, double by) {
+    return vector2_sqrt_nonnegative(vector2_distance_squared(ax, ay, bx, by));
+}
+
+// Return a normalized component, or zero for a zero vector.
+double vector2_normalize_x(double x, double y) {
+    double length_value = vector2_length(x, y);
+    if (length_value == 0.0) { return 0.0; }
+    return x / length_value;
+}
+
+double vector2_normalize_y(double x, double y) {
+    double length_value = vector2_length(x, y);
+    if (length_value == 0.0) { return 0.0; }
+    return y / length_value;
+}
+
+// Transform utilities. Quarter turns avoid requiring trigonometric intrinsics.
+double vector2_degrees_to_radians(double degrees) { return degrees * 3.141592653589793 / 180.0; }
+double vector2_radians_to_degrees(double radians) { return radians * 180.0 / 3.141592653589793; }
+double vector2_rotate_quarter_x(double x, double y) { return -y; }
+double vector2_rotate_quarter_y(double x, double y) { return x; }
+double vector2_translate(double coordinate, double offset) { return coordinate + offset; }
+double vector2_scale_about(double coordinate, double origin, double factor) { return origin + (coordinate - origin) * factor; }
+double vector2_transform_component(double coordinate, double factor, double offset) { return coordinate * factor + offset; }
+double vector2_inverse_transform_component(double coordinate, double factor, double offset) {
+    if (factor == 0.0) { return 0.0; }
+    return (coordinate - offset) / factor;
+}
+bool vector2_can_inverse_scale(double scale) { return scale != 0.0; }
+double vector2_local_to_world(double local_value, double origin) { return local_value + origin; }
+double vector2_world_to_local(double world_value, double origin) { return world_value - origin; }
+double vector2_rect_right(double x, double width) { return x + width; }
+double vector2_rect_bottom(double y, double height) { return y + height; }

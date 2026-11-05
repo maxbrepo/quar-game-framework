@@ -1,0 +1,156 @@
+// Platform identifiers are explicit, caller-selected values.
+// Detection of the host operating system belongs to a future native backend.
+int qgf_platform_unknown() { return 0; }
+int qgf_platform_linux() { return 1; }
+int qgf_platform_windows() { return 2; }
+int qgf_platform_macos() { return 3; }
+int qgf_platform_other() { return 4; }
+
+bool qgf_platform_valid(int platform) {
+    if (platform < 1) { return false; }
+    return platform <= 4;
+}
+
+// Backend 0 is NONE; 1 is reserved for SDL3, not yet implemented.
+int qgf_backend_none() { return 0; }
+int qgf_backend_sdl3() { return 1; }
+
+bool qgf_backend_known(int backend) {
+    if (backend == 0) { return true; }
+    return backend == 1;
+}
+
+// A known backend is not necessarily available in this build.
+bool qgf_backend_available(int backend) {
+    return backend == 0;
+}
+
+bool qgf_platform_config_valid(int platform, int backend) {
+    if (qgf_platform_valid(platform) == false) { return false; }
+    return qgf_backend_known(backend);
+}
+
+// Backend lifecycle: 0 CREATED, 1 READY, 2 ACTIVE, 3 STOPPED.
+int qgf_backend_created() { return 0; }
+int qgf_backend_ready() { return 1; }
+int qgf_backend_active() { return 2; }
+int qgf_backend_stopped() { return 3; }
+
+bool qgf_backend_can_prepare(int state, int backend) {
+    if (state != 0) { return false; }
+    return qgf_backend_available(backend);
+}
+
+int qgf_backend_prepare(int state, int backend) {
+    if (qgf_backend_can_prepare(state, backend)) { return 1; }
+    return state;
+}
+
+int qgf_backend_start(int state) {
+    if (state == 1) { return 2; }
+    return state;
+}
+
+int qgf_backend_stop(int state) {
+    if (state == 1) { return 3; }
+    if (state == 2) { return 3; }
+    return state;
+}
+
+// Error codes: 0 NONE, 1 INVALID_PLATFORM, 2 UNKNOWN_BACKEND,
+// 3 BACKEND_UNAVAILABLE, 4 INVALID_TRANSITION.
+int qgf_platform_error(int platform, int backend) {
+    if (qgf_platform_valid(platform) == false) { return 1; }
+    if (qgf_backend_known(backend) == false) { return 2; }
+    if (qgf_backend_available(backend) == false) { return 3; }
+    return 0;
+}
+
+int qgf_backend_prepare_error(int state, int backend) {
+    if (qgf_backend_available(backend) == false) { return 3; }
+    if (state != 0) { return 4; }
+    return 0;
+}
+
+// Pure transition checks keep the backend lifecycle deterministic.
+bool qgf_backend_state_valid(int state) {
+    if (state < 0) { return false; }
+    return state <= 3;
+}
+
+bool qgf_backend_can_start(int state) {
+    return state == 1;
+}
+
+bool qgf_backend_can_stop(int state) {
+    if (state == 1) { return true; }
+    return state == 2;
+}
+
+// A stopped backend must be reset before it can be prepared again.
+bool qgf_backend_can_reset(int state) {
+    return state == 3;
+}
+
+int qgf_backend_reset(int state) {
+    if (qgf_backend_can_reset(state)) { return 0; }
+    return state;
+}
+
+// Idempotent calls preserve the state; errors make the rejection explicit.
+int qgf_backend_start_error(int state) {
+    if (qgf_backend_can_start(state)) { return 0; }
+    return 4;
+}
+
+int qgf_backend_stop_error(int state) {
+    if (qgf_backend_can_stop(state)) { return 0; }
+    return 4;
+}
+
+int qgf_backend_reset_error(int state) {
+    if (qgf_backend_can_reset(state)) { return 0; }
+    return 4;
+}
+
+// SDL3 is reserved but unavailable until the native ABI/FFI bridge exists.
+bool qgf_backend_requires_native_bridge(int backend) {
+    return backend == 1;
+}
+
+// Error codes are values, not native backend error messages.
+int qgf_platform_error_none() { return 0; }
+int qgf_platform_error_invalid_platform() { return 1; }
+int qgf_platform_error_unknown_backend() { return 2; }
+int qgf_platform_error_backend_unavailable() { return 3; }
+int qgf_platform_error_invalid_transition() { return 4; }
+
+// A failed prepare does not alter the lifecycle state.
+bool qgf_backend_prepare_failed(int state, int backend) {
+    return qgf_backend_prepare_error(state, backend) != 0;
+}
+
+// Capabilities are advertised only by an implemented backend.
+bool qgf_backend_supports_window(int backend) {
+    return false;
+}
+bool qgf_backend_supports_render2d(int backend) {
+    return false;
+}
+bool qgf_backend_supports_input(int backend) {
+    return false;
+}
+
+// SDL3 remains a reserved backend identifier, never a fake implementation.
+bool qgf_backend_can_use_native(int backend) {
+    if (qgf_backend_requires_native_bridge(backend) == false) { return false; }
+    return qgf_backend_available(backend);
+}
+
+// An explicit lifecycle guard for a completed prepare/start/stop sequence.
+bool qgf_backend_is_running(int state) {
+    return state == 2;
+}
+bool qgf_backend_is_stopped(int state) {
+    return state == 3;
+}

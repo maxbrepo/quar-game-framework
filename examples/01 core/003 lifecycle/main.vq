@@ -1,0 +1,33 @@
+// Expected results are booleans, followed by the lifecycle state sequence.
+print(qgf_can_initialize(0));
+print(qgf_can_start(0));
+print(qgf_can_stop(1));
+print(qgf_can_stop(2));
+print(qgf_can_stop(3));
+print(qgf_initialize_error(0));
+print(qgf_start_error(0));
+print(qgf_stop_error(0));
+print(qgf_initialize_state(0));
+print(qgf_start_state(1));
+print(qgf_stop_state(2));
+print(qgf_start_state(3));
+print(qgf_is_active(2));
+print(qgf_is_active(3));
+
+// Configuration and diagnostics smoke checks (expected: true/false or codes).
+print(qgf_config_valid(640, 480, 60));
+print(qgf_config_valid(0, 480, 60));
+print(qgf_config_valid(640, -1, 60));
+print(qgf_config_valid(640, 480, 0));
+print(qgf_config_error(640, 480, 60));
+print(qgf_config_error(640, 0, 60));
+print(qgf_state_valid(0));
+print(qgf_state_valid(3));
+print(qgf_state_valid(4));
+print(qgf_is_initialized(1));
+print(qgf_is_initialized(2));
+print(qgf_is_initialized(3));
+print(qgf_is_stopped(3));
+print(qgf_error_present(0));
+print(qgf_error_present(1));
+print(qgf_error_present(2));

@@ -1,0 +1,8 @@
+// Chapter 10B: component policy regression.
+print(entity_component_id_valid(1));
+print(entity_component_owner_matches(2,2));
+print(entity_can_transfer_component(true,false,true,false));
+print(entity_component_ready(true,true,false));
+print(entity_update_order_valid(0,1));
+print(entity_component_can_remove(true,false,false));
+print(entity_component_can_remove(true,true,false));

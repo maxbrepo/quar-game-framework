@@ -1,0 +1,2 @@
+print(render2d_valid_rect(16.0, 8.0));
+print(render2d_valid_rect(0.0, 8.0));

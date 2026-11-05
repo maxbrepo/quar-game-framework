@@ -1,0 +1,7 @@
+// QGF Chapter 3C: 028 backend capabilities
+print(qgf_backend_supports_window(qgf_backend_none()));
+print(qgf_backend_supports_render2d(qgf_backend_none()));
+print(qgf_backend_supports_input(qgf_backend_none()));
+print(qgf_backend_supports_window(qgf_backend_sdl3()));
+print(qgf_backend_supports_render2d(qgf_backend_sdl3()));
+print(qgf_backend_supports_input(qgf_backend_sdl3()));

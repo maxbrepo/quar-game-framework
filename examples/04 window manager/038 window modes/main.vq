@@ -1,0 +1,5 @@
+// Window policy example; no native SDL calls.
+print(qgf_window_mode_valid(qgf_window_mode_windowed()));
+print(qgf_window_mode_valid(qgf_window_mode_borderless()));
+print(qgf_window_mode_valid(qgf_window_mode_fullscreen()));
+print(qgf_window_mode_valid(3));

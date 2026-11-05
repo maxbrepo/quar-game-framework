@@ -1,0 +1,119 @@
+// Chapter 9A: pure scene hierarchy and lifecycle policies.
+// Scene state is represented by explicit metadata; no runtime scene storage yet.
+bool scene_valid_id(int scene_id) { return scene_id > 0; }
+bool scene_can_activate(bool registered, bool active) { if (registered == true) { return active == false; }
+    return false; }
+bool scene_can_deactivate(bool registered, bool active) { if (registered == true) { return active == true; }
+    return false; }
+bool scene_can_switch(bool target_registered, int current_id, int target_id) {
+    if (target_registered == false) { return false; }
+    if (scene_valid_id(target_id) == false) { return false; }
+    return current_id != target_id;
+}
+bool scene_valid_node(int node_id, int scene_id) { if (node_id > 0) { return scene_valid_id(scene_id); }
+    return false; }
+bool scene_can_attach(int child_id, int parent_id, bool parent_exists) {
+    if (child_id <= 0) { return false; }
+    if (parent_id <= 0) { return false; }
+    if (child_id == parent_id) { return false; }
+    return parent_exists;
+}
+bool scene_can_detach(bool attached, bool locked) { if (attached == true) { return locked == false; }
+    return false; }
+bool scene_parent_link_valid(int child_id, int parent_id, bool parent_exists) {
+    if (parent_id == 0) { return child_id > 0; }
+    return scene_can_attach(child_id, parent_id, parent_exists);
+}
+bool scene_can_update(bool active, bool paused) { if (active == true) { return paused == false; }
+    return false; }
+bool scene_can_render(bool active, bool visible) { if (active == true) { return visible == true; }
+    return false; }
+bool scene_can_destroy(bool active, int node_count) { if (active == false) { return node_count == 0; }
+    return false; }
+
+// Chapter 9B: deterministic hierarchy and transform policies.
+bool scene_can_reparent(int child_id, int old_parent_id, int new_parent_id, bool new_parent_exists, bool would_create_cycle) {
+    if (scene_valid_node(child_id, 1) == false) { return false; }
+    if (new_parent_id == old_parent_id) { return false; }
+    if (new_parent_id == 0) { return true; }
+    if (would_create_cycle == true) { return false; }
+    return scene_can_attach(child_id, new_parent_id, new_parent_exists);
+}
+bool scene_parent_chain_valid(int node_id, int parent_id, int grandparent_id) {
+    if (node_id <= 0) { return false; }
+    if (parent_id == 0) { return grandparent_id == 0; }
+    if (node_id == parent_id) { return false; }
+    if (grandparent_id == node_id) { return false; }
+    if (grandparent_id == parent_id) { return false; }
+    return grandparent_id >= 0;
+}
+double scene_world_x(double parent_world_x, double local_x) { return parent_world_x + local_x; }
+double scene_world_y(double parent_world_y, double local_y) { return parent_world_y + local_y; }
+double scene_local_x(double world_x, double parent_world_x) { return world_x - parent_world_x; }
+double scene_local_y(double world_y, double parent_world_y) { return world_y - parent_world_y; }
+bool scene_effective_visible(bool parent_visible, bool local_visible) { if (parent_visible == false) { return false; }
+    return local_visible == true; }
+bool scene_effective_enabled(bool parent_enabled, bool local_enabled) { if (parent_enabled == false) { return false; }
+    return local_enabled == true; }
+bool scene_can_update_node(bool scene_active, bool scene_paused, bool node_enabled) {
+    if (scene_can_update(scene_active, scene_paused) == false) { return false; }
+    return node_enabled == true;
+}
+bool scene_can_render_node(bool scene_active, bool parent_visible, bool node_visible) {
+    return scene_can_render(scene_active, scene_effective_visible(parent_visible, node_visible));
+}
+bool scene_valid_depth(int depth, int maximum_depth) {
+    if (depth < 0) { return false; }
+    if (maximum_depth < 0) { return false; }
+    return depth <= maximum_depth;
+}
+bool scene_can_move_between_scenes(int node_id, int source_scene_id, int target_scene_id, bool target_exists) {
+    if (node_id <= 0) { return false; }
+    if (source_scene_id <= 0) { return false; }
+    if (target_scene_id <= 0) { return false; }
+    if (source_scene_id == target_scene_id) { return false; }
+    return target_exists == true;
+}
+
+// Chapter 9C: traversal order, inherited state and transform policies.
+bool scene_traversal_parent_first(int parent_index, int child_index) { return parent_index < child_index; }
+bool scene_traversal_child_first(int child_index, int parent_index) { return child_index < parent_index; }
+bool scene_should_visit(bool scene_active, bool ancestor_enabled, bool node_enabled) {
+    if (scene_active == false) { return false; } if (ancestor_enabled == false) { return false; } return node_enabled == true;
+}
+bool scene_should_draw(bool scene_active, bool ancestor_visible, bool node_visible) {
+    if (scene_active == false) { return false; } if (ancestor_visible == false) { return false; } return node_visible == true;
+}
+int scene_next_depth(int parent_depth) { return parent_depth + 1; }
+bool scene_can_descend(int current_depth, int maximum_depth) {
+    if (current_depth < 0) { return false; } if (maximum_depth < 0) { return false; } return current_depth < maximum_depth;
+}
+double scene_world_scale(double parent_scale, double local_scale) { return parent_scale * local_scale; }
+double scene_world_scaled_x(double parent_x, double parent_scale, double local_x) {
+    return parent_x + parent_scale * local_x;
+}
+double scene_local_scaled_x(double world_x, double parent_x, double parent_scale) {
+    if (parent_scale == 0.0) { return 0.0; }
+    return (world_x - parent_x) / parent_scale;
+}
+bool scene_can_invert_scale(double parent_scale) { return parent_scale != 0.0; }
+bool scene_can_schedule_update(bool active, bool paused, bool enabled, bool pending_destroy) {
+    if (active == false) { return false; } if (paused == true) { return false; } if (enabled == false) { return false; } return pending_destroy == false;
+}
+bool scene_can_schedule_render(bool active, bool visible, bool pending_destroy) {
+    if (active == false) { return false; } if (visible == false) { return false; } return pending_destroy == false;
+}
+bool scene_order_before(int first_order, int second_order) { return first_order < second_order; }
+bool scene_order_equal(int first_order, int second_order) { return first_order == second_order; }
+
+// Chapter 9D: scene state transitions and lifecycle consistency policies.
+bool scene_activation_consistent(bool registered, bool active, bool pending_destroy) { if (registered == false) { return false; } if (active == false) { return false; } return pending_destroy == false; }
+bool scene_transition_ready(bool target_registered, bool target_loaded, int source_id, int target_id) { if (target_registered == false) { return false; } if (target_loaded == false) { return false; } if (target_id <= 0) { return false; } return source_id != target_id; }
+bool scene_effective_paused(bool scene_paused, bool ancestor_paused, bool node_paused) { if (scene_paused == true) { return true; } if (ancestor_paused == true) { return true; } return node_paused; }
+bool scene_can_remove_node(bool exists, bool has_children, bool locked) { if (exists == false) { return false; } if (has_children == true) { return false; } return locked == false; }
+bool scene_transfer_ready(int node_id, int source_id, int target_id, bool target_exists, bool locked) { if (locked == true) { return false; } return scene_can_move_between_scenes(node_id, source_id, target_id, target_exists); }
+bool scene_node_state_consistent(bool attached, bool parent_exists, bool pending_destroy) { if (pending_destroy) { return attached == false; } if (attached) { return parent_exists; } return true; }
+bool scene_can_finalize_destroy(bool pending_destroy, int child_count, int reference_count) { if (pending_destroy == false) { return false; } if (child_count != 0) { return false; } return reference_count == 0; }
+bool scene_effective_update(bool active, bool paused, bool ancestor_enabled, bool node_enabled, bool pending_destroy) { if (ancestor_enabled == false) { return false; } return scene_can_schedule_update(active, paused, node_enabled, pending_destroy); }
+bool scene_effective_render(bool active, bool ancestor_visible, bool node_visible, bool pending_destroy) { if (ancestor_visible == false) { return false; } return scene_can_schedule_render(active, node_visible, pending_destroy); }
+bool scene_lifecycle_consistent(bool registered, bool active, bool pending_destroy, int child_count) { if (pending_destroy) { if (registered == false) { return false; } if (active == true) { return false; } return child_count == 0; } return registered; }

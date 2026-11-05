@@ -1,0 +1,98 @@
+
+// Chapter 10A: entity identity and lifecycle policies.
+bool entity_valid_id(int entity_id) { return entity_id > 0; }
+bool entity_valid_generation(int generation) { return generation > 0; }
+bool entity_handle_matches(int expected_id, int expected_generation, int actual_id, int actual_generation) {
+    if (actual_id <= 0) { return false; }
+    if (actual_generation <= 0) { return false; }
+    if (expected_id != actual_id) { return false; }
+    return expected_generation == actual_generation;
+}
+bool entity_can_spawn(bool slot_free, bool scene_active, bool capacity_available) { if (slot_free == false) { return false; } if (scene_active == false) { return false; } return capacity_available; }
+bool entity_can_activate(bool exists, bool pending_destroy, bool scene_active) { if (exists == false) { return false; } if (pending_destroy) { return false; } return scene_active; }
+bool entity_can_deactivate(bool exists, bool active) { if (exists == false) { return false; } return active; }
+bool entity_can_attach_component(bool exists, bool pending_destroy, bool component_valid, bool already_attached) { if (exists == false) { return false; } if (pending_destroy) { return false; } if (component_valid == false) { return false; } return already_attached == false; }
+bool entity_can_detach_component(bool exists, bool component_attached, bool locked) { if (exists == false) { return false; } if (locked) { return false; } return component_attached; }
+bool entity_can_update(bool exists, bool active, bool enabled, bool pending_destroy) { if (exists == false) { return false; } if (active == false) { return false; } if (pending_destroy) { return false; } return enabled; }
+bool entity_can_render(bool exists, bool active, bool visible, bool pending_destroy) { if (exists == false) { return false; } if (active == false) { return false; } if (pending_destroy) { return false; } return visible; }
+bool entity_can_destroy(bool exists, bool pending_destroy) { if (exists == false) { return false; } return pending_destroy == false; }
+bool entity_can_finalize(bool pending_destroy, int reference_count) { if (pending_destroy == false) { return false; } return reference_count == 0; }
+bool entity_can_recycle_slot(bool exists, bool pending_destroy, int reference_count) { if (exists == false) { return false; } return entity_can_finalize(pending_destroy, reference_count); }
+int entity_next_generation(int current_generation) { return current_generation + 1; }
+
+// Chapter 10B: component relationships and scheduling policies.
+bool entity_component_id_valid(int component_id) { return component_id > 0; }
+bool entity_component_owner_matches(int expected_entity_id, int actual_entity_id) { if (expected_entity_id <= 0) { return false; } return expected_entity_id == actual_entity_id; }
+bool entity_can_replace_component(bool exists, bool attached, bool locked, bool replacement_valid) { if (exists == false) { return false; } if (attached == false) { return false; } if (locked) { return false; } return replacement_valid; }
+bool entity_can_share_component(bool shareable, bool owner_active, bool recipient_active) { if (shareable == false) { return false; } if (owner_active == false) { return false; } return recipient_active; }
+bool entity_can_transfer_component(bool attached, bool locked, bool target_exists, bool target_has_component) { if (attached == false) { return false; } if (locked) { return false; } if (target_exists == false) { return false; } return target_has_component == false; }
+bool entity_component_ready(bool attached, bool initialized, bool pending_remove) { if (attached == false) { return false; } if (initialized == false) { return false; } return pending_remove == false; }
+bool entity_component_update_allowed(bool entity_active, bool component_enabled, bool scene_paused) { if (entity_active == false) { return false; } if (component_enabled == false) { return false; } return scene_paused == false; }
+bool entity_component_render_allowed(bool entity_visible, bool component_visible, bool scene_visible) { if (entity_visible == false) { return false; } if (component_visible == false) { return false; } return scene_visible; }
+bool entity_can_set_parent(int entity_id, int parent_id, bool parent_exists) { if (entity_id <= 0) { return false; } if (parent_id <= 0) { return false; } if (entity_id == parent_id) { return false; } return parent_exists; }
+bool entity_update_order_valid(int parent_order, int child_order) { if (parent_order < 0) { return false; } return child_order > parent_order; }
+bool entity_component_can_remove(bool attached, bool in_use, bool locked) { if (attached == false) { return false; } if (in_use) { return false; } return locked == false; }
+
+// Chapter 10C: relationship, dependency, and execution policies.
+bool entity_relation_allowed(int source_id, int target_id, bool target_exists) {
+    if (source_id <= 0) { return false; }
+    if (target_id <= 0) { return false; }
+    if (source_id == target_id) { return false; }
+    if (target_exists == false) { return false; }
+    return true;
+}
+bool entity_dependency_ready(bool dependency_attached, bool dependency_initialized, bool dependency_enabled) {
+    if (dependency_attached == false) { return false; }
+    if (dependency_initialized == false) { return false; }
+    if (dependency_enabled == false) { return false; }
+    return true;
+}
+bool entity_component_activation_allowed(bool entity_active, bool component_ready, bool dependencies_ready) {
+    if (entity_active == false) { return false; }
+    if (component_ready == false) { return false; }
+    if (dependencies_ready == false) { return false; }
+    return true;
+}
+bool entity_component_deactivation_allowed(bool component_active, bool locked) {
+    if (component_active == false) { return false; }
+    if (locked) { return false; }
+    return true;
+}
+bool entity_component_order_valid(int dependency_order, int component_order) {
+    if (dependency_order < 0) { return false; }
+    if (component_order <= dependency_order) { return false; }
+    return true;
+}
+bool entity_parent_chain_step_valid(int entity_id, int candidate_ancestor_id, bool ancestor_exists) {
+    if (entity_id <= 0) { return false; }
+    if (candidate_ancestor_id <= 0) { return false; }
+    if (entity_id == candidate_ancestor_id) { return false; }
+    if (ancestor_exists == false) { return false; }
+    return true;
+}
+bool entity_can_move_scene(bool entity_exists, bool pending_destroy, bool target_scene_active, bool component_locked) {
+    if (entity_exists == false) { return false; }
+    if (pending_destroy) { return false; }
+    if (target_scene_active == false) { return false; }
+    if (component_locked) { return false; }
+    return true;
+}
+bool entity_system_update_allowed(bool scene_active, bool scene_paused, bool entity_enabled, bool dependencies_ready) {
+    if (scene_active == false) { return false; }
+    if (scene_paused) { return false; }
+    if (entity_enabled == false) { return false; }
+    if (dependencies_ready == false) { return false; }
+    return true;
+}
+bool entity_component_cleanup_allowed(bool attached, bool pending_remove, int users, bool locked) {
+    if (attached == false) { return false; }
+    if (pending_remove == false) { return false; }
+    if (users != 0) { return false; }
+    if (locked) { return false; }
+    return true;
+}
+bool entity_relation_consistent(int source_id, int target_id, bool linked, bool target_exists) {
+    if (entity_relation_allowed(source_id,target_id,target_exists) == false) { return false; }
+    if (linked == false) { return false; }
+    return true;
+}

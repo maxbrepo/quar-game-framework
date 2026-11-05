@@ -1,0 +1,4 @@
+print(resource_can_acquire(true, false, 0));
+print(resource_can_acquire(false, false, 0));
+print(resource_can_acquire(true, true, 0));
+print(resource_can_acquire(true, false, -1));

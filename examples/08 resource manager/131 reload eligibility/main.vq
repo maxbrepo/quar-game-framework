@@ -1,0 +1,3 @@
+print(resource_can_reload(true, false, 0));
+print(resource_can_reload(true, true, 0));
+print(resource_can_reload(true, false, 2));

@@ -1,0 +1,5 @@
+// Window policy example; no native SDL calls.
+print(qgf_window_resize_valid(qgf_window_ready(), 1024, 768));
+print(qgf_window_resize_valid(qgf_window_open(), 1024, 768));
+print(qgf_window_native_available());
+print(qgf_window_can_prepare(qgf_window_created(), 0, 200));

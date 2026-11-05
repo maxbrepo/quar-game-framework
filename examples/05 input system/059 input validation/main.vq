@@ -1,0 +1,4 @@
+print(qgf_input_key_valid(0));
+print(qgf_input_key_valid(512));
+print(qgf_input_mouse_button_valid(1));
+print(qgf_input_mouse_button_valid(0));

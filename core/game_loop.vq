@@ -1,0 +1,121 @@
+// QGF Chapter 2: pure timing rules. The host supplies elapsed time.
+// No clock, SDL, rendering, or global state is accessed here.
+
+bool qgf_delta_valid(int delta_ms) {
+    if (delta_ms < 0) {
+        return false;
+    }
+    return true;
+}
+
+bool qgf_fixed_step_valid(int step_ms) {
+    return step_ms > 0;
+}
+
+bool qgf_fixed_step_ready(int accumulated_ms, int step_ms) {
+    if (step_ms <= 0) {
+        return false;
+    }
+    if (accumulated_ms < 0) {
+        return false;
+    }
+    return accumulated_ms >= step_ms;
+}
+
+int qgf_accumulate_ms(int accumulated_ms, int delta_ms) {
+    if (accumulated_ms < 0) {
+        return accumulated_ms;
+    }
+    if (delta_ms < 0) {
+        return accumulated_ms;
+    }
+    return accumulated_ms + delta_ms;
+}
+
+int qgf_consume_step_ms(int accumulated_ms, int step_ms) {
+    if (qgf_fixed_step_ready(accumulated_ms, step_ms)) {
+        return accumulated_ms - step_ms;
+    }
+    return accumulated_ms;
+}
+
+// Bounded fixed-update scheduling. The host performs the actual update calls.
+// Returns the number of fixed updates due, capped at max_steps.
+int qgf_fixed_update_count(int accumulated_ms, int step_ms, int max_steps) {
+    if (accumulated_ms < 0) {
+        return 0;
+    }
+    if (step_ms <= 0) {
+        return 0;
+    }
+    if (max_steps <= 0) {
+        return 0;
+    }
+    int count = 0;
+    int remaining = accumulated_ms;
+    while (count < max_steps) {
+        if (remaining < step_ms) {
+            return count;
+        }
+        remaining = remaining - step_ms;
+        count = count + 1;
+    }
+    return count;
+}
+
+// Compute the remainder after a bounded number of fixed updates.
+int qgf_fixed_update_remaining_ms(int accumulated_ms, int step_ms, int max_steps) {
+    if (accumulated_ms < 0) {
+        return accumulated_ms;
+    }
+    int count = qgf_fixed_update_count(accumulated_ms, step_ms, max_steps);
+    return accumulated_ms - count * step_ms;
+}
+
+// Return the interpolation factor between the previous and next fixed state.
+// The result is in [0.0, 1.0]; invalid inputs return 0.0.
+double qgf_render_alpha(int remaining_ms, int step_ms) {
+    if (step_ms <= 0) {
+        return 0.0;
+    }
+    if (remaining_ms <= 0) {
+        return 0.0;
+    }
+    if (remaining_ms >= step_ms) {
+        return 1.0;
+    }
+    return remaining_ms * 1.0 / step_ms;
+}
+
+// Interpolate a scalar for rendering without changing simulation state.
+double qgf_render_interpolate(double previous, double current, double alpha) {
+    if (alpha <= 0.0) {
+        return previous;
+    }
+    if (alpha >= 1.0) {
+        return current;
+    }
+    return previous + (current - previous) * alpha;
+}
+
+// Schedule one frame without executing callbacks or accessing a system clock.
+// The caller performs fixed updates, a variable update, and rendering.
+int qgf_frame_accumulated_ms(int previous_ms, int delta_ms) {
+    return qgf_accumulate_ms(previous_ms, delta_ms);
+}
+
+int qgf_frame_fixed_steps(int previous_ms, int delta_ms, int step_ms, int max_steps) {
+    int total_ms = qgf_frame_accumulated_ms(previous_ms, delta_ms);
+    return qgf_fixed_update_count(total_ms, step_ms, max_steps);
+}
+
+int qgf_frame_remaining_ms(int previous_ms, int delta_ms, int step_ms, int max_steps) {
+    int total_ms = qgf_frame_accumulated_ms(previous_ms, delta_ms);
+    return qgf_fixed_update_remaining_ms(total_ms, step_ms, max_steps);
+}
+
+// Rendering uses the remaining time only; no simulation state is changed.
+double qgf_frame_render_alpha(int previous_ms, int delta_ms, int step_ms, int max_steps) {
+    int remaining_ms = qgf_frame_remaining_ms(previous_ms, delta_ms, step_ms, max_steps);
+    return qgf_render_alpha(remaining_ms, step_ms);
+}

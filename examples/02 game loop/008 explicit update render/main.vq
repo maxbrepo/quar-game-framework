@@ -1,0 +1,38 @@
+// Explicit host-controlled game loop: fixed simulation, variable update, render.
+// The functions below stand in for game-specific work, without callbacks.
+int qgf_demo_fixed_update(int position) {
+    return position + 2;
+}
+
+int qgf_demo_update(int frame_count) {
+    return frame_count + 1;
+}
+
+double qgf_demo_render(int previous_position, int current_position, double alpha) {
+    return qgf_render_interpolate(previous_position * 1.0, current_position * 1.0, alpha);
+}
+
+int position = 0;
+int previous_position = 0;
+int frames = 0;
+int previous_ms = 5;
+int delta_ms = 35;
+int step_ms = 20;
+int max_steps = 2;
+int due = qgf_frame_fixed_steps(previous_ms, delta_ms, step_ms, max_steps);
+int remaining = qgf_frame_remaining_ms(previous_ms, delta_ms, step_ms, max_steps);
+int completed = 0;
+while (completed < due) {
+    previous_position = position;
+    position = qgf_demo_fixed_update(position);
+    completed = completed + 1;
+}
+frames = qgf_demo_update(frames);
+double alpha = qgf_render_alpha(remaining, step_ms);
+double visible_position = qgf_demo_render(previous_position, position, alpha);
+print(due);
+print(position);
+print(frames);
+print(remaining);
+print(alpha);
+print(visible_position);

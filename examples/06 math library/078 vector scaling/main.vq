@@ -1,0 +1,2 @@
+print(vector2_scale_x(3.0, 2.0));
+print(vector2_scale_y(-4.0, 0.5));

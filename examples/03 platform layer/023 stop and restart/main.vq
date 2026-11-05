@@ -1,0 +1,12 @@
+// QGF Chapter 3B: 023 stop and restart
+int state = qgf_backend_created();
+state = qgf_backend_prepare(state, qgf_backend_none());
+state = qgf_backend_start(state);
+state = qgf_backend_stop(state);
+print(state);
+print(qgf_backend_can_reset(state));
+state = qgf_backend_reset(state);
+print(state);
+state = qgf_backend_prepare(state, qgf_backend_none());
+state = qgf_backend_start(state);
+print(state);

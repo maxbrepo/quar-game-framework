@@ -1,0 +1,5 @@
+// Chapter 9B: hierarchy policy verification.
+print(scene_can_update_node(true, false, true));
+print(scene_can_update_node(true, true, true));
+print(scene_can_render_node(true, true, true));
+print(scene_can_render_node(true, false, true));

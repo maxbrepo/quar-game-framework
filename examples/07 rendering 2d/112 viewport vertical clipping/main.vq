@@ -1,0 +1,2 @@
+print(render2d_visible_height(-5.0, 20.0, 50.0));
+print(render2d_visible_height(45.0, 20.0, 50.0));

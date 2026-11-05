@@ -1,0 +1,4 @@
+// Chapter 9D: scene activation consistency.
+print(scene_activation_consistent(true, true, false));
+print(scene_activation_consistent(true, true, true));
+print(scene_activation_consistent(false, true, false));

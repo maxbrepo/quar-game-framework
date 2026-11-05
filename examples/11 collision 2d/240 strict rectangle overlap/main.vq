@@ -1,0 +1,4 @@
+// Chapter 11A: strict rectangle overlap.
+print(collision_boxes_strict_overlap(0.0,0.0,4.0,4.0,3.0,3.0,2.0,2.0));
+print(collision_boxes_strict_overlap(0.0,0.0,4.0,4.0,4.0,0.0,2.0,2.0));
+print(collision_boxes_strict_overlap(0.0,0.0,0.0,4.0,0.0,0.0,2.0,2.0));

@@ -1,0 +1,5 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_can_switch(true, 1, 2));
+print(scene_can_switch(true, 2, 2));
+print(scene_can_switch(false, 1, 3));
+print(scene_can_switch(true, 1, 0));

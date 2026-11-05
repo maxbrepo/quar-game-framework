@@ -1,0 +1,11 @@
+// Render scheduling is pure: the host still owns update and draw calls.
+print(qgf_render_alpha(0, 20));
+print(qgf_render_alpha(5, 20));
+print(qgf_render_alpha(20, 20));
+print(qgf_render_alpha(-5, 20));
+print(qgf_render_alpha(5, 0));
+print(qgf_render_interpolate(10.0, 30.0, 0.0));
+print(qgf_render_interpolate(10.0, 30.0, 0.5));
+print(qgf_render_interpolate(10.0, 30.0, 1.0));
+print(qgf_render_interpolate(10.0, 30.0, -1.0));
+print(qgf_render_interpolate(10.0, 30.0, 2.0));

@@ -1,0 +1,5 @@
+// Chapter 10A: entity update and render.
+print(entity_can_update(true, true, true, false));
+print(entity_can_update(true, true, false, false));
+print(entity_can_render(true, true, true, false));
+print(entity_can_render(true, true, true, true));

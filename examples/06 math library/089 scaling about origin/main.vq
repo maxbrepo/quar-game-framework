@@ -1,0 +1,2 @@
+print(vector2_scale_about(5.0, 1.0, 2.0));
+print(vector2_scale_about(5.0, 1.0, 0.5));

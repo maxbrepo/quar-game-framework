@@ -1,0 +1,2 @@
+print(render2d_valid_sprite(0.0, 0.0, 16.0, 16.0, 64.0, 64.0, 32.0, 32.0));
+print(render2d_valid_sprite(60.0, 0.0, 16.0, 16.0, 64.0, 64.0, 32.0, 32.0));

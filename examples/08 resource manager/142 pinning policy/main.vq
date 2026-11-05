@@ -1,0 +1,3 @@
+print(resource_can_pin(true, false, 0));
+print(resource_can_pin(true, true, 1));
+print(resource_can_pin(true, false, -1));

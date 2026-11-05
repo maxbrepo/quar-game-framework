@@ -1,0 +1,3 @@
+print(resource_available(true, true, false));
+print(resource_available(true, false, false));
+print(resource_available(true, true, true));

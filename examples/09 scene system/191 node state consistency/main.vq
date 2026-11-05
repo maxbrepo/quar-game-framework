@@ -1,0 +1,4 @@
+// Chapter 9D: node state consistency.
+print(scene_node_state_consistent(true, true, false));
+print(scene_node_state_consistent(true, false, false));
+print(scene_node_state_consistent(false, false, true));

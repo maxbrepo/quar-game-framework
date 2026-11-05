@@ -1,0 +1,7 @@
+// QGF Chapter 3B: 021 backend state checks
+print(qgf_backend_state_valid(0));
+print(qgf_backend_state_valid(3));
+print(qgf_backend_state_valid(-1));
+print(qgf_backend_state_valid(4));
+print(qgf_backend_can_start(1));
+print(qgf_backend_can_start(2));

@@ -1,0 +1,5 @@
+// Chapter 10A: entity destruction and recycling.
+print(entity_can_destroy(true, false));
+print(entity_can_destroy(true, true));
+print(entity_can_recycle_slot(true, true, 0));
+print(entity_can_recycle_slot(true, true, 1));

@@ -1,0 +1,5 @@
+// Logical window property validation; no native window is created.
+print(qgf_window_can_resize_with_limits(qgf_window_ready(), 800, 600, 320, 200, 1920, 1080));
+print(qgf_window_choose_width(640, qgf_window_ready(), 800, 600, 320, 200, 1920, 1080));
+print(qgf_window_choose_height(480, qgf_window_ready(), 800, 600, 320, 200, 1920, 1080));
+print(qgf_window_choose_width(640, qgf_window_ready(), 200, 600, 320, 200, 1920, 1080));

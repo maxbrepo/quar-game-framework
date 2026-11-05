@@ -1,0 +1,4 @@
+print(qgf_input_apply_button_event(0, true));
+print(qgf_input_apply_button_event(2, true));
+print(qgf_input_apply_button_event(1, false));
+print(qgf_input_apply_button_event(3, false));

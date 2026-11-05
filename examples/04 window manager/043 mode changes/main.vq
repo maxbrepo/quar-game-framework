@@ -1,0 +1,5 @@
+// Logical window property validation; no native window is created.
+print(qgf_window_can_change_mode(qgf_window_ready(), qgf_window_mode_fullscreen()));
+print(qgf_window_can_change_mode(qgf_window_open(), qgf_window_mode_fullscreen()));
+print(qgf_window_change_mode(0, qgf_window_ready(), 2));
+print(qgf_window_change_mode(0, qgf_window_open(), 2));

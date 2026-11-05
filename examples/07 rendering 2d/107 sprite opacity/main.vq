@@ -1,0 +1,3 @@
+print(render2d_alpha(-10));
+print(render2d_alpha(128));
+print(render2d_alpha(300));

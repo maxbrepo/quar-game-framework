@@ -1,0 +1,4 @@
+// Chapter 10C: component dependency order.
+print(entity_component_order_valid(1,2));
+print(entity_component_order_valid(2,1));
+print(entity_component_order_valid(-1,2));

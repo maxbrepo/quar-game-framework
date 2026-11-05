@@ -1,0 +1,12 @@
+// QGF Chapter 3C: 030 complete lifecycle
+int state = qgf_backend_created();
+print(qgf_backend_is_running(state));
+state = qgf_backend_prepare(state, qgf_backend_none());
+print(state);
+state = qgf_backend_start(state);
+print(qgf_backend_is_running(state));
+state = qgf_backend_stop(state);
+print(qgf_backend_is_stopped(state));
+state = qgf_backend_reset(state);
+print(state);
+print(qgf_backend_prepare_error(state, qgf_backend_sdl3()));

@@ -1,0 +1,4 @@
+// Chapter 9D: scene transition readiness.
+print(scene_transition_ready(true, true, 1, 2));
+print(scene_transition_ready(true, false, 1, 2));
+print(scene_transition_ready(true, true, 2, 2));

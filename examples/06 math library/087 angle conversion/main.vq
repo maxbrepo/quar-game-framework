@@ -1,0 +1,2 @@
+print(vector2_degrees_to_radians(180.0));
+print(vector2_radians_to_degrees(3.141592653589793));

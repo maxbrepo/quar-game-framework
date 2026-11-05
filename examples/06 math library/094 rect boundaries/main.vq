@@ -1,0 +1,2 @@
+print(vector2_rect_right(10.0, 30.0));
+print(vector2_rect_bottom(5.0, 20.0));

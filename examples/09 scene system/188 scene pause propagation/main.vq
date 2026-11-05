@@ -1,0 +1,4 @@
+// Chapter 9D: scene pause propagation.
+print(scene_effective_paused(false, false, false));
+print(scene_effective_paused(false, true, false));
+print(scene_effective_paused(true, false, false));

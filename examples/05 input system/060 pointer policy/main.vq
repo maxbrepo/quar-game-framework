@@ -1,0 +1,4 @@
+print(qgf_input_pointer_valid(10, 10, 640, 480));
+print(qgf_input_pointer_valid(640, 10, 640, 480));
+print(qgf_input_clamp_axis(40000));
+print(qgf_input_native_available());

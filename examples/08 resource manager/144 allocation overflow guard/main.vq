@@ -1,0 +1,4 @@
+print(resource_valid_allocation(20, 5, 100));
+print(resource_valid_allocation(21, 5, 100));
+print(resource_valid_allocation(1000000, 0, 0));
+print(resource_valid_allocation(-1, 2, 100));

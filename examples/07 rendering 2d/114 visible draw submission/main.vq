@@ -1,0 +1,3 @@
+print(render2d_submit_visible(-10.0, 10.0, 20.0, 20.0, 100.0, 100.0));
+print(render2d_submit_visible(100.0, 10.0, 20.0, 20.0, 100.0, 100.0));
+print(render2d_submit_visible(10.0, 10.0, 0.0, 20.0, 100.0, 100.0));

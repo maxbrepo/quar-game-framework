@@ -1,0 +1,2 @@
+print(vector2_translate(4.0, 6.0));
+print(vector2_translate(-2.0, 3.0));

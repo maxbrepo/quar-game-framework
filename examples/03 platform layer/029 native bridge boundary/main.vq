@@ -1,0 +1,6 @@
+// QGF Chapter 3C: 029 native bridge boundary
+print(qgf_backend_requires_native_bridge(qgf_backend_sdl3()));
+print(qgf_backend_available(qgf_backend_sdl3()));
+print(qgf_backend_can_use_native(qgf_backend_sdl3()));
+print(qgf_backend_requires_native_bridge(qgf_backend_none()));
+print(qgf_backend_can_use_native(qgf_backend_none()));

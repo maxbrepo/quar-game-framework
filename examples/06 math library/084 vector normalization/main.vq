@@ -1,0 +1,2 @@
+print(vector2_normalize_x(3.0, 4.0));
+print(vector2_normalize_y(3.0, 4.0));

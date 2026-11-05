@@ -1,0 +1,4 @@
+// Chapter 10A: entity spawn readiness.
+print(entity_can_spawn(true, true, true));
+print(entity_can_spawn(false, true, true));
+print(entity_can_spawn(true, false, true));

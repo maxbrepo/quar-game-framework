@@ -1,0 +1,33 @@
+// End-to-end fixed simulation, per-frame update, and interpolated render.
+int position = 0;
+int previous_position = 0;
+int remainder = 0;
+int updates = 0;
+int fixed_updates = 0;
+int frame = 0;
+while (frame < 4) {
+    int delta_ms = 0;
+    if (frame == 0) { delta_ms = 10; }
+    if (frame == 1) { delta_ms = 30; }
+    if (frame == 2) { delta_ms = 20; }
+    if (frame == 3) { delta_ms = 10; }
+    int due = qgf_frame_fixed_steps(remainder, delta_ms, 20, 3);
+    remainder = qgf_frame_remaining_ms(remainder, delta_ms, 20, 3);
+    int done = 0;
+    while (done < due) {
+        previous_position = position;
+        position = position + 10;
+        fixed_updates = fixed_updates + 1;
+        done = done + 1;
+    }
+    updates = updates + 1;
+    double alpha = qgf_render_alpha(remainder, 20);
+    double visible = qgf_render_interpolate(previous_position * 1.0, position * 1.0, alpha);
+    print(due);
+    print(remainder);
+    print(visible);
+    frame = frame + 1;
+}
+print(position);
+print(updates);
+print(fixed_updates);

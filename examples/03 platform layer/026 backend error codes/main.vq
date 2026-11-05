@@ -1,0 +1,7 @@
+// QGF Chapter 3C: 026 backend error codes
+print(qgf_platform_error_none());
+print(qgf_platform_error_invalid_platform());
+print(qgf_platform_error_unknown_backend());
+print(qgf_platform_error_backend_unavailable());
+print(qgf_platform_error_invalid_transition());
+print(qgf_platform_error(qgf_platform_linux(), qgf_backend_sdl3()));

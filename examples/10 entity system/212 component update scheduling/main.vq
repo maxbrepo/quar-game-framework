@@ -1,0 +1,4 @@
+// Chapter 10B: component update scheduling.
+print(entity_component_update_allowed(true,true,false));
+print(entity_component_update_allowed(true,true,true));
+print(entity_component_update_allowed(false,true,false));

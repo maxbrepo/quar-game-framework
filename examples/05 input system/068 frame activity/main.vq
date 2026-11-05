@@ -1,0 +1,5 @@
+print(qgf_input_frame_active(0));
+print(qgf_input_frame_active(1));
+print(qgf_input_frame_active(2));
+print(qgf_input_frame_active(3));
+print(qgf_input_frame_active(-1));

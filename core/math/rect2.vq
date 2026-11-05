@@ -1,0 +1,61 @@
+// QGF Rect2: axis-aligned rectangle helpers.
+// Rectangles use x, y, width, height; right/bottom edges are excluded.
+// Touching edges alone do not count as an intersection.
+
+double rect2_right(double x, double width) {
+    return x + width;
+}
+
+double rect2_bottom(double y, double height) {
+    return y + height;
+}
+
+bool rect2_contains(double x, double y, double width, double height, double px, double py) {
+    if (width <= 0.0) {
+        return false;
+    }
+    if (height <= 0.0) {
+        return false;
+    }
+    if (px < x) {
+        return false;
+    }
+    if (py < y) {
+        return false;
+    }
+    if (px >= rect2_right(x, width)) {
+        return false;
+    }
+    if (py >= rect2_bottom(y, height)) {
+        return false;
+    }
+    return true;
+}
+
+bool rect2_intersects(double ax, double ay, double aw, double ah, double bx, double by, double bw, double bh) {
+    if (aw <= 0.0) {
+        return false;
+    }
+    if (ah <= 0.0) {
+        return false;
+    }
+    if (bw <= 0.0) {
+        return false;
+    }
+    if (bh <= 0.0) {
+        return false;
+    }
+    if (rect2_right(ax, aw) <= bx) {
+        return false;
+    }
+    if (rect2_right(bx, bw) <= ax) {
+        return false;
+    }
+    if (rect2_bottom(ay, ah) <= by) {
+        return false;
+    }
+    if (rect2_bottom(by, bh) <= ay) {
+        return false;
+    }
+    return true;
+}

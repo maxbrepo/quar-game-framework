@@ -1,0 +1,9 @@
+// Chapter 10C: entity dependency regression.
+print(entity_relation_consistent(1,2,true,true));
+print(entity_dependency_ready(true,true,true));
+print(entity_component_activation_allowed(true,true,true));
+print(entity_component_order_valid(2,3));
+print(entity_can_move_scene(true,false,true,false));
+print(entity_system_update_allowed(true,false,true,true));
+print(entity_component_cleanup_allowed(true,true,0,false));
+print(entity_relation_consistent(1,1,true,true));

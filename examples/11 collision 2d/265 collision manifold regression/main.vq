@@ -1,0 +1,5 @@
+// Chapter 11C: contact geometry; no physics integration.
+print(collision_circle_normal_x(0.0,0.0,3.0,4.0));
+print(collision_circle_penetration(0.0,0.0,3.0,4.0,0.0,3.0));
+print(collision_box_min_penetration(0.0,0.0,4.0,4.0,3.0,2.0,4.0,4.0));
+print(collision_box_separation_x(0.0,0.0,4.0,4.0,3.0,2.0,4.0,4.0));

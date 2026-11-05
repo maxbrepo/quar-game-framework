@@ -1,0 +1,16 @@
+// Validate configuration, lifecycle, recovery and capability boundary.
+int platform = qgf_platform_linux();
+int backend = qgf_backend_none();
+print(qgf_platform_config_valid(platform, backend));
+print(qgf_platform_error(platform, backend));
+int state = qgf_backend_created();
+print(qgf_backend_prepare_error(state, backend));
+state = qgf_backend_prepare(state, backend);
+state = qgf_backend_start(state);
+print(qgf_backend_is_running(state));
+print(qgf_backend_start_error(state));
+state = qgf_backend_stop(state);
+print(qgf_backend_is_stopped(state));
+state = qgf_backend_reset(state);
+print(state);
+print(qgf_backend_available(qgf_backend_sdl3()));

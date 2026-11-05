@@ -1,0 +1,227 @@
+// Chapter 11A: pure 2D collision geometry; SDL-independent.
+bool collision_valid_radius(double radius) { return radius >= 0.0; }
+bool collision_valid_box(double width, double height) {
+    if (width < 0.0) { return false; }
+    return height >= 0.0;
+}
+bool collision_point_in_box(double px, double py, double x, double y, double width, double height) {
+    if (collision_valid_box(width,height) == false) { return false; }
+    if (px < x) { return false; }
+    if (px > x + width) { return false; }
+    if (py < y) { return false; }
+    return py <= y + height;
+}
+bool collision_boxes_overlap(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    if (collision_valid_box(aw,ah) == false) { return false; }
+    if (collision_valid_box(bw,bh) == false) { return false; }
+    if (ax > bx+bw) { return false; }
+    if (bx > ax+aw) { return false; }
+    if (ay > by+bh) { return false; }
+    return by <= ay+ah;
+}
+bool collision_boxes_strict_overlap(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    if (aw <= 0.0) { return false; }
+    if (ah <= 0.0) { return false; }
+    if (bw <= 0.0) { return false; }
+    if (bh <= 0.0) { return false; }
+    if (ax >= bx+bw) { return false; }
+    if (bx >= ax+aw) { return false; }
+    if (ay >= by+bh) { return false; }
+    return by < ay+ah;
+}
+bool collision_point_in_circle(double px,double py,double cx,double cy,double radius) {
+    if (collision_valid_radius(radius) == false) { return false; }
+    double dx=px-cx; double dy=py-cy;
+    return dx*dx+dy*dy <= radius*radius;
+}
+bool collision_circles_overlap(double ax,double ay,double ar,double bx,double by,double br) {
+    if (collision_valid_radius(ar) == false) { return false; }
+    if (collision_valid_radius(br) == false) { return false; }
+    double dx=ax-bx; double dy=ay-by; double sum=ar+br;
+    return dx*dx+dy*dy <= sum*sum;
+}
+double collision_overlap_width(double ax,double aw,double bx,double bw) {
+    if (aw <= 0.0) { return 0.0; }
+    if (bw <= 0.0) { return 0.0; }
+    double left=ax; if (bx > left) { left=bx; }
+    double right=ax+aw; if (bx+bw < right) { right=bx+bw; }
+    if (right <= left) { return 0.0; }
+    return right-left;
+}
+double collision_overlap_height(double ay,double ah,double by,double bh) {
+    return collision_overlap_width(ay,ah,by,bh);
+}
+bool collision_box_contains_box(double ox,double oy,double ow,double oh,double ix,double iy,double iw,double ih) {
+    if (collision_valid_box(ow,oh) == false) { return false; }
+    if (collision_valid_box(iw,ih) == false) { return false; }
+    if (ix < ox) { return false; }
+    if (iy < oy) { return false; }
+    if (ix+iw > ox+ow) { return false; }
+    return iy+ih <= oy+oh;
+}
+
+// Chapter 11B: distances and contact geometry; no native dependencies.
+double collision_abs(double value) { if (value < 0.0) { return -value; } return value; }
+double collision_max(double a,double b) { if (a > b) { return a; } return b; }
+double collision_min(double a,double b) { if (a < b) { return a; } return b; }
+double collision_clamp(double value,double low,double high) {
+    if (value < low) { return low; }
+    if (value > high) { return high; }
+    return value;
+}
+double collision_point_distance_squared(double ax,double ay,double bx,double by) {
+    double dx=ax-bx; double dy=ay-by; return dx*dx+dy*dy;
+}
+double collision_point_box_distance_squared(double px,double py,double x,double y,double w,double h) {
+    if (collision_valid_box(w,h) == false) { return -1.0; }
+    double cx=collision_clamp(px,x,x+w);
+    double cy=collision_clamp(py,y,y+h);
+    return collision_point_distance_squared(px,py,cx,cy);
+}
+bool collision_circle_box_overlap(double cx,double cy,double radius,double x,double y,double w,double h) {
+    if (collision_valid_radius(radius) == false) { return false; }
+    double d=collision_point_box_distance_squared(cx,cy,x,y,w,h);
+    if (d < 0.0) { return false; }
+    return d <= radius*radius;
+}
+bool collision_circle_box_strict_overlap(double cx,double cy,double radius,double x,double y,double w,double h) {
+    if (radius <= 0.0) { return false; }
+    if (w <= 0.0) { return false; }
+    if (h <= 0.0) { return false; }
+    double d=collision_point_box_distance_squared(cx,cy,x,y,w,h);
+    return d < radius*radius;
+}
+double collision_box_nearest_x(double px,double x,double w) {
+    return collision_clamp(px,x,x+w);
+}
+double collision_box_nearest_y(double py,double y,double h) {
+    return collision_clamp(py,y,y+h);
+}
+double collision_box_overlap_area(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    return collision_overlap_width(ax,aw,bx,bw)*collision_overlap_height(ay,ah,by,bh);
+}
+double collision_circle_separation_squared(double ax,double ay,double ar,double bx,double by,double br) {
+    if (ar < 0.0) { return -1.0; }
+    if (br < 0.0) { return -1.0; }
+    double d=collision_point_distance_squared(ax,ay,bx,by);
+    double sum=ar+br;
+    if (d <= sum*sum) { return 0.0; }
+    // Return center-distance squared; avoids an unverified square-root intrinsic.
+    return d;
+}
+
+// Chapter 11C: contact normals and minimum geometric separation.
+// Normal (1, 0) is the deterministic fallback for coincident centers.
+double collision_sqrt_nonnegative(double value) {
+    if (value <= 0.0) { return 0.0; }
+    double estimate=value;
+    if (estimate < 1.0) { estimate=1.0; }
+    int iteration=0;
+    while (iteration < 32) {
+        estimate=0.5*(estimate+value/estimate);
+        iteration=iteration+1;
+    }
+    return estimate;
+}
+double collision_circle_normal_x(double ax,double ay,double bx,double by) {
+    double dx=bx-ax; double dy=by-ay;
+    double length=collision_sqrt_nonnegative(dx*dx+dy*dy);
+    if (length == 0.0) { return 1.0; }
+    return dx/length;
+}
+double collision_circle_normal_y(double ax,double ay,double bx,double by) {
+    double dx=bx-ax; double dy=by-ay;
+    double length=collision_sqrt_nonnegative(dx*dx+dy*dy);
+    if (length == 0.0) { return 0.0; }
+    return dy/length;
+}
+double collision_circle_penetration(double ax,double ay,double ar,double bx,double by,double br) {
+    if (ar < 0.0) { return 0.0; }
+    if (br < 0.0) { return 0.0; }
+    double gap=ar+br-collision_sqrt_nonnegative(collision_point_distance_squared(ax,ay,bx,by));
+    if (gap < 0.0) { return 0.0; }
+    return gap;
+}
+double collision_box_penetration_x(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    if (collision_boxes_strict_overlap(ax,ay,aw,ah,bx,by,bw,bh) == false) { return 0.0; }
+    return collision_overlap_width(ax,aw,bx,bw);
+}
+double collision_box_penetration_y(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    if (collision_boxes_strict_overlap(ax,ay,aw,ah,bx,by,bw,bh) == false) { return 0.0; }
+    return collision_overlap_height(ay,ah,by,bh);
+}
+double collision_box_min_penetration(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    double px=collision_box_penetration_x(ax,ay,aw,ah,bx,by,bw,bh);
+    double py=collision_box_penetration_y(ax,ay,aw,ah,bx,by,bw,bh);
+    if (px == 0.0) { return 0.0; }
+    if (py == 0.0) { return 0.0; }
+    return collision_min(px,py);
+}
+double collision_box_separation_x(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    double px=collision_box_penetration_x(ax,ay,aw,ah,bx,by,bw,bh);
+    double py=collision_box_penetration_y(ax,ay,aw,ah,bx,by,bw,bh);
+    if (px == 0.0) { return 0.0; }
+    if (px > py) { return 0.0; }
+    if (ax+aw*0.5 <= bx+bw*0.5) { return -px; }
+    return px;
+}
+double collision_box_separation_y(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    double px=collision_box_penetration_x(ax,ay,aw,ah,bx,by,bw,bh);
+    double py=collision_box_penetration_y(ax,ay,aw,ah,bx,by,bw,bh);
+    if (py == 0.0) { return 0.0; }
+    if (py >= px) { return 0.0; }
+    if (ay+ah*0.5 <= by+bh*0.5) { return -py; }
+    return py;
+}
+double collision_circle_separation_x(double ax,double ay,double ar,double bx,double by,double br) {
+    return -collision_circle_normal_x(ax,ay,bx,by)*collision_circle_penetration(ax,ay,ar,bx,by,br);
+}
+double collision_circle_separation_y(double ax,double ay,double ar,double bx,double by,double br) {
+    double normal=collision_circle_normal_y(ax,ay,bx,by);
+    if (normal == 0.0) { return 0.0; }
+    return -normal*collision_circle_penetration(ax,ay,ar,bx,by,br);
+}
+
+// Chapter 11D: boundary conditions and symmetric collision queries.
+bool collision_circles_strict_overlap(double ax,double ay,double ar,double bx,double by,double br) {
+    if (ar <= 0.0) { return false; }
+    if (br <= 0.0) { return false; }
+    double sum=ar+br;
+    return collision_point_distance_squared(ax,ay,bx,by) < sum*sum;
+}
+bool collision_box_has_area(double width,double height) {
+    if (width <= 0.0) { return false; }
+    return height > 0.0;
+}
+bool collision_circle_has_area(double radius) {
+    return radius > 0.0;
+}
+bool collision_boxes_separated(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    if (collision_valid_box(aw,ah) == false) { return false; }
+    if (collision_valid_box(bw,bh) == false) { return false; }
+    return collision_boxes_overlap(ax,ay,aw,ah,bx,by,bw,bh) == false;
+}
+bool collision_circles_separated(double ax,double ay,double ar,double bx,double by,double br) {
+    if (collision_valid_radius(ar) == false) { return false; }
+    if (collision_valid_radius(br) == false) { return false; }
+    return collision_circles_overlap(ax,ay,ar,bx,by,br) == false;
+}
+double collision_box_overlap_perimeter(double ax,double ay,double aw,double ah,double bx,double by,double bw,double bh) {
+    double w=collision_overlap_width(ax,aw,bx,bw);
+    double h=collision_overlap_height(ay,ah,by,bh);
+    if (w == 0.0) { return 0.0; }
+    if (h == 0.0) { return 0.0; }
+    return 2.0*(w+h);
+}
+bool collision_circle_contains_point_strict(double px,double py,double cx,double cy,double radius) {
+    if (radius <= 0.0) { return false; }
+    return collision_point_distance_squared(px,py,cx,cy) < radius*radius;
+}
+bool collision_box_contains_point_strict(double px,double py,double x,double y,double w,double h) {
+    if (w <= 0.0) { return false; }
+    if (h <= 0.0) { return false; }
+    if (px <= x) { return false; }
+    if (px >= x+w) { return false; }
+    if (py <= y) { return false; }
+    return py < y+h;
+}

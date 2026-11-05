@@ -1,0 +1,4 @@
+// Chapter 10B: component identifier validation.
+print(entity_component_id_valid(3));
+print(entity_component_id_valid(0));
+print(entity_component_id_valid(-2));

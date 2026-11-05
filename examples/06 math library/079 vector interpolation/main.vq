@@ -1,0 +1,2 @@
+print(vector2_lerp_component(0.0, 10.0, 0.25));
+print(vector2_lerp_component(10.0, 20.0, 0.5));

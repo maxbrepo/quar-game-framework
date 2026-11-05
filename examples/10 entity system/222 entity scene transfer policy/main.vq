@@ -1,0 +1,4 @@
+// Chapter 10C: entity scene transfer policy.
+print(entity_can_move_scene(true,false,true,false));
+print(entity_can_move_scene(true,true,true,false));
+print(entity_can_move_scene(true,false,true,true));

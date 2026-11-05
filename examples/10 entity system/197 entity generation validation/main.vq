@@ -1,0 +1,4 @@
+// Chapter 10A: entity generation validation.
+print(entity_valid_generation(2));
+print(entity_valid_generation(0));
+print(entity_valid_generation(-3));

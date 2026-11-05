@@ -1,0 +1,4 @@
+// Chapter 10A: entity identifier validation.
+print(entity_valid_id(1));
+print(entity_valid_id(0));
+print(entity_valid_id(-1));

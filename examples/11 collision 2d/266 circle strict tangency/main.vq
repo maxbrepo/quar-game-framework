@@ -1,0 +1,4 @@
+// Chapter 11D: collision boundaries and regression.
+print(collision_circles_overlap(0.0,0.0,2.0,4.0,0.0,2.0));
+print(collision_circles_strict_overlap(0.0,0.0,2.0,4.0,0.0,2.0));
+print(collision_circles_strict_overlap(0.0,0.0,3.0,4.0,0.0,2.0));

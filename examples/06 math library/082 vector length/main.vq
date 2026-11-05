@@ -1,0 +1,2 @@
+print(vector2_length_squared(3.0, 4.0));
+print(vector2_length(3.0, 4.0));

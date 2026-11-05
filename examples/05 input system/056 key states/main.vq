@@ -1,0 +1,5 @@
+print(qgf_input_up());
+print(qgf_input_down());
+print(qgf_input_pressed());
+print(qgf_input_released());
+print(qgf_input_state_valid(4));

@@ -1,0 +1,7 @@
+// Chapter 11D: collision boundaries and regression.
+print(collision_circles_strict_overlap(0.0,0.0,2.0,4.0,0.0,2.0));
+print(collision_box_has_area(3.0,4.0));
+print(collision_boxes_separated(0.0,0.0,2.0,2.0,5.0,5.0,1.0,1.0));
+print(collision_box_overlap_perimeter(0.0,0.0,4.0,4.0,2.0,1.0,4.0,4.0));
+print(collision_circle_contains_point_strict(1.0,1.0,0.0,0.0,2.0));
+print(collision_box_contains_point_strict(1.0,1.0,0.0,0.0,2.0,2.0));

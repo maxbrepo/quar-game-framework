@@ -1,0 +1,4 @@
+// Chapter 8D: metadata policy validation.
+print(resource_can_reset_slot(false, true, 0));
+print(resource_can_reset_slot(true, true, 0));
+print(resource_can_reset_slot(false, true, 1));

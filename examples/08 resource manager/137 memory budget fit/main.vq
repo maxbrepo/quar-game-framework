@@ -1,0 +1,3 @@
+print(resource_fits_budget(40, 60, 100));
+print(resource_fits_budget(40, 61, 100));
+print(resource_fits_budget(-1, 5, 100));

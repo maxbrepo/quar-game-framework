@@ -1,0 +1,5 @@
+print(qgf_input_pointer_valid(0, 0, 640, 480));
+print(qgf_input_pointer_valid(639, 479, 640, 480));
+print(qgf_input_pointer_valid(640, 479, 640, 480));
+print(qgf_input_pointer_clamp_x(-4, 640));
+print(qgf_input_pointer_clamp_y(900, 480));

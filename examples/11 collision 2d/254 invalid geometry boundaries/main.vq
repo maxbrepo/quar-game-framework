@@ -1,0 +1,4 @@
+// Chapter 11B: invalid geometry boundaries
+print(collision_circle_box_overlap(0.0,0.0,-1.0,0.0,0.0,2.0,2.0));
+print(collision_circle_box_overlap(0.0,0.0,1.0,0.0,0.0,-2.0,2.0));
+print(collision_point_box_distance_squared(0.0,0.0,0.0,0.0,2.0,-2.0));

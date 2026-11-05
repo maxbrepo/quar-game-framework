@@ -1,0 +1,4 @@
+// Chapter 9D: deferred destroy eligibility.
+print(scene_can_finalize_destroy(true, 0, 0));
+print(scene_can_finalize_destroy(true, 1, 0));
+print(scene_can_finalize_destroy(false, 0, 0));

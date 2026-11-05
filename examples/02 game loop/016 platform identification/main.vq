@@ -1,0 +1,6 @@
+// QGF Chapter 3A: 016 platform identification
+print(qgf_platform_linux());
+print(qgf_platform_windows());
+print(qgf_platform_macos());
+print(qgf_platform_valid(1));
+print(qgf_platform_valid(0));

@@ -1,0 +1,4 @@
+// Chapter 11B: point distance squared
+print(collision_point_distance_squared(0.0,0.0,3.0,4.0));
+print(collision_point_distance_squared(2.0,3.0,2.0,3.0));
+print(collision_point_distance_squared(-1.0,-1.0,0.0,0.0));

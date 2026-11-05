@@ -1,0 +1,3 @@
+print(resource_valid_bytes(0));
+print(resource_valid_bytes(128));
+print(resource_valid_bytes(-1));

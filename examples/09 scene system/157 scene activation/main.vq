@@ -1,0 +1,4 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_can_activate(true, false));
+print(scene_can_activate(true, true));
+print(scene_can_activate(false, false));

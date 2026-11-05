@@ -1,0 +1,4 @@
+// Chapter 9C: deterministic scene traversal policies.
+print(scene_order_before(2, 3));
+print(scene_order_before(3, 2));
+print(scene_order_equal(2, 2));

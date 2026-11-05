@@ -1,0 +1,7 @@
+// QGF Chapter 3A: 020 platform errors
+print(qgf_platform_error(0, 0));
+print(qgf_platform_error(1, 9));
+print(qgf_platform_error(1, 1));
+print(qgf_platform_error(1, 0));
+print(qgf_backend_prepare_error(0, 1));
+print(qgf_backend_prepare_error(2, 0));

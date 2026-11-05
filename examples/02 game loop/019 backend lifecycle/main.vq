@@ -1,0 +1,10 @@
+// QGF Chapter 3A: 019 backend lifecycle
+int state = qgf_backend_created();
+print(state);
+state = qgf_backend_prepare(state, 0);
+print(state);
+state = qgf_backend_start(state);
+print(state);
+state = qgf_backend_stop(state);
+print(state);
+print(qgf_backend_start(state));

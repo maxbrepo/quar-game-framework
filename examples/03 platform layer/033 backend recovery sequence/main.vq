@@ -1,0 +1,14 @@
+// Reset is required before preparing a stopped backend.
+int state = qgf_backend_created();
+state = qgf_backend_prepare(state, qgf_backend_none());
+state = qgf_backend_start(state);
+state = qgf_backend_stop(state);
+print(state);
+print(qgf_backend_prepare_error(state, qgf_backend_none()));
+state = qgf_backend_reset(state);
+print(state);
+state = qgf_backend_prepare(state, qgf_backend_none());
+state = qgf_backend_start(state);
+print(qgf_backend_is_running(state));
+state = qgf_backend_stop(state);
+print(qgf_backend_is_stopped(state));

@@ -1,0 +1,6 @@
+// Chapter 8D: metadata policy validation.
+print(resource_lifecycle_consistent(true, false, true, false, 2));
+print(resource_lifecycle_consistent(true, true, true, false, 0));
+print(resource_lifecycle_consistent(true, false, false, true, 0));
+print(resource_lifecycle_consistent(false, true, false, false, 0));
+print(resource_lifecycle_consistent(true, false, false, true, 1));

@@ -1,0 +1,4 @@
+// Chapter 11D: collision boundaries and regression.
+print(collision_box_contains_point_strict(1.0,1.0,0.0,0.0,2.0,2.0));
+print(collision_box_contains_point_strict(0.0,1.0,0.0,0.0,2.0,2.0));
+print(collision_box_contains_point_strict(1.0,1.0,0.0,0.0,0.0,2.0));

@@ -1,0 +1,126 @@
+// Window descriptor policy only. No native window is created in this chapter block.
+int qgf_window_created() { return 0; }
+int qgf_window_ready() { return 1; }
+int qgf_window_open() { return 2; }
+int qgf_window_closed() { return 3; }
+
+bool qgf_window_size_valid(int width, int height) {
+    if (width <= 0) { return false; }
+    if (height <= 0) { return false; }
+    if (width > 16384) { return false; }
+    return height <= 16384;
+}
+
+bool qgf_window_can_prepare(int state, int width, int height) {
+    if (state != 0) { return false; }
+    return qgf_window_size_valid(width, height);
+}
+int qgf_window_prepare(int state, int width, int height) {
+    if (qgf_window_can_prepare(state, width, height)) { return 1; }
+    return state;
+}
+bool qgf_window_can_open(int state) { return state == 1; }
+int qgf_window_open_state(int state) {
+    if (qgf_window_can_open(state)) { return 2; }
+    return state;
+}
+bool qgf_window_can_close(int state) {
+    if (state == 1) { return true; }
+    return state == 2;
+}
+int qgf_window_close(int state) {
+    if (qgf_window_can_close(state)) { return 3; }
+    return state;
+}
+bool qgf_window_can_reset(int state) { return state == 3; }
+int qgf_window_reset(int state) {
+    if (qgf_window_can_reset(state)) { return 0; }
+    return state;
+}
+
+int qgf_window_mode_windowed() { return 0; }
+int qgf_window_mode_borderless() { return 1; }
+int qgf_window_mode_fullscreen() { return 2; }
+bool qgf_window_mode_valid(int mode) {
+    if (mode < 0) { return false; }
+    return mode <= 2;
+}
+bool qgf_window_resize_valid(int state, int width, int height) {
+    if (state != 1) { return false; }
+    return qgf_window_size_valid(width, height);
+}
+// Native creation and fullscreen switching require a real SDL3 backend.
+bool qgf_window_native_available() { return false; }
+
+// Window property policy. Native changes are delegated to a future backend.
+bool qgf_window_title_length_valid(int length) {
+    if (length < 1) { return false; }
+    return length <= 255;
+}
+bool qgf_window_dimensions_within_limits(int width, int height, int min_width, int min_height, int max_width, int max_height) {
+    if (qgf_window_size_valid(width, height) == false) { return false; }
+    if (qgf_window_size_valid(min_width, min_height) == false) { return false; }
+    if (qgf_window_size_valid(max_width, max_height) == false) { return false; }
+    if (min_width > max_width) { return false; }
+    if (min_height > max_height) { return false; }
+    if (width < min_width) { return false; }
+    if (height < min_height) { return false; }
+    if (width > max_width) { return false; }
+    return height <= max_height;
+}
+bool qgf_window_can_change_mode(int state, int mode) {
+    if (state != 1) { return false; }
+    return qgf_window_mode_valid(mode);
+}
+int qgf_window_change_mode(int current_mode, int state, int requested_mode) {
+    if (qgf_window_can_change_mode(state, requested_mode)) { return requested_mode; }
+    return current_mode;
+}
+bool qgf_window_can_change_title(int state, int title_length) {
+    if (state == 3) { return false; }
+    return qgf_window_title_length_valid(title_length);
+}
+bool qgf_window_can_resize_with_limits(int state, int width, int height, int min_width, int min_height, int max_width, int max_height) {
+    if (state != 1) { return false; }
+    return qgf_window_dimensions_within_limits(width, height, min_width, min_height, max_width, max_height);
+}
+int qgf_window_choose_width(int current_width, int state, int requested_width, int requested_height, int min_width, int min_height, int max_width, int max_height) {
+    if (qgf_window_can_resize_with_limits(state, requested_width, requested_height, min_width, min_height, max_width, max_height)) { return requested_width; }
+    return current_width;
+}
+int qgf_window_choose_height(int current_height, int state, int requested_width, int requested_height, int min_width, int min_height, int max_width, int max_height) {
+    if (qgf_window_can_resize_with_limits(state, requested_width, requested_height, min_width, min_height, max_width, max_height)) { return requested_height; }
+    return current_height;
+}
+
+// Multi-window descriptor policies. IDs are logical, not SDL handles.
+bool qgf_window_id_valid(int id) { return id > 0; }
+bool qgf_window_ids_distinct(int first, int second) {
+    if (qgf_window_id_valid(first) == false) { return false; }
+    if (qgf_window_id_valid(second) == false) { return false; }
+    return first != second;
+}
+bool qgf_window_can_select(int requested_id, int first_id, int first_state, int second_id, int second_state) {
+    if (qgf_window_id_valid(requested_id) == false) { return false; }
+    if (qgf_window_ids_distinct(first_id, second_id) == false) { return false; }
+    if (requested_id == first_id) { return first_state == 2; }
+    if (requested_id == second_id) { return second_state == 2; }
+    return false;
+}
+int qgf_window_select(int current_id, int requested_id, int first_id, int first_state, int second_id, int second_state) {
+    if (qgf_window_can_select(requested_id, first_id, first_state, second_id, second_state)) { return requested_id; }
+    return current_id;
+}
+bool qgf_window_can_remove(int id, int state) {
+    if (qgf_window_id_valid(id) == false) { return false; }
+    return state == 3;
+}
+int qgf_window_release_id(int id, int state) {
+    if (qgf_window_can_remove(id, state)) { return 0; }
+    return id;
+}
+bool qgf_window_id_available(int candidate, int first_id, int second_id) {
+    if (qgf_window_id_valid(candidate) == false) { return false; }
+    if (candidate == first_id) { return false; }
+    return candidate != second_id;
+}

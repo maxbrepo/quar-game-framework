@@ -1,0 +1,4 @@
+// Chapter 10C: component deferred cleanup.
+print(entity_component_cleanup_allowed(true,true,0,false));
+print(entity_component_cleanup_allowed(true,true,1,false));
+print(entity_component_cleanup_allowed(true,true,0,true));

@@ -1,0 +1,4 @@
+// Chapter 9D: node removal policy.
+print(scene_can_remove_node(true, false, false));
+print(scene_can_remove_node(true, true, false));
+print(scene_can_remove_node(true, false, true));

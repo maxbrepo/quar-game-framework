@@ -1,0 +1,6 @@
+// Chapter 9B: hierarchy policy verification.
+print(scene_can_reparent(4, 2, 0, false, false));
+print(scene_parent_chain_valid(3, 0, 0));
+print(scene_world_x(scene_local_x(13.0, 10.0), 10.0));
+print(scene_effective_visible(true, false));
+print(scene_valid_depth(-1, 4));

@@ -1,0 +1,5 @@
+
+print(vector2_length_squared(3.0, 4.0));
+print(vector2_dot(1.0, 2.0, 3.0, 4.0));
+print(vector2_cross(1.0, 2.0, 3.0, 4.0));
+print(vector2_distance_squared(1.0, 1.0, 4.0, 5.0));

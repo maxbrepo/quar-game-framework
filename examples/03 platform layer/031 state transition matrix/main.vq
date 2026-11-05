@@ -1,0 +1,8 @@
+// Verify valid transitions and rejected calls.
+print(qgf_backend_can_prepare(qgf_backend_created(), qgf_backend_none()));
+print(qgf_backend_can_start(qgf_backend_created()));
+print(qgf_backend_can_stop(qgf_backend_ready()));
+print(qgf_backend_can_reset(qgf_backend_active()));
+print(qgf_backend_start(qgf_backend_created()));
+print(qgf_backend_stop(qgf_backend_created()));
+print(qgf_backend_reset(qgf_backend_created()));

@@ -1,0 +1,4 @@
+// Chapter 9D: scene render eligibility.
+print(scene_effective_render(true, true, true, false));
+print(scene_effective_render(true, false, true, false));
+print(scene_effective_render(true, true, true, true));

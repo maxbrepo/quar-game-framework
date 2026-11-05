@@ -1,0 +1,3 @@
+print(resource_can_trim(true, 0, false));
+print(resource_can_trim(true, 1, false));
+print(resource_can_trim(true, 0, true));

@@ -1,0 +1,11 @@
+// Invalid time inputs never schedule fixed updates.
+print(qgf_delta_valid(-1));
+print(qgf_delta_valid(0));
+print(qgf_fixed_step_valid(0));
+print(qgf_fixed_step_valid(20));
+print(qgf_frame_accumulated_ms(12, -5));
+print(qgf_frame_fixed_steps(12, -5, 20, 3));
+print(qgf_frame_remaining_ms(12, -5, 20, 3));
+print(qgf_frame_fixed_steps(12, 10, 0, 3));
+print(qgf_frame_fixed_steps(12, 10, 20, 0));
+print(qgf_render_alpha(0, 20));

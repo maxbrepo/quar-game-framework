@@ -1,0 +1,4 @@
+print(qgf_input_frame_up_event(1));
+print(qgf_input_frame_up_event(3));
+print(qgf_input_frame_up_event(0));
+print(qgf_input_frame_up_event(8));

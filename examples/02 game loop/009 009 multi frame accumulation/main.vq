@@ -1,0 +1,20 @@
+// Variable frame durations preserve the accumulator across frames.
+int remainder = 0;
+int total_steps = 0;
+int step_ms = 20;
+int max_steps = 3;
+int frame = 0;
+while (frame < 4) {
+    int delta_ms = 0;
+    if (frame == 0) { delta_ms = 7; }
+    if (frame == 1) { delta_ms = 18; }
+    if (frame == 2) { delta_ms = 9; }
+    if (frame == 3) { delta_ms = 26; }
+    int due = qgf_frame_fixed_steps(remainder, delta_ms, step_ms, max_steps);
+    remainder = qgf_frame_remaining_ms(remainder, delta_ms, step_ms, max_steps);
+    total_steps = total_steps + due;
+    print(due);
+    print(remainder);
+    frame = frame + 1;
+}
+print(total_steps);

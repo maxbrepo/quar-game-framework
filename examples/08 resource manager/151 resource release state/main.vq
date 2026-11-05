@@ -1,0 +1,4 @@
+// Chapter 8D: metadata policy validation.
+print(resource_can_mark_released(true, 0, false));
+print(resource_can_mark_released(true, 1, false));
+print(resource_can_mark_released(true, 0, true));

@@ -1,0 +1,6 @@
+print(rect2_right(2.0, 5.0));
+print(rect2_bottom(3.0, 4.0));
+print(rect2_contains(0.0, 0.0, 10.0, 10.0, 5.0, 5.0));
+print(rect2_contains(0.0, 0.0, 10.0, 10.0, 10.0, 5.0));
+print(rect2_intersects(0.0, 0.0, 4.0, 4.0, 2.0, 2.0, 4.0, 4.0));
+print(rect2_intersects(0.0, 0.0, 4.0, 4.0, 4.0, 0.0, 4.0, 4.0));

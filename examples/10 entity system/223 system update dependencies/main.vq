@@ -1,0 +1,4 @@
+// Chapter 10C: system update dependencies.
+print(entity_system_update_allowed(true,false,true,true));
+print(entity_system_update_allowed(true,true,true,true));
+print(entity_system_update_allowed(true,false,true,false));

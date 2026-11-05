@@ -1,0 +1,4 @@
+// Chapter 11B: circle center separation
+print(collision_circle_separation_squared(0.0,0.0,2.0,3.0,0.0,1.0));
+print(collision_circle_separation_squared(0.0,0.0,1.0,5.0,0.0,1.0));
+print(collision_circle_separation_squared(0.0,0.0,-1.0,5.0,0.0,1.0));

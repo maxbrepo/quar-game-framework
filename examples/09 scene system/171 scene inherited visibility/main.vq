@@ -1,0 +1,4 @@
+// Chapter 9B: hierarchy policy verification.
+print(scene_effective_visible(true, true));
+print(scene_effective_visible(false, true));
+print(scene_effective_visible(true, false));

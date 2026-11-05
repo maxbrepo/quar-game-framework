@@ -1,0 +1,10 @@
+// Window policy example; no native SDL calls.
+int state = qgf_window_created();
+state = qgf_window_prepare(state, 800, 600);
+print(state);
+state = qgf_window_open_state(state);
+print(state);
+state = qgf_window_close(state);
+print(state);
+state = qgf_window_reset(state);
+print(state);

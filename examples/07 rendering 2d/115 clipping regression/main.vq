@@ -1,0 +1,4 @@
+print(render2d_visible_width(-20.0, 10.0, 100.0));
+print(render2d_visible_width(-20.0, 150.0, 100.0));
+print(render2d_draw_before(2, 1, 2, 2));
+print(render2d_draw_ready(0.0, 0.0, 16.0, 16.0, 64.0, 64.0, 0.0, 0.0, 16.0, 16.0));

@@ -1,0 +1,4 @@
+// Chapter 8D: metadata policy validation.
+print(resource_can_begin_load(true, false, false, 0));
+print(resource_can_begin_load(true, true, false, 0));
+print(resource_can_begin_load(true, false, false, 1));

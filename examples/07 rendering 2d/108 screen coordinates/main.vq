@@ -1,0 +1,2 @@
+print(render2d_sprite_screen_x(30.0, 10.0, 2.0));
+print(render2d_sprite_screen_y(25.0, 5.0, 3.0));

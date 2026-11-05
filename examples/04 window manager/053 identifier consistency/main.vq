@@ -1,0 +1,6 @@
+// Window policy integration; native SDL3 is not invoked.
+print(qgf_window_ids_distinct(1, 2));
+print(qgf_window_ids_distinct(2, 2));
+print(qgf_window_id_available(3, 1, 2));
+print(qgf_window_release_id(1, 2));
+print(qgf_window_release_id(1, 3));

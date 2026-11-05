@@ -1,0 +1,4 @@
+// Chapter 9C: deterministic scene traversal policies.
+print(scene_can_schedule_update(true, false, true, false));
+print(scene_can_schedule_update(true, true, true, false));
+print(scene_can_schedule_update(true, false, true, true));

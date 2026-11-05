@@ -1,0 +1,7 @@
+// Chapter 10A: entity lifecycle regression.
+print(entity_handle_matches(3, 1, 3, 1));
+print(entity_can_spawn(true, true, true));
+print(entity_can_attach_component(true, false, true, false));
+print(entity_can_update(true, true, true, false));
+print(entity_can_finalize(true, 0));
+print(entity_next_generation(1));

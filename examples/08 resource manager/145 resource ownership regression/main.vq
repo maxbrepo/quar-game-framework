@@ -1,0 +1,5 @@
+print(resource_can_release_shared(3));
+print(resource_can_release_shared(1));
+print(resource_can_destroy(0, false));
+print(resource_can_destroy(0, true));
+print(resource_fits_budget(75, 25, 100));

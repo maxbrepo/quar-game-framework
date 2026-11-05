@@ -1,0 +1,1 @@
+print(render2d_sprite_screen_x(48.0, 8.0, 2.0));

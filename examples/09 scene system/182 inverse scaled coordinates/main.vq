@@ -1,0 +1,4 @@
+// Chapter 9C: deterministic scene traversal policies.
+print(scene_local_scaled_x(13.0, 5.0, 2.0));
+print(scene_can_invert_scale(0.0));
+print(scene_can_invert_scale(2.0));

@@ -1,0 +1,7 @@
+// Window policy integration; native SDL3 is not invoked.
+print(qgf_window_size_valid(640, 480));
+print(qgf_window_title_length_valid(8));
+print(qgf_window_mode_valid(2));
+print(qgf_window_ids_distinct(1, 2));
+print(qgf_window_native_available());
+print(qgf_window_can_select(1, 1, 2, 2, 3));

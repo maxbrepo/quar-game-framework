@@ -1,0 +1,4 @@
+print(resource_needs_load(true, false));
+print(resource_needs_load(true, true));
+print(resource_can_release(true, false));
+print(resource_can_release(false, false));

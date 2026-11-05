@@ -1,0 +1,4 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_valid_node(2, 1));
+print(scene_valid_node(0, 1));
+print(scene_valid_node(2, 0));

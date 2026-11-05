@@ -1,0 +1,4 @@
+// Chapter 10B: component rendering visibility.
+print(entity_component_render_allowed(true,true,true));
+print(entity_component_render_allowed(true,false,true));
+print(entity_component_render_allowed(true,true,false));

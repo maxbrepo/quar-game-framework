@@ -1,0 +1,6 @@
+// QGF Chapter 3A: 017 backend selection
+print(qgf_backend_none());
+print(qgf_backend_sdl3());
+print(qgf_backend_known(1));
+print(qgf_backend_available(1));
+print(qgf_backend_available(0));

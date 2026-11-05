@@ -1,0 +1,4 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_valid_id(1));
+print(scene_valid_id(0));
+print(scene_valid_id(-1));

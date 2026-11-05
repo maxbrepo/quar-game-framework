@@ -1,0 +1,3 @@
+print(resource_is_stale(4, 4));
+print(resource_is_stale(4, 5));
+print(resource_is_stale(0, 0));

@@ -1,0 +1,4 @@
+// Chapter 10A: entity component attachment.
+print(entity_can_attach_component(true, false, true, false));
+print(entity_can_attach_component(true, false, true, true));
+print(entity_can_attach_component(false, false, true, false));

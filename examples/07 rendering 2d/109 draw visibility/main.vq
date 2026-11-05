@@ -1,0 +1,2 @@
+print(render2d_draw_visible(90.0, 20.0, 20.0, 10.0, 100.0, 100.0));
+print(render2d_draw_visible(100.0, 20.0, 20.0, 10.0, 100.0, 100.0));

@@ -1,0 +1,4 @@
+// Chapter 11A: collision radius validation.
+print(collision_valid_radius(1.0));
+print(collision_valid_radius(-1.0));
+print(collision_valid_radius(0.0));

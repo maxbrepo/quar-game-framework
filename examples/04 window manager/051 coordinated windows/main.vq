@@ -1,0 +1,6 @@
+// Window policy integration; native SDL3 is not invoked.
+int first = qgf_window_open_state(qgf_window_prepare(0, 640, 480));
+int second = qgf_window_open_state(qgf_window_prepare(0, 800, 600));
+print(first); print(second);
+print(qgf_window_can_select(2, 1, first, 2, second));
+print(qgf_window_select(1, 2, 1, first, 2, second));

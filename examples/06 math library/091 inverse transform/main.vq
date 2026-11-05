@@ -1,0 +1,2 @@
+print(vector2_inverse_transform_component(21.0, 2.0, 1.0));
+print(vector2_can_inverse_scale(0.0));

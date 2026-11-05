@@ -1,0 +1,4 @@
+// Chapter 8D: metadata policy validation.
+print(resource_can_cancel_load(true, 0));
+print(resource_can_cancel_load(true, 1));
+print(resource_can_cancel_load(false, 0));

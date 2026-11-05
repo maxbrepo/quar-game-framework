@@ -1,0 +1,4 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_can_attach(2, 1, true));
+print(scene_can_attach(1, 1, true));
+print(scene_can_attach(2, 1, false));

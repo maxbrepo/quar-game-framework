@@ -1,0 +1,6 @@
+// Chapter 9D: scene lifecycle regression.
+print(scene_lifecycle_consistent(true, false, true, 0));
+print(scene_lifecycle_consistent(true, true, true, 0));
+print(scene_transition_ready(true, true, 1, 2));
+print(scene_effective_update(true, false, true, true, false));
+print(scene_can_finalize_destroy(true, 0, 0));

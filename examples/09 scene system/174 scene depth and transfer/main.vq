@@ -1,0 +1,5 @@
+// Chapter 9B: hierarchy policy verification.
+print(scene_valid_depth(2, 4));
+print(scene_valid_depth(5, 4));
+print(scene_can_move_between_scenes(3, 1, 2, true));
+print(scene_can_move_between_scenes(3, 1, 1, true));

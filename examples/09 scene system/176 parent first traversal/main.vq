@@ -1,0 +1,4 @@
+// Chapter 9C: deterministic scene traversal policies.
+print(scene_traversal_parent_first(1, 2));
+print(scene_traversal_parent_first(2, 1));
+print(scene_traversal_parent_first(1, 1));

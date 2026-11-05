@@ -1,0 +1,4 @@
+// Chapter 10C: component deactivation policy.
+print(entity_component_deactivation_allowed(true,false));
+print(entity_component_deactivation_allowed(true,true));
+print(entity_component_deactivation_allowed(false,false));

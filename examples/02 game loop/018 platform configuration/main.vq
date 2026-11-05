@@ -1,0 +1,5 @@
+// QGF Chapter 3A: 018 platform configuration
+print(qgf_platform_config_valid(1, 0));
+print(qgf_platform_config_valid(1, 1));
+print(qgf_platform_config_valid(0, 0));
+print(qgf_platform_config_valid(1, 9));

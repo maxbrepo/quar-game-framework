@@ -1,0 +1,4 @@
+// Chapter 10B: component replacement policy.
+print(entity_can_replace_component(true,true,false,true));
+print(entity_can_replace_component(true,true,true,true));
+print(entity_can_replace_component(true,false,false,true));

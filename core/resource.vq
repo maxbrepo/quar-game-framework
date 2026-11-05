@@ -1,0 +1,203 @@
+// Pure resource metadata policies; no file or texture loading.
+bool resource_valid_id(int resource_id) { return resource_id > 0; }
+bool resource_can_load(int resource_id, bool declared) {
+    if (resource_valid_id(resource_id) == false) { return false; }
+    return declared;
+}
+bool resource_available(bool declared, bool loaded, bool released) {
+    if (declared == false) { return false; }
+    if (loaded == false) { return false; }
+    return released == false;
+}
+bool resource_needs_load(bool declared, bool loaded) {
+    if (declared == false) { return false; }
+    return loaded == false;
+}
+bool resource_can_release(bool loaded, bool released) {
+    if (loaded == false) { return false; }
+    return released == false;
+}
+int resource_acquire(int references) {
+    if (references < 0) { return 0; }
+    return references + 1;
+}
+int resource_release(int references) {
+    if (references <= 0) { return 0; }
+    return references - 1;
+}
+bool resource_can_evict(bool loaded, int references) {
+    if (loaded == false) { return false; }
+    return references == 0;
+}
+bool resource_valid_texture_size(int width, int height) {
+    if (width <= 0) { return false; }
+    return height > 0;
+}
+bool resource_valid_region(int x, int y, int width, int height, int texture_width, int texture_height) {
+    if (resource_valid_texture_size(width, height) == false) { return false; }
+    if (resource_valid_texture_size(texture_width, texture_height) == false) { return false; }
+    if (x < 0) { return false; }
+    if (y < 0) { return false; }
+    if (x + width > texture_width) { return false; }
+    if (y + height > texture_height) { return false; }
+    return true;
+}
+bool resource_slot_reusable(bool released, int references) {
+    if (released == false) { return false; }
+    return references == 0;
+}
+bool resource_state_valid(bool loaded, bool released) {
+    if (loaded == true) { return released == false; }
+    return true;
+}
+
+// Metadata-only resource lifecycle helpers. No I/O or native handles.
+bool resource_valid_generation(int generation) { return generation > 0; }
+bool resource_handle_matches(int expected_id, int expected_generation, int actual_id, int actual_generation) {
+    if (resource_valid_id(expected_id) == false) { return false; }
+    if (resource_valid_generation(expected_generation) == false) { return false; }
+    if (expected_id != actual_id) { return false; }
+    return expected_generation == actual_generation;
+}
+bool resource_can_acquire(bool loaded, bool released, int references) {
+    if (references < 0) { return false; }
+    if (loaded == false) { return false; }
+    return released == false;
+}
+bool resource_can_unload(bool loaded, int references) {
+    if (references != 0) { return false; }
+    return loaded;
+}
+bool resource_is_stale(int stored_generation, int requested_generation) {
+    if (resource_valid_generation(stored_generation) == false) { return true; }
+    return stored_generation != requested_generation;
+}
+bool resource_can_reload(bool declared, bool loaded, int references) {
+    if (references != 0) { return false; }
+    if (declared == false) { return false; }
+    return loaded == false;
+}
+bool resource_cache_hit(bool declared, bool loaded, bool released) {
+    return resource_available(declared, loaded, released);
+}
+bool resource_cache_miss(bool declared, bool loaded, bool released) {
+    return resource_cache_hit(declared, loaded, released) == false;
+}
+bool resource_valid_capacity(int capacity, int occupied) {
+    if (capacity < 0) { return false; }
+    if (occupied < 0) { return false; }
+    return occupied <= capacity;
+}
+bool resource_has_free_slot(int capacity, int occupied) {
+    if (resource_valid_capacity(capacity, occupied) == false) { return false; }
+    return occupied < capacity;
+}
+bool resource_can_replace(bool loaded, int references, bool pinned) {
+    if (pinned == true) { return false; }
+    return resource_can_evict(loaded, references);
+}
+bool resource_metadata_consistent(bool declared, bool loaded, bool released, int references) {
+    if (references < 0) { return false; }
+    if (loaded == true) { if (declared == false) { return false; } }
+    if (loaded == true) { if (released == true) { return false; } }
+    if (references > 0) { if (loaded == false) { return false; } }
+    return true;
+}
+
+// Chapter 8C: pure policies for memory budgets, sharing and ownership.
+// These functions inspect metadata; they do not allocate memory or load assets.
+bool resource_valid_bytes(int byte_count) { return byte_count >= 0; }
+bool resource_fits_budget(int used, int requested, int budget) {
+    if (used < 0) { return false; }
+    if (requested < 0) { return false; }
+    if (budget < 0) { return false; }
+    if (used > budget) { return false; }
+    return requested <= budget - used;
+}
+int resource_budget_remaining(int used, int budget) {
+    if (used < 0) { return 0; }
+    if (budget < used) { return 0; }
+    return budget - used;
+}
+bool resource_can_share(bool loaded, bool released, int references) {
+    if (references < 1) { return false; }
+    return resource_available(true, loaded, released);
+}
+bool resource_is_exclusive(int references) { return references == 1; }
+bool resource_can_transfer(bool loaded, bool released, int references) {
+    if (references != 1) { return false; }
+    return resource_available(true, loaded, released);
+}
+bool resource_can_pin(bool loaded, bool released, int references) {
+    if (references < 0) { return false; }
+    return resource_available(true, loaded, released);
+}
+bool resource_can_trim(bool loaded, int references, bool pinned) {
+    return resource_can_replace(loaded, references, pinned);
+}
+bool resource_valid_allocation(int item_bytes, int count, int budget) {
+    if (item_bytes < 0) { return false; }
+    if (count < 0) { return false; }
+    if (budget < 0) { return false; }
+    if (count == 0) { return true; }
+    return item_bytes <= budget / count;
+}
+bool resource_can_release_shared(int references) { return references > 1; }
+bool resource_can_destroy(int references, bool pinned) {
+    if (pinned == true) { return false; }
+    return references == 0;
+}
+
+// Chapter 8D: resource state transitions and consistency checks (metadata only).
+bool resource_can_declare(int id, int generation, bool already_declared) {
+    if (resource_valid_id(id) == false) { return false; }
+    if (resource_valid_generation(generation) == false) { return false; }
+    return already_declared == false;
+}
+bool resource_can_begin_load(bool declared, bool loaded, bool released, int references) {
+    if (declared == false) { return false; }
+    if (loaded == true) { return false; }
+    if (released == true) { return false; }
+    return references == 0;
+}
+bool resource_can_finish_load(bool declared, bool loading, bool released) {
+    if (declared == false) { return false; }
+    if (loading == false) { return false; }
+    return released == false;
+}
+bool resource_can_cancel_load(bool loading, int references) {
+    if (loading == false) { return false; }
+    return references == 0;
+}
+bool resource_can_release_reference(bool loaded, bool released, int references) {
+    if (loaded == false) { return false; }
+    if (released == true) { return false; }
+    return references > 0;
+}
+bool resource_can_mark_released(bool loaded, int references, bool pinned) {
+    if (loaded == false) { return false; }
+    if (pinned == true) { return false; }
+    return references == 0;
+}
+bool resource_can_reset_slot(bool loaded, bool released, int references) {
+    if (loaded == true) { return false; }
+    if (released == false) { return false; }
+    return references == 0;
+}
+bool resource_can_reuse_slot(int old_generation, int new_generation, bool released) {
+    if (released == false) { return false; }
+    if (resource_valid_generation(old_generation) == false) { return false; }
+    return new_generation > old_generation;
+}
+bool resource_can_commit_cache(int used, int incoming, int budget, bool valid_handle) {
+    if (valid_handle == false) { return false; }
+    return resource_fits_budget(used, incoming, budget);
+}
+bool resource_lifecycle_consistent(bool declared, bool loading, bool loaded, bool released, int references) {
+    if (resource_metadata_consistent(declared, loaded, released, references) == false) { return false; }
+    if (loading == true) { if (loaded == true) { return false; } }
+    if (loading == true) { if (declared == false) { return false; } }
+    if (loading == true) { if (released == true) { return false; } }
+    if (released == true) { if (references != 0) { return false; } }
+    return true;
+}

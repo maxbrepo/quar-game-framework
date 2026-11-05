@@ -1,0 +1,14 @@
+// Invalid delta must not corrupt the next valid frame's accumulator.
+int remainder = 12;
+int invalid_due = qgf_frame_fixed_steps(remainder, -10, 20, 3);
+remainder = qgf_frame_remaining_ms(remainder, -10, 20, 3);
+print(invalid_due);
+print(remainder);
+int valid_due = qgf_frame_fixed_steps(remainder, 28, 20, 3);
+remainder = qgf_frame_remaining_ms(remainder, 28, 20, 3);
+print(valid_due);
+print(remainder);
+print(qgf_render_alpha(remainder, 20));
+print(qgf_frame_fixed_steps(remainder, 10, 0, 3));
+print(qgf_frame_fixed_steps(remainder, 10, 20, 0));
+print(qgf_frame_remaining_ms(remainder, 10, 20, 0));

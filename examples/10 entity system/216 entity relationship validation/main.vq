@@ -1,0 +1,4 @@
+// Chapter 10C: entity relationship validation.
+print(entity_relation_allowed(1,2,true));
+print(entity_relation_allowed(1,1,true));
+print(entity_relation_allowed(1,2,false));

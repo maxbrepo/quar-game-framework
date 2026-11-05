@@ -1,0 +1,4 @@
+// Chapter 10A: entity component detachment.
+print(entity_can_detach_component(true, true, false));
+print(entity_can_detach_component(true, false, false));
+print(entity_can_detach_component(true, true, true));

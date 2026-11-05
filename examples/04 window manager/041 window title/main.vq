@@ -1,0 +1,5 @@
+// Logical window property validation; no native window is created.
+print(qgf_window_title_length_valid(1));
+print(qgf_window_title_length_valid(255));
+print(qgf_window_title_length_valid(0));
+print(qgf_window_title_length_valid(256));

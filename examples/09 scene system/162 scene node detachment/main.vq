@@ -1,0 +1,4 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_can_detach(true, false));
+print(scene_can_detach(true, true));
+print(scene_can_detach(false, false));

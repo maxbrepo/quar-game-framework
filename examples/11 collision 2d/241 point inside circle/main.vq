@@ -1,0 +1,4 @@
+// Chapter 11A: point inside circle.
+print(collision_point_in_circle(0.0,0.0,0.0,0.0,5.0));
+print(collision_point_in_circle(3.0,4.0,0.0,0.0,5.0));
+print(collision_point_in_circle(6.0,0.0,0.0,0.0,5.0));

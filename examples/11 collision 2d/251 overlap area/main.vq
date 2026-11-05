@@ -1,0 +1,4 @@
+// Chapter 11B: overlap area
+print(collision_box_overlap_area(0.0,0.0,4.0,4.0,2.0,1.0,3.0,3.0));
+print(collision_box_overlap_area(0.0,0.0,2.0,2.0,2.0,0.0,2.0,2.0));
+print(collision_box_overlap_area(0.0,0.0,2.0,2.0,0.0,0.0,2.0,2.0));

@@ -1,0 +1,4 @@
+print(qgf_input_is_transition(qgf_input_apply_button_event(0, true)));
+print(qgf_input_advance_frame(qgf_input_apply_button_event(0, true)));
+print(qgf_input_is_transition(qgf_input_advance_frame(2)));
+print(qgf_input_advance_frame(qgf_input_apply_button_event(1, false)));

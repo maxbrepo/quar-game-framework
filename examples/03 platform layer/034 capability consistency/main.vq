@@ -1,0 +1,9 @@
+// SDL3 is known but unavailable until a real native bridge exists.
+print(qgf_backend_known(qgf_backend_sdl3()));
+print(qgf_backend_available(qgf_backend_sdl3()));
+print(qgf_backend_requires_native_bridge(qgf_backend_sdl3()));
+print(qgf_backend_can_use_native(qgf_backend_sdl3()));
+print(qgf_backend_supports_window(qgf_backend_sdl3()));
+print(qgf_backend_supports_render2d(qgf_backend_sdl3()));
+print(qgf_backend_supports_input(qgf_backend_sdl3()));
+print(qgf_backend_available(qgf_backend_none()));

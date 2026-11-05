@@ -1,0 +1,3 @@
+print(render2d_valid_scale(2.0, 0.5));
+print(render2d_valid_scale(-1.0, 1.0));
+print(render2d_sprite_width(16.0, 2.0));

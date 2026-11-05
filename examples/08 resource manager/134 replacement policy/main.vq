@@ -1,0 +1,3 @@
+print(resource_can_replace(true, 0, false));
+print(resource_can_replace(true, 0, true));
+print(resource_can_replace(true, 1, false));

@@ -1,0 +1,4 @@
+print(qgf_input_next_state(0, true));
+print(qgf_input_next_state(2, true));
+print(qgf_input_next_state(1, false));
+print(qgf_input_next_state(3, false));

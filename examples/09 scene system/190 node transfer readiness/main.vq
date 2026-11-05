@@ -1,0 +1,4 @@
+// Chapter 9D: node transfer readiness.
+print(scene_transfer_ready(4, 1, 2, true, false));
+print(scene_transfer_ready(4, 1, 2, true, true));
+print(scene_transfer_ready(4, 2, 2, true, false));

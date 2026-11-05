@@ -1,0 +1,4 @@
+// Chapter 11B: nearest rectangle point
+print(collision_box_nearest_x(7.0,0.0,4.0));
+print(collision_box_nearest_y(-2.0,0.0,4.0));
+print(collision_box_nearest_x(2.0,0.0,4.0));

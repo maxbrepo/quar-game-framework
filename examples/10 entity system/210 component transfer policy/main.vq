@@ -1,0 +1,4 @@
+// Chapter 10B: component transfer policy.
+print(entity_can_transfer_component(true,false,true,false));
+print(entity_can_transfer_component(true,true,true,false));
+print(entity_can_transfer_component(true,false,true,true));

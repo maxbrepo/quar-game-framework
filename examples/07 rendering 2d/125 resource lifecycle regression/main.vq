@@ -1,0 +1,5 @@
+print(resource_state_valid(true, false));
+print(resource_state_valid(true, true));
+print(resource_slot_reusable(true, 0));
+print(resource_slot_reusable(true, 1));
+print(resource_available(true, true, false));

@@ -1,0 +1,13 @@
+// One frame: 5 ms carried over, 55 ms elapsed, 20 ms fixed step.
+// Two steps allowed; the third remains queued for the next frame.
+print(qgf_frame_accumulated_ms(5, 55));
+print(qgf_frame_fixed_steps(5, 55, 20, 2));
+print(qgf_frame_remaining_ms(5, 55, 20, 2));
+print(qgf_frame_render_alpha(5, 55, 20, 2));
+// Next frame consumes the queued fixed step, preserving the remainder.
+print(qgf_frame_fixed_steps(20, 5, 20, 2));
+print(qgf_frame_remaining_ms(20, 5, 20, 2));
+print(qgf_frame_render_alpha(20, 5, 20, 2));
+// Negative delta is ignored; invalid fixed step schedules no work.
+print(qgf_frame_accumulated_ms(5, -1));
+print(qgf_frame_fixed_steps(5, 10, 0, 2));

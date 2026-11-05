@@ -1,0 +1,5 @@
+print(resource_metadata_consistent(true, true, false, 1));
+print(resource_metadata_consistent(false, true, false, 0));
+print(resource_metadata_consistent(true, true, true, 0));
+print(resource_metadata_consistent(true, false, false, 1));
+print(resource_metadata_consistent(true, false, false, 0));

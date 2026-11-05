@@ -1,0 +1,4 @@
+// Chapter 11A: collision box validation.
+print(collision_valid_box(2.0,3.0));
+print(collision_valid_box(-1.0,3.0));
+print(collision_valid_box(2.0,-1.0));

@@ -1,0 +1,9 @@
+int state = qgf_input_up();
+state = qgf_input_frame_down_event(state);
+print(state);
+state = qgf_input_advance_frame(state);
+print(state);
+state = qgf_input_frame_up_event(state);
+print(state);
+state = qgf_input_advance_frame(state);
+print(state);

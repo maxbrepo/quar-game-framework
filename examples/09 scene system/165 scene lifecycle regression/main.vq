@@ -1,0 +1,7 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_valid_id(4));
+print(scene_can_activate(true, false));
+print(scene_can_attach(8, 4, true));
+print(scene_can_update(true, false));
+print(scene_can_destroy(false, 0));
+print(scene_can_destroy(true, 0));

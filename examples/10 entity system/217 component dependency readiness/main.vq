@@ -1,0 +1,4 @@
+// Chapter 10C: component dependency readiness.
+print(entity_dependency_ready(true,true,true));
+print(entity_dependency_ready(true,false,true));
+print(entity_dependency_ready(false,true,true));

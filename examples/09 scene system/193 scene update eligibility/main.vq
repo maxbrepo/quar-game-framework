@@ -1,0 +1,4 @@
+// Chapter 9D: scene update eligibility.
+print(scene_effective_update(true, false, true, true, false));
+print(scene_effective_update(true, true, true, true, false));
+print(scene_effective_update(true, false, true, true, true));

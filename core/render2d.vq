@@ -1,0 +1,141 @@
+// Backend-independent rendering geometry and validation. No native drawing occurs.
+// A rectangle is drawable only when its dimensions are positive.
+bool render2d_valid_rect(double width, double height) {
+    if (width <= 0.0) { return false; }
+    return height > 0.0;
+}
+
+// Return true if two axis-aligned rectangles overlap with positive area.
+bool render2d_rect_overlap(double ax, double ay, double aw, double ah, double bx, double by, double bw, double bh) {
+    if (render2d_valid_rect(aw, ah) == false) { return false; }
+    if (render2d_valid_rect(bw, bh) == false) { return false; }
+    if (ax + aw <= bx) { return false; }
+    if (bx + bw <= ax) { return false; }
+    if (ay + ah <= by) { return false; }
+    if (by + bh <= ay) { return false; }
+    return true;
+}
+
+// Clamp a channel to the conventional 8-bit color range.
+int render2d_clamp_channel(int value) {
+    if (value < 0) { return 0; }
+    if (value > 255) { return 255; }
+    return value;
+}
+
+// Convert a world coordinate into a camera-relative screen coordinate.
+double render2d_screen_coordinate(double world, double camera, double scale) {
+    return (world - camera) * scale;
+}
+
+// Determine whether a sprite source rectangle fits inside its texture.
+bool render2d_valid_source(double x, double y, double width, double height, double texture_width, double texture_height) {
+    if (render2d_valid_rect(width, height) == false) { return false; }
+    if (render2d_valid_rect(texture_width, texture_height) == false) { return false; }
+    if (x < 0.0) { return false; }
+    if (y < 0.0) { return false; }
+    if (x + width > texture_width) { return false; }
+    if (y + height > texture_height) { return false; }
+    return true;
+}
+
+// A higher layer is drawn later when sorting in ascending order.
+bool render2d_layer_before(int first, int second) {
+    return first < second;
+}
+
+// Compute a sprite's destination coordinate after camera translation and zoom.
+double render2d_sprite_screen_x(double x, double camera_x, double zoom) {
+    return render2d_screen_coordinate(x, camera_x, zoom);
+}
+
+// Compute scaled sprite width; negative or zero scales are rejected.
+bool render2d_valid_scale(double scale_x, double scale_y) {
+    if (scale_x <= 0.0) { return false; }
+    return scale_y > 0.0;
+}
+
+// Return scaled sprite width, or zero for invalid dimensions or scale.
+double render2d_sprite_width(double width, double scale_x) {
+    if (width <= 0.0) { return 0.0; }
+    if (scale_x <= 0.0) { return 0.0; }
+    return width * scale_x;
+}
+
+// Check whether a sprite's destination is visible inside a viewport.
+bool render2d_sprite_visible(double x, double y, double width, double height, double viewport_width, double viewport_height) {
+    return render2d_rect_overlap(x, y, width, height, 0.0, 0.0, viewport_width, viewport_height);
+}
+
+// Return true when a sprite region is valid and its destination has positive area.
+bool render2d_valid_sprite(double sx, double sy, double sw, double sh, double tw, double th, double dw, double dh) {
+    if (render2d_valid_source(sx, sy, sw, sh, tw, th) == false) { return false; }
+    return render2d_valid_rect(dw, dh);
+}
+
+// Clamp sprite opacity to the conventional 8-bit alpha range.
+int render2d_alpha(int alpha) {
+    return render2d_clamp_channel(alpha);
+}
+
+// A valid draw request needs a drawable destination and a valid source region.
+bool render2d_draw_ready(double sx, double sy, double sw, double sh, double tw, double th, double dx, double dy, double dw, double dh) {
+    return render2d_valid_sprite(sx, sy, sw, sh, tw, th, dw, dh);
+}
+
+// Draw order is ascending by layer, then by stable submission index.
+bool render2d_draw_before(int layer_a, int order_a, int layer_b, int order_b) {
+    if (layer_a < layer_b) { return true; }
+    if (layer_a > layer_b) { return false; }
+    return order_a < order_b;
+}
+
+// Convert world-space Y into screen-space Y using the same camera convention as X.
+double render2d_sprite_screen_y(double y, double camera_y, double zoom) {
+    return render2d_screen_coordinate(y, camera_y, zoom);
+}
+
+// A sprite draw can be culled when its destination does not intersect the viewport.
+bool render2d_draw_visible(double dx, double dy, double dw, double dh, double vw, double vh) {
+    return render2d_sprite_visible(dx, dy, dw, dh, vw, vh);
+}
+
+// Clip the left edge of a destination rectangle against the viewport.
+double render2d_clip_left(double x) {
+    if (x < 0.0) { return 0.0; }
+    return x;
+}
+
+// Clip the right edge against the viewport width.
+double render2d_clip_right(double x, double width, double viewport_width) {
+    double right = x + width;
+    if (right > viewport_width) { return viewport_width; }
+    return right;
+}
+
+// Calculate visible horizontal span; return zero when fully clipped.
+double render2d_visible_width(double x, double width, double viewport_width) {
+    if (render2d_valid_rect(width, viewport_width) == false) { return 0.0; }
+    double left = render2d_clip_left(x);
+    double right = render2d_clip_right(x, width, viewport_width);
+    if (right <= left) { return 0.0; }
+    return right - left;
+}
+
+// Calculate visible vertical span using the same clipping convention.
+double render2d_visible_height(double y, double height, double viewport_height) {
+    return render2d_visible_width(y, height, viewport_height);
+}
+
+// Calculate the normalized source coordinate corresponding to a clipped destination edge.
+double render2d_source_offset(double clipped_pixels, double source_extent, double destination_extent) {
+    if (destination_extent <= 0.0) { return 0.0; }
+    if (clipped_pixels <= 0.0) { return 0.0; }
+    return clipped_pixels * source_extent / destination_extent;
+}
+
+// Return true when a drawable request has nonzero visible area.
+bool render2d_submit_visible(double dx, double dy, double dw, double dh, double vw, double vh) {
+    if (render2d_visible_width(dx, dw, vw) <= 0.0) { return false; }
+    return render2d_visible_height(dy, dh, vh) > 0.0;
+}

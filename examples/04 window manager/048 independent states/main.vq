@@ -1,0 +1,5 @@
+// Logical multi-window policy only; no native window is created.
+print(qgf_window_can_select(1, 1, 2, 2, 1));
+print(qgf_window_can_select(2, 1, 2, 2, 1));
+print(qgf_window_select(1, 2, 1, 2, 2, 1));
+print(qgf_window_can_select(2, 1, 3, 2, 2));

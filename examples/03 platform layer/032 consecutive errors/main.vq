@@ -1,0 +1,8 @@
+// Independent errors must remain deterministic.
+print(qgf_platform_error(qgf_platform_unknown(), qgf_backend_sdl3()));
+print(qgf_platform_error(qgf_platform_linux(), 99));
+print(qgf_platform_error(qgf_platform_linux(), qgf_backend_sdl3()));
+print(qgf_backend_prepare_error(qgf_backend_ready(), qgf_backend_sdl3()));
+print(qgf_backend_start_error(qgf_backend_created()));
+print(qgf_backend_stop_error(qgf_backend_stopped()));
+print(qgf_backend_reset_error(qgf_backend_ready()));

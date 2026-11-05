@@ -1,0 +1,4 @@
+// Chapter 10C: parent chain step validation.
+print(entity_parent_chain_step_valid(1,2,true));
+print(entity_parent_chain_step_valid(1,1,true));
+print(entity_parent_chain_step_valid(1,2,false));

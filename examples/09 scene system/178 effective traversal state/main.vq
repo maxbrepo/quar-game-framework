@@ -1,0 +1,4 @@
+// Chapter 9C: deterministic scene traversal policies.
+print(scene_should_visit(true, true, true));
+print(scene_should_visit(true, false, true));
+print(scene_should_visit(false, true, true));

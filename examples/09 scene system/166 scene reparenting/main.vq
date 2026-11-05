@@ -1,0 +1,4 @@
+// Chapter 9B: hierarchy policy verification.
+print(scene_can_reparent(4, 2, 3, true, false));
+print(scene_can_reparent(4, 2, 4, true, false));
+print(scene_can_reparent(4, 2, 3, true, true));

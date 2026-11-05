@@ -1,0 +1,10 @@
+int left = qgf_input_up();
+int right = qgf_input_up();
+left = qgf_input_frame_down_event(left);
+right = qgf_input_frame_down_event(right);
+print(qgf_input_frame_active(left));
+print(qgf_input_frame_active(right));
+left = qgf_input_advance_frame(left);
+right = qgf_input_frame_up_event(right);
+print(left);
+print(right);

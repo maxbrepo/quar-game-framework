@@ -1,0 +1,4 @@
+// Chapter 10B: component owner consistency.
+print(entity_component_owner_matches(4,4));
+print(entity_component_owner_matches(4,5));
+print(entity_component_owner_matches(0,0));

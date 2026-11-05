@@ -1,0 +1,8 @@
+// QGF Chapter 3C: 027 failed prepare recovery
+int state = qgf_backend_created();
+print(qgf_backend_prepare_failed(state, qgf_backend_sdl3()));
+print(qgf_backend_prepare(state, qgf_backend_sdl3()));
+print(qgf_backend_prepare_error(state, qgf_backend_none()));
+state = qgf_backend_prepare(state, qgf_backend_none());
+print(state);
+print(qgf_backend_prepare_failed(state, qgf_backend_none()));

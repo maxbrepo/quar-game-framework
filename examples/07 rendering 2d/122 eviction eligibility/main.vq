@@ -1,0 +1,3 @@
+print(resource_can_evict(true, 0));
+print(resource_can_evict(true, 1));
+print(resource_can_evict(false, 0));

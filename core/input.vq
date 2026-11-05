@@ -1,0 +1,112 @@
+// Logical input state policies. SDL3 event acquisition is not implemented here.
+int qgf_input_up() { return 0; }
+int qgf_input_down() { return 1; }
+int qgf_input_pressed() { return 2; }
+int qgf_input_released() { return 3; }
+bool qgf_input_state_valid(int state) { if (state < 0) { return false; }
+    return state <= 3; }
+bool qgf_input_is_down(int state) { if (state == 1) { return true; }
+    return state == 2; }
+bool qgf_input_just_pressed(int state) { return state == 2; }
+bool qgf_input_just_released(int state) { return state == 3; }
+int qgf_input_next_state(int state, bool down) {
+    if (qgf_input_state_valid(state) == false) { return 0; }
+    if (down) {
+        if (qgf_input_is_down(state)) { return 1; }
+        return 2;
+    }
+    if (qgf_input_is_down(state)) { return 3; }
+    return 0;
+}
+int qgf_input_advance_frame(int state) {
+    if (state == 2) { return 1; }
+    if (state == 3) { return 0; }
+    return state;
+}
+bool qgf_input_key_valid(int key) { if (key < 0) { return false; }
+    return key <= 511; }
+bool qgf_input_mouse_button_valid(int button) { if (button < 1) { return false; }
+    return button <= 5; }
+bool qgf_input_pointer_valid(int x, int y, int width, int height) {
+    if (width <= 0) { return false; }
+    if (height <= 0) { return false; }
+    if (x < 0) { return false; }
+    if (y < 0) { return false; }
+    if (x >= width) { return false; }
+    return y < height;
+}
+int qgf_input_clamp_axis(int value) {
+    if (value < -32768) { return -32768; }
+    if (value > 32767) { return 32767; }
+    return value;
+}
+bool qgf_input_native_available() { return false; }
+
+// Convert an input event into the next logical button state.
+// Returns UP for invalid input, otherwise the state after the event.
+int qgf_input_apply_button_event(int state, bool is_down_event) {
+    return qgf_input_next_state(state, is_down_event);
+}
+
+// Apply a second event in the same frame, preserving the final state.
+// Returns the logical state after both events.
+int qgf_input_apply_two_events(int state, bool first_down, bool second_down) {
+    int next = qgf_input_apply_button_event(state, first_down);
+    return qgf_input_apply_button_event(next, second_down);
+}
+
+// Check whether a pointer delta moves the pointer within a valid viewport.
+// Returns false for out-of-bounds or invalid viewport dimensions.
+bool qgf_input_pointer_move_valid(int x, int y, int dx, int dy, int width, int height) {
+    if (qgf_input_pointer_valid(x, y, width, height) == false) { return false; }
+    return qgf_input_pointer_valid(x + dx, y + dy, width, height);
+}
+
+// Convert a mouse button event to its next state, or UP for invalid buttons.
+int qgf_input_mouse_event(int button, int state, bool down) {
+    if (qgf_input_mouse_button_valid(button) == false) { return qgf_input_up(); }
+    return qgf_input_next_state(state, down);
+}
+
+// Indicate whether a state represents a transient press or release event.
+bool qgf_input_is_transition(int state) {
+    if (state == qgf_input_pressed()) { return true; }
+    return state == qgf_input_released();
+}
+
+
+// Preserve a press transition when repeated down events occur in one frame.
+int qgf_input_frame_down_event(int state) {
+    if (qgf_input_state_valid(state) == false) { return qgf_input_up(); }
+    if (state == qgf_input_pressed()) { return state; }
+    return qgf_input_next_state(state, true);
+}
+
+// Preserve a release transition when repeated up events occur in one frame.
+int qgf_input_frame_up_event(int state) {
+    if (qgf_input_state_valid(state) == false) { return qgf_input_up(); }
+    if (state == qgf_input_released()) { return state; }
+    return qgf_input_next_state(state, false);
+}
+
+// Report whether a valid state is currently pressed or held.
+bool qgf_input_frame_active(int state) {
+    if (qgf_input_state_valid(state) == false) { return false; }
+    return qgf_input_is_down(state);
+}
+
+// Return the pointer position constrained to the horizontal viewport range.
+int qgf_input_pointer_clamp_x(int x, int width) {
+    if (width <= 0) { return 0; }
+    if (x < 0) { return 0; }
+    if (x >= width) { return width - 1; }
+    return x;
+}
+
+// Return the pointer position constrained to the vertical viewport range.
+int qgf_input_pointer_clamp_y(int y, int height) {
+    if (height <= 0) { return 0; }
+    if (y < 0) { return 0; }
+    if (y >= height) { return height - 1; }
+    return y;
+}

@@ -1,0 +1,4 @@
+print(vector2_can_normalize(0.0, 0.0));
+print(vector2_normalize_x(0.0, 0.0));
+print(vector2_normalize_y(0.0, 0.0));
+print(vector2_length(0.0, 0.0));

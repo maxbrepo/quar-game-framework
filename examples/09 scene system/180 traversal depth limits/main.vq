@@ -1,0 +1,4 @@
+// Chapter 9C: deterministic scene traversal policies.
+print(scene_next_depth(2));
+print(scene_can_descend(2, 3));
+print(scene_can_descend(3, 3));

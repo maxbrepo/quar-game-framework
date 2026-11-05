@@ -1,0 +1,16 @@
+// A long frame creates a bounded backlog, drained on later zero-delta frames.
+int remainder = 0;
+int total_steps = 0;
+int frame = 0;
+while (frame < 4) {
+    int delta_ms = 0;
+    if (frame == 0) { delta_ms = 105; }
+    int due = qgf_frame_fixed_steps(remainder, delta_ms, 20, 2);
+    remainder = qgf_frame_remaining_ms(remainder, delta_ms, 20, 2);
+    total_steps = total_steps + due;
+    print(due);
+    print(remainder);
+    print(qgf_render_alpha(remainder, 20));
+    frame = frame + 1;
+}
+print(total_steps);

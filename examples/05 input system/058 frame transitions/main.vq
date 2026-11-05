@@ -1,0 +1,4 @@
+print(qgf_input_just_pressed(2));
+print(qgf_input_advance_frame(2));
+print(qgf_input_just_released(3));
+print(qgf_input_advance_frame(3));

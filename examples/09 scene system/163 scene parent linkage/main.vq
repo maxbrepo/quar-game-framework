@@ -1,0 +1,5 @@
+// Chapter 9A: scene metadata policy test.
+print(scene_parent_link_valid(2, 0, false));
+print(scene_parent_link_valid(2, 1, true));
+print(scene_parent_link_valid(2, 2, true));
+print(scene_parent_link_valid(0, 0, false));

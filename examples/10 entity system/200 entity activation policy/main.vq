@@ -1,0 +1,5 @@
+// Chapter 10A: entity activation policy.
+print(entity_can_activate(true, false, true));
+print(entity_can_activate(true, true, true));
+print(entity_can_deactivate(true, true));
+print(entity_can_deactivate(true, false));

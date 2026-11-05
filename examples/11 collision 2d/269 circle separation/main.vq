@@ -1,0 +1,4 @@
+// Chapter 11D: collision boundaries and regression.
+print(collision_circles_separated(0.0,0.0,1.0,3.0,0.0,1.0));
+print(collision_circles_separated(0.0,0.0,1.0,2.0,0.0,1.0));
+print(collision_circles_separated(0.0,0.0,-1.0,3.0,0.0,1.0));

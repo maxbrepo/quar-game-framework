@@ -1,0 +1,5 @@
+// Logical multi-window policy only; no native window is created.
+print(qgf_window_id_valid(1));
+print(qgf_window_id_valid(0));
+print(qgf_window_ids_distinct(1, 2));
+print(qgf_window_ids_distinct(1, 1));

@@ -1,0 +1,5 @@
+// Chapter 10B: entity parent and update order.
+print(entity_can_set_parent(2,1,true));
+print(entity_can_set_parent(2,2,true));
+print(entity_update_order_valid(1,2));
+print(entity_update_order_valid(2,1));

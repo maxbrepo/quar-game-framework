@@ -1,0 +1,4 @@
+print(resource_valid_capacity(8, 8));
+print(resource_has_free_slot(8, 7));
+print(resource_has_free_slot(8, 8));
+print(resource_valid_capacity(8, 9));
