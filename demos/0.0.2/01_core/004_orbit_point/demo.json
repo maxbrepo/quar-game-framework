@@ -1,0 +1,8 @@
+{
+  "version": "0.0.2",
+  "chapter": 1,
+  "id": "004",
+  "title": "Orbit Point",
+  "backend": "SDL3",
+  "batch_frames": 60
+}

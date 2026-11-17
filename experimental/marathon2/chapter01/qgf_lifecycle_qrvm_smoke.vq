@@ -1,0 +1,11 @@
+// Pure lifecycle smoke checks; no SDL3 calls.
+print(qgf_lifecycle_contract_action(0, true));
+print(qgf_lifecycle_contract_apply(0, 1, true));
+print(qgf_lifecycle_contract_action(1, false));
+print(qgf_lifecycle_contract_apply(1, 2, true));
+print(qgf_lifecycle_contract_apply(0, 1, false));
+print(qgf_lifecycle_contract_action(2, false));
+print(qgf_lifecycle_contract_apply(2, 3, true));
+print(qgf_lifecycle_action_allowed(0, 2));
+print(qgf_lifecycle_contract_verify(0, 1, 1, true));
+print(qgf_lifecycle_contract_verify(0, 2, 0, true));

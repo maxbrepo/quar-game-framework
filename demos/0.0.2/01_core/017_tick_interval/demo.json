@@ -1,0 +1,8 @@
+{
+  "version": "0.0.2",
+  "chapter": 1,
+  "id": "017",
+  "title": "Tick Interval",
+  "backend": "SDL3",
+  "batch_frames": 60
+}

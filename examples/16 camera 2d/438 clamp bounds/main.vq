@@ -1,0 +1,2 @@
+// Chapter 16A: clamp bounds.
+print(camera_clamp(120.0,0.0,100.0));

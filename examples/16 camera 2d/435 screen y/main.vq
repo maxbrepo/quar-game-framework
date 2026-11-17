@@ -1,0 +1,2 @@
+// Chapter 16A: screen y.
+print(camera_screen_y(15.0,5.0,600.0,2.0));

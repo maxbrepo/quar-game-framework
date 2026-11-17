@@ -1,0 +1,2 @@
+// Chapter 13C: walk clip.
+print(animation_clip_sheet_frame(0.5,2,4,0.25,true));

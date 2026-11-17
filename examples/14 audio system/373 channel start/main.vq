@@ -1,0 +1,2 @@
+// Chapter 14C: logical channel test.
+print(audio_channel_can_start(true,true,1,3,false,0,5));

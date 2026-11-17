@@ -1,0 +1,2 @@
+// Chapter 14A: pan clamp.
+print(audio_pan_clamp(-2.0));

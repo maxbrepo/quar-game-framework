@@ -1,0 +1,8 @@
+{
+  "version": "0.0.2",
+  "chapter": 1,
+  "id": "009",
+  "title": "SDL3 Full Restart",
+  "backend": "SDL3",
+  "batch_frames": 60
+}

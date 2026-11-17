@@ -1,0 +1,4 @@
+// Chapter 13B: animation timing regression.
+print(animation_frame_at_time(0.75,3,0.25,true));
+print(animation_frame_at_time(0.75,3,0.25,false));
+print(animation_time_advance(0.1,-1.0,true,3,0.2,true));

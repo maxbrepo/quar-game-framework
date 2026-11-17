@@ -1,0 +1,8 @@
+{
+  "version": "0.0.2",
+  "chapter": 2,
+  "id": "006",
+  "title": "Live Frame Time",
+  "backend": "SDL3",
+  "batch_frames": 90
+}

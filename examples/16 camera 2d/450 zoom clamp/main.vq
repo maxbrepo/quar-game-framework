@@ -1,0 +1,2 @@
+// Chapter 16C camera test.
+print(camera_zoom_clamp(5.0,1.0,3.0));

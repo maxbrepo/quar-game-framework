@@ -1,0 +1,2 @@
+// Chapter 16C camera test.
+print(camera_visible_span(800.0,2.0));

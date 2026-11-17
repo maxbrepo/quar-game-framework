@@ -1,0 +1,5 @@
+// Chapter 12B: physics collision response.
+print(physics_box_hits_static(0.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0));
+print(physics_stop_at_right_wall(0.0,1.0,3.0,1.0,3.0));
+print(physics_bounce_velocity(8.0,2.0));
+print(physics_box_separate_x(0.0,0.0,2.0,2.0,4.0,0.0,2.0,2.0));

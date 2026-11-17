@@ -1,0 +1,2 @@
+// Chapter 18B: asset packaging metadata test.
+print(package_asset_missing_required(1,true,false)); print(package_asset_missing_required(1,false,false));

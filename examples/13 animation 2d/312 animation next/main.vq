@@ -1,0 +1,2 @@
+// Chapter 13A: animation core regression.
+print(animation_frame_next(1,4,true));

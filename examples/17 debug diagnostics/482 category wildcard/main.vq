@@ -1,0 +1,2 @@
+// QGF Chapter 17B logging policy example.
+print(debug_category_matches(5,-1));

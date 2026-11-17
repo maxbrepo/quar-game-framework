@@ -1,0 +1,2 @@
+// Chapter 16A: zoom valid.
+print(camera_zoom_valid(2.0));

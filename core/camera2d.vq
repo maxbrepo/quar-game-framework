@@ -1,0 +1,133 @@
+// Chapter 16A: backend-independent 2D camera calculations.
+// Camera position is the world coordinate at the viewport center.
+bool camera_viewport_valid(double width,double height) {
+    if (width <= 0.0) { return false; }
+    return height > 0.0;
+}
+bool camera_zoom_valid(double zoom) { return zoom > 0.0; }
+double camera_screen_x(double world_x,double camera_x,double viewport_width,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return 0.0; }
+    return (world_x-camera_x)*zoom+viewport_width/2.0;
+}
+double camera_screen_y(double world_y,double camera_y,double viewport_height,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return 0.0; }
+    return (world_y-camera_y)*zoom+viewport_height/2.0;
+}
+double camera_world_x(double screen_x,double camera_x,double viewport_width,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return camera_x; }
+    return (screen_x-viewport_width/2.0)/zoom+camera_x;
+}
+double camera_world_y(double screen_y,double camera_y,double viewport_height,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return camera_y; }
+    return (screen_y-viewport_height/2.0)/zoom+camera_y;
+}
+double camera_follow(double target,double offset) { return target+offset; }
+double camera_clamp(double position,double minimum,double maximum) {
+    if (minimum > maximum) { return position; }
+    if (position < minimum) { return minimum; }
+    if (position > maximum) { return maximum; }
+    return position;
+}
+double camera_left(double camera_x,double viewport_width,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return camera_x; }
+    return camera_x-viewport_width/(2.0*zoom);
+}
+double camera_right(double camera_x,double viewport_width,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return camera_x; }
+    return camera_x+viewport_width/(2.0*zoom);
+}
+
+// Chapter 16B: movement, smooth following, and bounded scrolling.
+// These scalar helpers do not own a camera or depend on a renderer.
+double camera_move(double position,double velocity,double dt) {
+    if (dt <= 0.0) { return position; }
+    return position+velocity*dt;
+}
+double camera_follow_smooth(double camera_position,double target_position,double factor) {
+    if (factor <= 0.0) { return camera_position; }
+    if (factor >= 1.0) { return target_position; }
+    return camera_position+(target_position-camera_position)*factor;
+}
+double camera_follow_step(double camera_position,double target_position,double speed,double dt) {
+    if (speed <= 0.0) { return camera_position; }
+    if (dt <= 0.0) { return camera_position; }
+    double maximum_step=speed*dt;
+    double delta=target_position-camera_position;
+    if (delta > maximum_step) { return camera_position+maximum_step; }
+    if (delta < 0.0-maximum_step) { return camera_position-maximum_step; }
+    return target_position;
+}
+// Constrain camera center so its entire viewport remains inside world bounds.
+// When the viewport exceeds the world span, center on the world instead.
+double camera_bound_center(double center,double world_min,double world_max,double viewport_size,double zoom) {
+    if (world_max < world_min) { return center; }
+    if (viewport_size <= 0.0) { return center; }
+    if (camera_zoom_valid(zoom) == false) { return center; }
+    double half_view=viewport_size/(2.0*zoom);
+    if (half_view*2.0 >= world_max-world_min) { return (world_min+world_max)/2.0; }
+    return camera_clamp(center,world_min+half_view,world_max-half_view);
+}
+// Move camera by a displacement expressed in screen pixels.
+double camera_pan_screen(double camera_position,double pixel_delta,double zoom) {
+    if (camera_zoom_valid(zoom) == false) { return camera_position; }
+    return camera_position+pixel_delta/zoom;
+}
+
+// Chapter 16C: zoom and screen/world geometry helpers.
+// Clamp a requested zoom to a valid interval, keeping the current zoom on invalid bounds.
+double camera_zoom_clamp(double zoom,double minimum,double maximum) {
+    if (minimum <= 0.0) { return zoom; }
+    if (maximum < minimum) { return zoom; }
+    return camera_clamp(zoom,minimum,maximum);
+}
+// Apply a zoom multiplier without accepting non-positive values.
+double camera_zoom_scale(double zoom,double factor) {
+    if (camera_zoom_valid(zoom) == false) { return zoom; }
+    if (factor <= 0.0) { return zoom; }
+    return zoom*factor;
+}
+// Move toward a requested zoom without overshooting.
+double camera_zoom_step(double zoom,double target,double speed,double dt) {
+    if (camera_zoom_valid(zoom) == false) { return zoom; }
+    if (camera_zoom_valid(target) == false) { return zoom; }
+    return camera_follow_step(zoom,target,speed,dt);
+}
+// World-space width or height visible at the current zoom.
+double camera_visible_span(double viewport_size,double zoom) {
+    if (viewport_size <= 0.0) { return 0.0; }
+    if (camera_zoom_valid(zoom) == false) { return 0.0; }
+    return viewport_size/zoom;
+}
+// Keep a world point at the same screen coordinate when changing zoom.
+double camera_anchor_center(double center,double world_anchor,double old_zoom,double new_zoom) {
+    if (camera_zoom_valid(old_zoom) == false) { return center; }
+    if (camera_zoom_valid(new_zoom) == false) { return center; }
+    return world_anchor-(world_anchor-center)*old_zoom/new_zoom;
+}
+// Return true if a world-space point falls within the camera viewport.
+bool camera_point_visible(double world_position,double center,double viewport_size,double zoom) {
+    if (viewport_size <= 0.0) { return false; }
+    if (camera_zoom_valid(zoom) == false) { return false; }
+    if (world_position < camera_left(center,viewport_size,zoom)) { return false; }
+    return world_position <= camera_right(center,viewport_size,zoom);
+}
+// A world-space object's right edge is visible if its interval intersects the viewport.
+bool camera_interval_visible(double object_min,double object_max,double center,double viewport_size,double zoom) {
+    if (object_max < object_min) { return false; }
+    if (viewport_size <= 0.0) { return false; }
+    if (camera_zoom_valid(zoom) == false) { return false; }
+    if (object_max < camera_left(center,viewport_size,zoom)) { return false; }
+    return object_min <= camera_right(center,viewport_size,zoom);
+}
+
+// Chapter 16D: composed camera updates for the elementary camera pipeline.
+// Follow a target by a bounded step and then constrain the viewport to the world.
+double camera_follow_bounded(double center,double target,double speed,double dt,double world_min,double world_max,double viewport_size,double zoom) {
+    double next_center=camera_follow_step(center,target,speed,dt);
+    return camera_bound_center(next_center,world_min,world_max,viewport_size,zoom);
+}
+// Move by a world-space velocity, then constrain the viewport to the world.
+double camera_move_bounded(double center,double velocity,double dt,double world_min,double world_max,double viewport_size,double zoom) {
+    double next_center=camera_move(center,velocity,dt);
+    return camera_bound_center(next_center,world_min,world_max,viewport_size,zoom);
+}

@@ -1,0 +1,2 @@
+// Chapter 16A: viewport invalid.
+print(camera_viewport_valid(0.0,600.0));

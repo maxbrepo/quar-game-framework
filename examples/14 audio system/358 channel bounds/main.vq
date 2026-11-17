@@ -1,0 +1,2 @@
+// Chapter 14A: channel bounds.
+print(audio_channel_valid(3,4));

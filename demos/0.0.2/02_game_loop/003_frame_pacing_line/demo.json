@@ -1,0 +1,8 @@
+{
+  "version": "0.0.2",
+  "chapter": 2,
+  "id": "003",
+  "title": "Frame Pacing Line",
+  "backend": "SDL3",
+  "batch_frames": 60
+}

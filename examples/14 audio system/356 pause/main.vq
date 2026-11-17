@@ -1,0 +1,2 @@
+// Chapter 14A: pause.
+print(audio_pause_state(true));

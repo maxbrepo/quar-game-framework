@@ -1,0 +1,2 @@
+// Chapter 16D: combined camera behavior.
+print(camera_move_bounded(50.0,100.0,0.0,0.0,100.0,40.0,1.0));

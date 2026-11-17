@@ -1,0 +1,2 @@
+// QGF Chapter 17C profiling example.
+print(debug_profile_total(4.0,2.5));

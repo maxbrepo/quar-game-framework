@@ -1,0 +1,2 @@
+// Chapter 18C: distribution configuration metadata test.
+print(package_release_version_valid(0,0,0)); print(package_release_version_valid(0,0,1)); print(package_release_version_valid(1,0,0));

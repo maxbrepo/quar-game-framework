@@ -1,0 +1,2 @@
+// QGF Chapter 17C profiling example.
+print(debug_profile_mean(12.0,3));

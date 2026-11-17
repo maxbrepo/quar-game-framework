@@ -1,0 +1,2 @@
+// Chapter 13D: 340 clip timing frame.
+print(animation_clip_frame_after_time(0.0,0.5,true,4,4,0.25,true));

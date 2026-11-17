@@ -1,0 +1,2 @@
+// Chapter 13A: animation core regression.
+print(animation_total_duration(4,0.5));

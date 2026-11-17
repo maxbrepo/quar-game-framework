@@ -1,0 +1,154 @@
+// Chapter 18A: game package metadata and asset index policies.
+// These helpers validate caller-supplied metadata; they do not access the file system.
+bool package_version_valid(int major,int minor,int patch) {
+    if (major < 0) { return false; }
+    if (minor < 0) { return false; }
+    return patch >= 0;
+}
+bool package_dimensions_valid(int width,int height) {
+    if (width <= 0) { return false; }
+    return height > 0;
+}
+bool package_asset_id_valid(int asset_id) { return asset_id >= 0; }
+bool package_asset_count_valid(int count) { return count >= 0; }
+bool package_asset_index_valid(int index,int count) {
+    if (package_asset_count_valid(count) == false) { return false; }
+    if (index < 0) { return false; }
+    return index < count;
+}
+bool package_asset_required(bool present,bool optional) {
+    if (optional) { return true; }
+    return present;
+}
+bool package_entry_valid(int entry_id,int count) {
+    return package_asset_index_valid(entry_id,count);
+}
+int package_missing_count(int missing,bool required,bool present) {
+    if (missing < 0) { return 0; }
+    if (required) { if (present == false) { return missing+1; } }
+    return missing;
+}
+bool package_ready(bool metadata_valid,int missing_required) {
+    if (metadata_valid == false) { return false; }
+    return missing_required == 0;
+}
+bool package_target_supported(int target) {
+    if (target < 0) { return false; }
+    return target <= 2;
+}
+
+// Chapter 18B: asset manifest policy and directory classification.
+// All inputs are metadata supplied by the caller; no disk access occurs.
+bool package_asset_kind_valid(int kind) { if (kind < 0) { return false; }
+    return kind <= 3; }
+bool package_asset_kind_image(int kind) { return kind == 0; }
+bool package_asset_kind_audio(int kind) { return kind == 1; }
+bool package_asset_kind_data(int kind) { return kind == 2; }
+bool package_asset_kind_other(int kind) { return kind == 3; }
+bool package_asset_path_valid(int path_id,int directory_id) {
+    if (path_id < 0) { return false; }
+    return directory_id >= 0;
+}
+bool package_asset_duplicate(int first_id,int second_id) {
+    if (package_asset_id_valid(first_id) == false) { return false; }
+    return first_id == second_id;
+}
+bool package_directory_valid(int directory_id,int directory_count) {
+    return package_asset_index_valid(directory_id,directory_count);
+}
+bool package_asset_record_valid(int asset_id,int kind,int directory_id,int directory_count) {
+    if (package_asset_id_valid(asset_id) == false) { return false; }
+    if (package_asset_kind_valid(kind) == false) { return false; }
+    return package_directory_valid(directory_id,directory_count);
+}
+int package_asset_missing_required(int missing,bool required,bool present) {
+    return package_missing_count(missing,required,present);
+}
+bool package_assets_ready(int invalid_count,int missing_required,int duplicate_count) {
+    if (invalid_count != 0) { return false; }
+    if (missing_required != 0) { return false; }
+    return duplicate_count == 0;
+}
+
+// Chapter 18C: distribution configuration policies.
+// Target identifiers: 0=desktop, 1=web, 2=embedded (metadata only).
+// Distribution modes: 0=development, 1=release.
+bool package_distribution_mode_valid(int mode) {
+    if (mode < 0) { return false; }
+    return mode <= 1;
+}
+bool package_release_version_valid(int major,int minor,int patch) {
+    if (package_version_valid(major,minor,patch) == false) { return false; }
+    if (major == 0) { if (minor == 0) { return patch > 0; } }
+    return true;
+}
+bool package_target_mode_valid(int target,int mode) {
+    if (package_target_supported(target) == false) { return false; }
+    return package_distribution_mode_valid(mode);
+}
+bool package_build_id_valid(int build_id) { return build_id > 0; }
+bool package_entry_asset_valid(int entry_id,int asset_count,bool entry_present) {
+    if (entry_present == false) { return false; }
+    return package_entry_valid(entry_id,asset_count);
+}
+bool package_release_assets_valid(int invalid_count,int missing_required,int duplicate_count) {
+    return package_assets_ready(invalid_count,missing_required,duplicate_count);
+}
+bool package_release_config_valid(int target,int mode,int build_id,bool entry_valid) {
+    if (package_target_mode_valid(target,mode) == false) { return false; }
+    if (package_build_id_valid(build_id) == false) { return false; }
+    return entry_valid;
+}
+bool package_release_ready(bool config_valid,bool assets_valid,bool metadata_valid) {
+    if (config_valid == false) { return false; }
+    if (assets_valid == false) { return false; }
+    return metadata_valid;
+}
+int package_release_issue_count(int issues,bool check_valid) {
+    if (issues < 0) { return 0; }
+    if (check_valid == false) { return issues+1; }
+    return issues;
+}
+bool package_distribution_ready(int target,int mode,int build_id,int entry_id,int asset_count,bool entry_present,int invalid_assets,int missing_required,int duplicates) {
+    bool entry_ok=package_entry_asset_valid(entry_id,asset_count,entry_present);
+    bool config_ok=package_release_config_valid(target,mode,build_id,entry_ok);
+    bool assets_ok=package_release_assets_valid(invalid_assets,missing_required,duplicates);
+    return package_release_ready(config_ok,assets_ok,true);
+}
+
+// Chapter 18D: integration checks for package metadata only.
+// No filesystem operations or executable packaging are performed.
+bool package_manifest_valid(int asset_count,int directory_count,int entry_id) {
+    if (asset_count <= 0) { return false; }
+    if (directory_count <= 0) { return false; }
+    return package_entry_valid(entry_id,asset_count);
+}
+bool package_asset_manifest_ready(bool manifest_valid,int invalid_assets,int missing_required,int duplicates) {
+    if (manifest_valid == false) { return false; }
+    return package_assets_ready(invalid_assets,missing_required,duplicates);
+}
+bool package_release_candidate_valid(int major,int minor,int patch,int target,int mode,int build_id) {
+    if (package_release_version_valid(major,minor,patch) == false) { return false; }
+    if (package_target_mode_valid(target,mode) == false) { return false; }
+    return package_build_id_valid(build_id);
+}
+bool package_entry_and_assets_ready(int entry_id,int asset_count,bool present,int invalid_count,int missing_count,int duplicate_count) {
+    if (package_entry_asset_valid(entry_id,asset_count,present) == false) { return false; }
+    return package_release_assets_valid(invalid_count,missing_count,duplicate_count);
+}
+int package_manifest_issue_count(int issues,bool manifest_valid,bool assets_valid) {
+    int result=package_release_issue_count(issues,manifest_valid);
+    return package_release_issue_count(result,assets_valid);
+}
+bool package_target_release_ready(int target,int mode,int build_id,bool manifest_valid,bool assets_valid) {
+    if (package_release_config_valid(target,mode,build_id,manifest_valid) == false) { return false; }
+    return assets_valid;
+}
+bool package_release_metadata_ready(int major,int minor,int patch,int target,int mode,int build_id,bool manifest_valid,bool assets_valid) {
+    if (package_release_candidate_valid(major,minor,patch,target,mode,build_id) == false) { return false; }
+    return package_target_release_ready(target,mode,build_id,manifest_valid,assets_valid);
+}
+bool package_distribution_check(int major,int minor,int patch,int target,int mode,int build_id,int entry_id,int asset_count,bool entry_present,int invalid_assets,int missing_required,int duplicates) {
+    bool assets_ok=package_entry_and_assets_ready(entry_id,asset_count,entry_present,invalid_assets,missing_required,duplicates);
+    return package_release_metadata_ready(major,minor,patch,target,mode,build_id,assets_ok,assets_ok);
+}

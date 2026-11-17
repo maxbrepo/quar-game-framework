@@ -1,0 +1,2 @@
+// Chapter 16A: screen center.
+print(camera_screen_x(10.0,10.0,800.0,1.0));

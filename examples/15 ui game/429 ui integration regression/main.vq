@@ -1,0 +1,4 @@
+// Chapter 15D: UI integration regression.
+print(ui_interactive(true,true,true));
+print(ui_menu_safe_move(0,3,false,true));
+print(ui_hud_safe_width(80.0,50.0,100.0,true));

@@ -1,0 +1,40 @@
+// Experimental lifecycle transition policy. Pure functions, no native calls.
+// State: 0 stopped, 1 active, 2 error. Results are explicit and deterministic.
+// The caller must invoke native initialization and shutdown via the SDK FFI separately.
+bool qgf_lifecycle_state_valid(int state) {
+    if (state < 0) { return false; }
+    return state <= 2;
+}
+
+bool qgf_lifecycle_init_requested(int state) {
+    return state == 0;
+}
+
+int qgf_lifecycle_init_result(int state, bool native_success) {
+    if (state != 0) { return state; }
+    if (native_success) { return 1; }
+    return 2;
+}
+
+bool qgf_lifecycle_quit_requested(int state) {
+    return state == 1;
+}
+
+int qgf_lifecycle_quit_result(int state) {
+    if (state == 1) { return 0; }
+    return state;
+}
+
+int qgf_lifecycle_reset_result(int state) {
+    if (state == 2) { return 0; }
+    return state;
+}
+
+bool qgf_lifecycle_native_result_consistent(int before, int after, bool init_attempted, bool native_success) {
+    if (qgf_lifecycle_state_valid(before) == false) { return false; }
+    if (qgf_lifecycle_state_valid(after) == false) { return false; }
+    if (init_attempted == false) { return after == before; }
+    if (before != 0) { return after == before; }
+    if (native_success) { return after == 1; }
+    return after == 2;
+}

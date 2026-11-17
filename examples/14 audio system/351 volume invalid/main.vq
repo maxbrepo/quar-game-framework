@@ -1,0 +1,2 @@
+// Chapter 14A: volume invalid.
+print(audio_volume_valid(1.5));

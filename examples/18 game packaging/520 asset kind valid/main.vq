@@ -1,0 +1,2 @@
+// Chapter 18B: asset packaging metadata test.
+print(package_asset_kind_valid(0)); print(package_asset_kind_valid(3));

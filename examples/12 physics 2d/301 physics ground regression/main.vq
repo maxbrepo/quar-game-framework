@@ -1,0 +1,4 @@
+// Chapter 12C: fixed-step and ground response.
+print(physics_two_step_position(0.0,0.0,10.0,0.5));
+print(physics_ground_position(9.0,2.0,10.0));
+print(physics_ground_velocity(8.0,2.0,-3.0,10.0));

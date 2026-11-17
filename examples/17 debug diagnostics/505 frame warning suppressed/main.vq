@@ -1,0 +1,2 @@
+// Chapter 17D integration test.
+print(debug_frame_warning(0.01,0.02,2,1,true));

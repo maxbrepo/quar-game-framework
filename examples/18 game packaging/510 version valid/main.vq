@@ -1,0 +1,2 @@
+// Chapter 18A: packaging policy test.
+print(package_version_valid(0,0,1));

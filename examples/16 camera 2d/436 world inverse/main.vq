@@ -1,0 +1,2 @@
+// Chapter 16A: world inverse.
+print(camera_world_x(420.0,10.0,800.0,2.0));

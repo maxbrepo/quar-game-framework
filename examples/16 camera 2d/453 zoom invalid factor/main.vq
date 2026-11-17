@@ -1,0 +1,2 @@
+// Chapter 16C camera test.
+print(camera_zoom_scale(2.0,0.0));

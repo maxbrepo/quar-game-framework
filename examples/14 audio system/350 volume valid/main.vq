@@ -1,0 +1,2 @@
+// Chapter 14A: volume valid.
+print(audio_volume_valid(0.5));

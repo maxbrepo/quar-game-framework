@@ -1,0 +1,2 @@
+// Chapter 14D: combined audio control test.
+print(audio_channel_output_gain(1.0,1.0,1.0,true,true,false));

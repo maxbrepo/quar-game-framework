@@ -1,0 +1,4 @@
+// Chapter 16B camera test.
+print(camera_pan_screen(10.0,40.0,2.0));
+print(camera_bound_center(camera_move(20.0,50.0,1.0),0.0,100.0,40.0,1.0));
+print(camera_follow_smooth(0.0,100.0,0.5));

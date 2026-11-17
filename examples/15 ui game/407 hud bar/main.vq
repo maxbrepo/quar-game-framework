@@ -1,0 +1,2 @@
+// Chapter 15B: HUD and menu logic.
+print(ui_hud_bar_width(200.0,25.0,100.0));

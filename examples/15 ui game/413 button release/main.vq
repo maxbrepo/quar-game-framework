@@ -1,0 +1,2 @@
+// Chapter 15C: UI interaction helpers.
+print(ui_button_released_inside(true,true,false,true,15.0,15.0,10.0,10.0,20.0,20.0));

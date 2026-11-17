@@ -1,0 +1,2 @@
+// Chapter 14A: volume clamp.
+print(audio_volume_clamp(1.5));

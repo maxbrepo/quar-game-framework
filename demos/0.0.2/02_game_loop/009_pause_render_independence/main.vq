@@ -1,0 +1,100 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" opaque SDL_CreateWindow(cstring title, i32 width, i32 height, u64 flags);
+extern "C" opaque SDL_CreateRenderer(opaque window, cstring name);
+extern "C" bool SDL_SetRenderDrawColorFloat(opaque renderer, f32 red, f32 green, f32 blue, f32 alpha);
+extern "C" bool SDL_RenderClear(opaque renderer);
+extern "C" bool SDL_RenderLine(opaque renderer, f32 x1, f32 y1, f32 x2, f32 y2);
+extern "C" void SDL_RenderPresent(opaque renderer);
+extern "C" void SDL_PumpEvents();
+extern "C" bool SDL_HasEvent(u32 event_type);
+extern "C" void SDL_Delay(u32 milliseconds);
+extern "C" void SDL_DestroyRenderer(opaque renderer);
+extern "C" void SDL_DestroyWindow(opaque window);
+extern "C" void SDL_Quit();
+
+bool batch_mode = false;
+u32 video_flags = 32;
+u64 window_flags = 0;
+u32 quit_event = 256;
+u32 key_event = 768;
+u32 delay_ms = 16;
+u64 frame_count = 0;
+u64 one_frame = 1;
+u64 max_frames = 60;
+u64 pause_at = 15;
+u64 update_count = 0;
+u64 render_count = 0;
+u64 expected_updates = 45;
+u64 expected_renders = 60;
+u64 resume_at = 30;
+i32 running_state = 0;
+i32 paused_state = 1;
+i32 stopping_state = 2;
+i32 terminated_state = 3;
+i32 state = running_state;
+f32 one = 1.0;
+f32 bg_r = 0.08;
+f32 bg_g = 0.10;
+f32 bg_b = 0.16;
+f32 active_r = 0.25;
+f32 active_g = 0.85;
+f32 active_b = 0.35;
+f32 paused_r = 0.85;
+f32 paused_g = 0.50;
+f32 paused_b = 0.20;
+f32 position_x = 90.0;
+f32 step_x = 2.0;
+f32 left = 90.0;
+f32 right = 550.0;
+f32 top = 120.0;
+f32 bottom = 360.0;
+bool init_result = SDL_Init(video_flags);
+window = SDL_CreateWindow("QGF - Pause and Render", 640, 480, window_flags);
+renderer = SDL_CreateRenderer(window, "software");
+bool running = true;
+while (running) {
+    SDL_PumpEvents();
+    if (SDL_HasEvent(quit_event)) { state = stopping_state; }
+    if (SDL_HasEvent(key_event)) { state = stopping_state; }
+    if (state != stopping_state) {
+        if (frame_count == pause_at) { state = paused_state; }
+        if (frame_count == resume_at) { state = running_state; }
+    }
+    if (state == running_state) {
+        position_x = position_x + step_x;
+        update_count = update_count + one_frame;
+    }
+    if (state != stopping_state) {
+        SDL_SetRenderDrawColorFloat(renderer, bg_r, bg_g, bg_b, one);
+        SDL_RenderClear(renderer);
+        if (state == paused_state) {
+            SDL_SetRenderDrawColorFloat(renderer, paused_r, paused_g, paused_b, one);
+        }
+        if (state == running_state) {
+            SDL_SetRenderDrawColorFloat(renderer, active_r, active_g, active_b, one);
+        }
+        SDL_RenderLine(renderer, left + position_x, top, right + position_x, bottom);
+        SDL_RenderPresent(renderer);
+        render_count = render_count + one_frame;
+        SDL_Delay(delay_ms);
+        frame_count = frame_count + one_frame;
+    }
+    if (batch_mode) { if (frame_count >= max_frames) { state = stopping_state; } }
+    if (state == stopping_state) { running = false; }
+}
+SDL_DestroyRenderer(renderer);
+SDL_DestroyWindow(window);
+SDL_Quit();
+state = terminated_state;
+if (state == terminated_state) {
+    print("Simulation updates:");
+    print(update_count);
+    print("Rendered frames:");
+    print(render_count);
+    if (batch_mode) {
+        if (update_count == expected_updates) {
+            if (render_count == expected_renders) { print("QGF_DEMO_OK"); }
+        }
+    }
+    if (batch_mode == false) { print("QGF_DEMO_OK"); }
+}

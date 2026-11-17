@@ -13,10 +13,19 @@ class DemoBatchTests(unittest.TestCase):
         self.assertIn('d001_hello_pixels', demos)
         self.assertEqual(main.demo_chapter(demos['d001_hello_pixels']), 1)
 
+    def test_second_demo_discovery(self):
+        demos = main.discover_demos()
+        self.assertIn('d002_moving_line', demos)
+        self.assertEqual(main.demo_chapter(demos['d002_moving_line']), 1)
+        source = demos['d002_moving_line'].read_text(encoding='utf-8')
+        self.assertEqual(source.count('bool batch_mode = false;'), 1)
+        self.assertIn('SDL_RenderLine', source)
+        self.assertIn('QGF_DEMO_OK', source)
+
     def test_batch_reports_success(self):
         with patch.object(main, 'run_demo', return_value=True) as run:
             self.assertTrue(main.run_demo_batch(Path('/tmp'), chapter=1))
-            run.assert_called_once()
+            self.assertEqual(run.call_count, len([key for key in main.discover_demos() if "/" in key]))
 
     def test_missing_sdl3_is_skip(self):
         with patch.object(main, 'find_sdl3_library', return_value=None):

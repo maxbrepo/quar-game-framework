@@ -1,0 +1,21 @@
+// Marathon 2: one canonical decision policy for the native lifecycle.
+// The caller performs native calls through the Visual Quar SDK, never here.
+// 0 idle, 1 initialize, 2 shutdown, 3 reset error.
+// State: 0 stopped, 1 active, 2 error.
+int qgf_lifecycle_contract_action(int state, bool want_running) {
+    int action = qgf_lifecycle_next_action(state, want_running);
+    if (qgf_lifecycle_action_allowed(state, action) == false) { return 0; }
+    return action;
+}
+
+// Return the state after a previously authorized action and native result.
+int qgf_lifecycle_contract_apply(int state, int action, bool native_success) {
+    return qgf_lifecycle_guarded_result(state, action, native_success);
+}
+
+// The caller must not report success unless the action was authorized and
+// the resulting state matches the expected transition.
+bool qgf_lifecycle_contract_verify(int before, int action, int after, bool native_success) {
+    if (qgf_lifecycle_action_allowed(before, action) == false) { return false; }
+    return qgf_lifecycle_sequence_consistent(before, action, after, native_success);
+}

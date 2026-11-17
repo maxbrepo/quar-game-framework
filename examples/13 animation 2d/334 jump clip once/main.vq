@@ -1,0 +1,2 @@
+// Chapter 13C: jump clip once.
+print(animation_clip_sheet_frame(3.0,6,3,0.25,false));

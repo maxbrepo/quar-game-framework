@@ -1,0 +1,2 @@
+// Chapter 13D: 344 clip switch time.
+print(animation_clip_update_time(0,1,0.75,0.25,true,4,0.25,true));

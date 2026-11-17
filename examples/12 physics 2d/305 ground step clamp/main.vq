@@ -1,0 +1,2 @@
+// Chapter 12D: physics consolidation.
+print(physics_step_ground_position(8.0,2.0,2.0,4.0,0.5,10.0));

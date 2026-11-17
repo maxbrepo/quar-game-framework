@@ -1,0 +1,4 @@
+// Chapter 14C: logical channel test.
+print(audio_priority_clamp(-5));
+print(audio_priority_clamp(125));
+print(audio_channel_can_start(false,true,0,2,false,5,0));

@@ -1,0 +1,2 @@
+// Chapter 18C: distribution configuration metadata test.
+print(package_distribution_mode_valid(0)); print(package_distribution_mode_valid(1)); print(package_distribution_mode_valid(2));

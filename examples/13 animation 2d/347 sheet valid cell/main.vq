@@ -1,0 +1,2 @@
+// Chapter 13D: 347 sheet valid cell.
+print(animation_sheet_cell_valid(7,4,12,16,16));

@@ -1,6 +1,0 @@
-{
-  "chapter": 1,
-  "title": "Hello Pixels",
-  "backend": "SDL3",
-  "batch_frames": 60
-}

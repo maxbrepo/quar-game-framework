@@ -1,0 +1,15 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" opaque SDL_CreateWindow(cstring title, i32 width, i32 height, u64 flags);
+extern "C" void SDL_DestroyWindow(opaque window);
+extern "C" void SDL_Quit();
+extern "C" void SDL_Delay(u32 milliseconds);
+u32 video_flags = 32;
+bool initialized = SDL_Init(video_flags);
+print(initialized);
+if (initialized) {
+    u64 window_flags = 0;
+    window = SDL_CreateWindow("QGF - First SDL3 Window", 640, 360, window_flags);
+    SDL_Delay(1500);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}

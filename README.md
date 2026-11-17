@@ -1,11 +1,11 @@
 # Quar Game Framework (QGF)
 
-**Version 0.0.1 — 05 November 2026**  
+**Version 0.0.2-dev — 17 November 2026**  
 Experimental 2D game framework developed primarily in **Visual Quar**.
 
 QGF is a separate project from the Visual Quar / Quar SDK toolchain. Its goal is to build a lightweight game framework while using the SDK's execution and native interoperability capabilities, without modifying SDK sources from QGF.
 
-## Milestone 0.0.1
+## Milestone 0.0.1 (historical baseline)
 
 - **275 numbered examples** across the 11 chapters of Marathon A (logical foundations), previously validated on the user's PC.
 - **Main Runner** for example execution and graphical demo selection.

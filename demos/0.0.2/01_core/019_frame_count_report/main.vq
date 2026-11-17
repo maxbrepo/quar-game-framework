@@ -1,0 +1,63 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" opaque SDL_CreateWindow(cstring title, i32 width, i32 height, u64 flags);
+extern "C" opaque SDL_CreateRenderer(opaque window, cstring name);
+extern "C" bool SDL_SetRenderDrawColorFloat(opaque renderer, f32 red, f32 green, f32 blue, f32 alpha);
+extern "C" bool SDL_RenderClear(opaque renderer);
+extern "C" bool SDL_RenderPoint(opaque renderer, f32 x, f32 y);
+extern "C" bool SDL_RenderLine(opaque renderer, f32 x1, f32 y1, f32 x2, f32 y2);
+extern "C" void SDL_RenderPresent(opaque renderer);
+extern "C" void SDL_PumpEvents();
+extern "C" bool SDL_HasEvent(u32 event_type);
+extern "C" void SDL_Delay(u32 milliseconds);
+extern "C" void SDL_DestroyRenderer(opaque renderer);
+extern "C" void SDL_DestroyWindow(opaque window);
+extern "C" void SDL_Quit();
+
+extern "C" u64 SDL_GetPerformanceCounter();
+extern "C" u64 SDL_GetPerformanceFrequency();
+extern "C" u64 SDL_GetTicks();
+
+bool batch_mode = false;
+u32 video_flags = 32;
+u64 window_flags = 0;
+u32 quit_event = 256;
+u32 key_event = 768;
+u32 delay_ms = 16;
+f32 one = 1.0;
+f32 bg_r = 0.08;
+f32 bg_g = 0.10;
+f32 bg_b = 0.16;
+f32 line_r = 0.85;
+f32 line_g = 0.70;
+f32 line_b = 0.28;
+f32 left = 90.0;
+f32 right = 550.0;
+f32 top = 120.0;
+f32 bottom = 360.0;
+bool init_result = SDL_Init(video_flags);
+window = SDL_CreateWindow("QGF - Frame Count Report", 640, 480, window_flags);
+renderer = SDL_CreateRenderer(window, "software");
+u64 start_ticks = SDL_GetTicks();
+int frame_count = 0;
+bool running = true;
+while (running) {
+    SDL_PumpEvents();
+    if (SDL_HasEvent(quit_event)) { running = false; }
+    if (SDL_HasEvent(key_event)) { running = false; }
+    SDL_SetRenderDrawColorFloat(renderer, bg_r, bg_g, bg_b, one);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColorFloat(renderer, line_r, line_g, line_b, one);
+    SDL_RenderLine(renderer, left, top, right, bottom);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(delay_ms);
+    frame_count = frame_count + 1;
+    if (batch_mode) { if (frame_count >= 60) { running = false; } }
+}
+SDL_DestroyRenderer(renderer);
+SDL_DestroyWindow(window);
+SDL_Quit();
+u64 end_ticks = SDL_GetTicks();
+u64 elapsed_ms = end_ticks - start_ticks;
+print(frame_count);
+print(elapsed_ms);
+print("QGF_DEMO_OK");

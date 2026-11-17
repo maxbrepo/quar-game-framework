@@ -1,0 +1,2 @@
+// Chapter 15C: UI interaction helpers.
+print(ui_slider_value(75.0,50.0,100.0,10.0,50.0));

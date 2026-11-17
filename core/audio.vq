@@ -1,0 +1,148 @@
+// Chapter 14A: backend-independent audio control helpers.
+// These functions model state and parameters; they do not emit sound.
+bool audio_volume_valid(double volume) {
+    if (volume < 0.0) { return false; }
+    return volume <= 1.0;
+}
+double audio_volume_clamp(double volume) {
+    if (volume < 0.0) { return 0.0; }
+    if (volume > 1.0) { return 1.0; }
+    return volume;
+}
+double audio_effective_volume(double master, double channel) {
+    return audio_volume_clamp(master) * audio_volume_clamp(channel);
+}
+bool audio_can_play(bool enabled, bool loaded) {
+    if (enabled == false) { return false; }
+    return loaded;
+}
+bool audio_play_state(bool enabled, bool loaded) {
+    return audio_can_play(enabled,loaded);
+}
+bool audio_pause_state(bool playing) {
+    if (playing) { return false; }
+    return false;
+}
+bool audio_resume_state(bool paused, bool loaded) {
+    if (paused == false) { return false; }
+    return loaded;
+}
+bool audio_stop_state(bool playing) {
+    return false;
+}
+bool audio_channel_valid(int channel, int count) {
+    if (count <= 0) { return false; }
+    if (channel < 0) { return false; }
+    return channel < count;
+}
+double audio_pan_clamp(double pan) {
+    if (pan < -1.0) { return -1.0; }
+    if (pan > 1.0) { return 1.0; }
+    return pan;
+}
+
+// Chapter 14B: logical sound and music transport controls.
+// No audio samples are loaded or played by these helpers.
+bool audio_sound_valid(int sound_id, int sound_count) {
+    return audio_channel_valid(sound_id,sound_count);
+}
+bool audio_music_valid(int music_id, int music_count) {
+    return audio_channel_valid(music_id,music_count);
+}
+bool audio_sound_start(bool enabled,bool loaded,int sound_id,int sound_count) {
+    if (audio_sound_valid(sound_id,sound_count) == false) { return false; }
+    return audio_can_play(enabled,loaded);
+}
+bool audio_music_start(bool enabled,bool loaded,int music_id,int music_count) {
+    if (audio_music_valid(music_id,music_count) == false) { return false; }
+    return audio_can_play(enabled,loaded);
+}
+bool audio_is_active(bool playing,bool paused) {
+    if (paused) { return false; }
+    return playing;
+}
+bool audio_is_paused(bool playing,bool paused) {
+    if (playing == false) { return false; }
+    return paused;
+}
+bool audio_toggle_pause(bool playing,bool paused) {
+    if (playing == false) { return false; }
+    if (paused) { return false; }
+    return true;
+}
+double audio_sound_gain(double master,double effects,double sound) {
+    return audio_effective_volume(master,effects)*audio_volume_clamp(sound);
+}
+double audio_music_gain(double master,double music) {
+    return audio_effective_volume(master,music);
+}
+bool audio_music_loop_valid(int loop_count) {
+    return loop_count >= -1;
+}
+
+// Chapter 14C: channel selection, priority and transport state.
+// Pure helpers; no audio device or mixer is accessed.
+bool audio_channel_free(bool playing,bool paused) {
+    if (playing) { return false; }
+    return true;
+}
+bool audio_channel_can_replace(bool occupied,int incoming_priority,int current_priority) {
+    if (occupied == false) { return true; }
+    return incoming_priority > current_priority;
+}
+int audio_channel_select(int preferred,int channel_count) {
+    if (audio_channel_valid(preferred,channel_count)) { return preferred; }
+    return -1;
+}
+bool audio_channel_can_start(bool enabled,bool loaded,int channel,int count,bool occupied,int incoming_priority,int current_priority) {
+    if (audio_can_play(enabled,loaded) == false) { return false; }
+    if (audio_channel_valid(channel,count) == false) { return false; }
+    return audio_channel_can_replace(occupied,incoming_priority,current_priority);
+}
+bool audio_channel_playing_after_start(bool can_start,bool previous_playing) {
+    if (can_start) { return true; }
+    return previous_playing;
+}
+bool audio_channel_paused_after_start(bool can_start,bool previous_paused) {
+    if (can_start) { return false; }
+    return previous_paused;
+}
+bool audio_channel_paused_after_pause(bool playing,bool paused) {
+    if (playing == false) { return false; }
+    return true;
+}
+bool audio_channel_paused_after_resume(bool playing,bool paused) {
+    if (playing == false) { return false; }
+    return false;
+}
+bool audio_channel_playing_after_stop(bool playing) {
+    return false;
+}
+int audio_priority_clamp(int priority) {
+    if (priority < 0) { return 0; }
+    if (priority > 100) { return 100; }
+    return priority;
+}
+
+// Chapter 14D: combined logical audio controls and regression helpers.
+// These functions calculate state and gain without accessing an audio device.
+double audio_channel_output_gain(double master,double effects,double sound,bool playing,bool paused,bool muted) {
+    if (playing == false) { return 0.0; }
+    if (paused) { return 0.0; }
+    if (muted) { return 0.0; }
+    return audio_sound_gain(master,effects,sound);
+}
+double audio_music_output_gain(double master,double music,bool playing,bool paused,bool muted) {
+    if (playing == false) { return 0.0; }
+    if (paused) { return 0.0; }
+    if (muted) { return 0.0; }
+    return audio_music_gain(master,music);
+}
+bool audio_channel_active(bool playing,bool paused,bool muted) {
+    if (muted) { return false; }
+    return audio_is_active(playing,paused);
+}
+bool audio_channel_start_or_keep(bool enabled,bool loaded,int channel,int count,bool occupied,int incoming_priority,int current_priority,bool previous_playing) {
+    bool can_start=audio_channel_can_start(enabled,loaded,channel,count,occupied,incoming_priority,current_priority);
+    return audio_channel_playing_after_start(can_start,previous_playing);
+}

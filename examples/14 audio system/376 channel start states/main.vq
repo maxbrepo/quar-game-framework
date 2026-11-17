@@ -1,0 +1,3 @@
+// Chapter 14C: logical channel test.
+print(audio_channel_playing_after_start(true,false));
+print(audio_channel_paused_after_start(true,true));

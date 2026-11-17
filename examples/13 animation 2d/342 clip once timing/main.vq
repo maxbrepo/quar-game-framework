@@ -1,0 +1,2 @@
+// Chapter 13D: 342 clip once timing.
+print(animation_clip_frame_after_time(0.75,1.0,true,8,4,0.25,false));

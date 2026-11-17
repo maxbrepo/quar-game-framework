@@ -1,0 +1,2 @@
+// Chapter 18A: packaging policy test.
+print(package_asset_required(false,true));

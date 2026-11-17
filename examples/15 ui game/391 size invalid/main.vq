@@ -1,0 +1,2 @@
+// Chapter 15A: game UI core example.
+print(ui_size_valid(0.0,10.0));

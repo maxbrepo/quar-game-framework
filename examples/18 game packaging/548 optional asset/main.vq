@@ -1,0 +1,2 @@
+// Chapter 18D: packaging integration metadata test.
+print(package_asset_required(false,true)); print(package_asset_required(false,false));

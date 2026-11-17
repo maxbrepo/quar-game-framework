@@ -1,0 +1,84 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" opaque SDL_CreateWindow(cstring title, i32 width, i32 height, u64 flags);
+extern "C" opaque SDL_CreateRenderer(opaque window, cstring name);
+extern "C" bool SDL_SetRenderDrawColorFloat(opaque renderer, f32 red, f32 green, f32 blue, f32 alpha);
+extern "C" bool SDL_RenderClear(opaque renderer);
+extern "C" bool SDL_RenderPoint(opaque renderer, f32 x, f32 y);
+extern "C" bool SDL_RenderLine(opaque renderer, f32 x1, f32 y1, f32 x2, f32 y2);
+extern "C" void SDL_RenderPresent(opaque renderer);
+extern "C" void SDL_PumpEvents();
+extern "C" bool SDL_HasEvent(u32 event_type);
+extern "C" void SDL_Delay(u32 milliseconds);
+extern "C" void SDL_DestroyRenderer(opaque renderer);
+extern "C" void SDL_DestroyWindow(opaque window);
+extern "C" void SDL_Quit();
+
+bool batch_mode = false;
+u32 video_flags = 32;
+u64 window_flags = 0;
+u32 quit_event = 256;
+u32 key_event = 768;
+u32 delay_ms = 16;
+f32 one = 1.0;
+f32 zero = 0.0;
+f32 background_r = 0.07;
+f32 background_g = 0.10;
+f32 background_b = 0.16;
+f32 accent_r = 0.95;
+f32 accent_g = 0.72;
+f32 accent_b = 0.22;
+f32 second_r = 0.25;
+f32 second_g = 0.86;
+f32 second_b = 0.65;
+f32 x = 100.0;
+f32 delta = 4.0;
+f32 min_x = 100.0;
+f32 max_x = 540.0;
+f32 coord_100_0 = 100.0;
+f32 coord_120_0 = 120.0;
+f32 coord_240_0 = 240.0;
+f32 coord_360_0 = 360.0;
+f32 coord_540_0 = 540.0;
+bool init_result = SDL_Init(video_flags);
+window = SDL_CreateWindow("QGF - Full Restart A", 640, 480, window_flags);
+renderer = SDL_CreateRenderer(window, "software");
+int frame_count = 0;
+bool running = true;
+while (running) {
+    SDL_PumpEvents();
+    if (SDL_HasEvent(quit_event)) { running = false; }
+    if (SDL_HasEvent(key_event)) { running = false; }
+    SDL_SetRenderDrawColorFloat(renderer, background_r, background_g, background_b, one);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColorFloat(renderer, accent_r, accent_g, accent_b, one);
+    SDL_RenderLine(renderer, coord_100_0, coord_120_0, coord_540_0, coord_360_0);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(delay_ms);
+    frame_count = frame_count + 1;
+    if (batch_mode) { if (frame_count >= 60) { running = false; } }
+}
+SDL_DestroyRenderer(renderer);
+SDL_DestroyWindow(window);
+SDL_Quit();
+init_result = SDL_Init(video_flags);
+window = SDL_CreateWindow("QGF - Full Restart B", 640, 480, window_flags);
+renderer = SDL_CreateRenderer(window, "software");
+frame_count = 0;
+running = true;
+while (running) {
+    SDL_PumpEvents();
+    if (SDL_HasEvent(quit_event)) { running = false; }
+    if (SDL_HasEvent(key_event)) { running = false; }
+    SDL_SetRenderDrawColorFloat(renderer, background_r, background_g, background_b, one);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColorFloat(renderer, second_r, second_g, second_b, one);
+    SDL_RenderLine(renderer, coord_100_0, coord_360_0, coord_540_0, coord_120_0);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(delay_ms);
+    frame_count = frame_count + 1;
+    if (batch_mode) { if (frame_count >= 60) { running = false; } }
+}
+SDL_DestroyRenderer(renderer);
+SDL_DestroyWindow(window);
+SDL_Quit();
+print("QGF_DEMO_OK");

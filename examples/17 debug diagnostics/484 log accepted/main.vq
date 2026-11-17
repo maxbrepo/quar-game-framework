@@ -1,0 +1,2 @@
+// QGF Chapter 17B logging policy example.
+print(debug_log_allowed(2,1,true,3,3));

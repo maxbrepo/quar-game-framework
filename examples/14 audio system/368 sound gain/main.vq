@@ -1,0 +1,2 @@
+// Chapter 14B: logical audio test.
+print(audio_sound_gain(0.5,0.5,0.5));

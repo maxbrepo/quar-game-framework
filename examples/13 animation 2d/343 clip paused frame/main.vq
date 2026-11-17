@@ -1,0 +1,2 @@
+// Chapter 13D: 343 clip paused frame.
+print(animation_clip_frame_after_time(0.25,1.0,false,4,4,0.25,true));

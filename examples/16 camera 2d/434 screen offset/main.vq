@@ -1,0 +1,2 @@
+// Chapter 16A: screen offset.
+print(camera_screen_x(20.0,10.0,800.0,2.0));

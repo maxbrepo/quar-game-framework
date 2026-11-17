@@ -1,0 +1,159 @@
+// Chapter 13A: backend-independent animation timeline and sprite sheet geometry.
+// Frames are zero-based. Invalid frame counts and durations return safe defaults.
+bool animation_valid(int frame_count, double duration_per_frame) {
+    if (frame_count <= 0) { return false; }
+    return duration_per_frame > 0.0;
+}
+int animation_frame_clamp(int frame, int frame_count) {
+    if (frame_count <= 0) { return 0; }
+    if (frame < 0) { return 0; }
+    if (frame >= frame_count) { return frame_count - 1; }
+    return frame;
+}
+int animation_frame_next(int frame, int frame_count, bool looping) {
+    if (frame_count <= 0) { return 0; }
+    int current = animation_frame_clamp(frame, frame_count);
+    if (current + 1 < frame_count) { return current + 1; }
+    if (looping) { return 0; }
+    return frame_count - 1;
+}
+double animation_total_duration(int frame_count, double duration_per_frame) {
+    if (animation_valid(frame_count, duration_per_frame) == false) { return 0.0; }
+    return frame_count * duration_per_frame;
+}
+// Advance by one frame interval; caller stores elapsed remainder externally.
+double animation_elapsed_next(double elapsed, double delta, bool playing) {
+    if (playing == false) { return elapsed; }
+    if (delta < 0.0) { return elapsed; }
+    return elapsed + delta;
+}
+int animation_frame_from_step(int frame, int frame_count, bool looping, bool playing) {
+    if (playing == false) { return animation_frame_clamp(frame, frame_count); }
+    return animation_frame_next(frame, frame_count, looping);
+}
+int animation_sheet_column(int frame, int columns) {
+    if (columns <= 0) { return 0; }
+    if (frame < 0) { return 0; }
+    int column = frame;
+    while (column >= columns) { column = column - columns; }
+    return column;
+}
+int animation_sheet_row(int frame, int columns) {
+    if (columns <= 0) { return 0; }
+    if (frame < 0) { return 0; }
+    int row = 0;
+    int remaining = frame;
+    while (remaining >= columns) { remaining = remaining - columns; row = row + 1; }
+    return row;
+}
+int animation_sheet_x(int frame, int columns, int cell_width) {
+    if (cell_width <= 0) { return 0; }
+    return animation_sheet_column(frame, columns) * cell_width;
+}
+int animation_sheet_y(int frame, int columns, int cell_height) {
+    if (cell_height <= 0) { return 0; }
+    return animation_sheet_row(frame, columns) * cell_height;
+}
+
+// Chapter 13B: elapsed-time frame selection and finite playback.
+// Time values are in seconds; invalid inputs return safe defaults.
+int animation_frame_at_time(double elapsed, int frame_count, double seconds_per_frame, bool looping) {
+    if (animation_valid(frame_count, seconds_per_frame) == false) { return 0; }
+    if (elapsed <= 0.0) { return 0; }
+    double remaining = elapsed;
+    double total = animation_total_duration(frame_count, seconds_per_frame);
+    if (looping) {
+        while (remaining >= total) { remaining = remaining - total; }
+    } else {
+        if (remaining >= total) { return frame_count - 1; }
+    }
+    int frame = 0;
+    while (remaining >= seconds_per_frame) {
+        remaining = remaining - seconds_per_frame;
+        frame = frame + 1;
+    }
+    return animation_frame_clamp(frame, frame_count);
+}
+bool animation_finished(double elapsed, int frame_count, double seconds_per_frame, bool looping) {
+    if (animation_valid(frame_count, seconds_per_frame) == false) { return false; }
+    if (looping) { return false; }
+    return elapsed >= animation_total_duration(frame_count, seconds_per_frame);
+}
+double animation_time_advance(double elapsed, double delta, bool playing, int frame_count, double seconds_per_frame, bool looping) {
+    if (animation_valid(frame_count, seconds_per_frame) == false) { return 0.0; }
+    if (elapsed < 0.0) { elapsed = 0.0; }
+    if (playing == false) { return elapsed; }
+    if (delta <= 0.0) { return elapsed; }
+    double next = elapsed + delta;
+    double total = animation_total_duration(frame_count, seconds_per_frame);
+    if (looping) {
+        while (next >= total) { next = next - total; }
+        return next;
+    }
+    if (next > total) { return total; }
+    return next;
+}
+int animation_sheet_frame_x(int frame, int first_frame, int columns, int cell_width) {
+    if (first_frame < 0) { return 0; }
+    return animation_sheet_x(frame + first_frame, columns, cell_width);
+}
+int animation_sheet_frame_y(int frame, int first_frame, int columns, int cell_height) {
+    if (first_frame < 0) { return 0; }
+    return animation_sheet_y(frame + first_frame, columns, cell_height);
+}
+
+// Chapter 13C: named animation clips can be represented by an external clip ID.
+// Each clip uses a contiguous range of frames in a shared sprite sheet.
+bool animation_clip_valid(int first_frame, int frame_count, int sheet_frames, double seconds_per_frame) {
+    if (first_frame < 0) { return false; }
+    if (animation_valid(frame_count, seconds_per_frame) == false) { return false; }
+    if (sheet_frames <= 0) { return false; }
+    return first_frame + frame_count <= sheet_frames;
+}
+int animation_clip_local_frame(double elapsed, int frame_count, double seconds_per_frame, bool looping) {
+    return animation_frame_at_time(elapsed, frame_count, seconds_per_frame, looping);
+}
+int animation_clip_sheet_frame(double elapsed, int first_frame, int frame_count, double seconds_per_frame, bool looping) {
+    if (first_frame < 0) { return 0; }
+    if (animation_valid(frame_count, seconds_per_frame) == false) { return 0; }
+    return first_frame + animation_clip_local_frame(elapsed, frame_count, seconds_per_frame, looping);
+}
+int animation_clip_sheet_x(double elapsed, int first_frame, int frame_count, double seconds_per_frame, bool looping, int columns, int cell_width) {
+    return animation_sheet_x(animation_clip_sheet_frame(elapsed, first_frame, frame_count, seconds_per_frame, looping), columns, cell_width);
+}
+int animation_clip_sheet_y(double elapsed, int first_frame, int frame_count, double seconds_per_frame, bool looping, int columns, int cell_height) {
+    return animation_sheet_y(animation_clip_sheet_frame(elapsed, first_frame, frame_count, seconds_per_frame, looping), columns, cell_height);
+}
+// A clip change resets playback time. Re-selecting the same clip retains it.
+double animation_clip_switch_time(int current_clip, int requested_clip, double elapsed) {
+    if (current_clip == requested_clip) { return elapsed; }
+    return 0.0;
+}
+bool animation_clip_changed(int current_clip, int requested_clip) {
+    return current_clip != requested_clip;
+}
+int animation_clip_select(int current_clip, int requested_clip, int available_clips) {
+    if (requested_clip < 0) { return current_clip; }
+    if (requested_clip >= available_clips) { return current_clip; }
+    return requested_clip;
+}
+
+// Chapter 13D: combine clip selection, playback timing, and sprite-sheet addressing.
+// Return the selected clip's frame index within the shared sprite sheet.
+int animation_clip_frame_after_time(double elapsed, double delta, bool playing, int first_frame, int frame_count, double seconds_per_frame, bool looping) {
+    double updated = animation_time_advance(elapsed, delta, playing, frame_count, seconds_per_frame, looping);
+    return animation_clip_sheet_frame(updated, first_frame, frame_count, seconds_per_frame, looping);
+}
+// Return the elapsed time after selecting a clip and advancing playback.
+double animation_clip_update_time(int current_clip, int requested_clip, double elapsed, double delta, bool playing, int frame_count, double seconds_per_frame, bool looping) {
+    double start = animation_clip_switch_time(current_clip, requested_clip, elapsed);
+    return animation_time_advance(start, delta, playing, frame_count, seconds_per_frame, looping);
+}
+// Verify a sprite-sheet cell lies within the declared sheet geometry.
+bool animation_sheet_cell_valid(int frame, int columns, int sheet_frames, int cell_width, int cell_height) {
+    if (frame < 0) { return false; }
+    if (frame >= sheet_frames) { return false; }
+    if (columns <= 0) { return false; }
+    if (cell_width <= 0) { return false; }
+    return cell_height > 0;
+}
