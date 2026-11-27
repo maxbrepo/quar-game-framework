@@ -1,3 +1,0 @@
-// Chapter 12B: physics collision response.
-print(physics_circle_hits_static(0.0,0.0,1.0,2.0,0.0,1.0));
-print(physics_circle_hits_static(0.0,0.0,1.0,3.0,0.0,1.0));

@@ -1,2 +1,0 @@
-// Chapter 14A: effective volume.
-print(audio_effective_volume(0.5,0.5));

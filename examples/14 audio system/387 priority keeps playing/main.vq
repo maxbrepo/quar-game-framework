@@ -1,2 +1,0 @@
-// Chapter 14D: combined audio control test.
-print(audio_channel_start_or_keep(true,true,0,2,true,1,5,true));

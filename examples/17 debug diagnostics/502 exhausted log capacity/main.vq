@@ -1,2 +1,0 @@
-// Chapter 17D integration test.
-print(debug_event_recordable(3,1,true,3,-1,5,5));

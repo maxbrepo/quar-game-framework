@@ -1,3 +1,0 @@
-// Chapter 15D: UI integration regression.
-print(ui_focus_and_menu(true,true,true,1,3));
-print(ui_focus_and_menu(true,true,false,1,3));

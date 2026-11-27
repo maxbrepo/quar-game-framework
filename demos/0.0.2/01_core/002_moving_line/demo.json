@@ -1,8 +1,0 @@
-{
-  "version": "0.0.2",
-  "chapter": 1,
-  "id": "002",
-  "title": "Moving Line",
-  "backend": "SDL3",
-  "batch_frames": 60
-}

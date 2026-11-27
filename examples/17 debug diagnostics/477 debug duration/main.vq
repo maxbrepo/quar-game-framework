@@ -1,2 +1,0 @@
-// QGF Chapter 17A diagnostic example.
-print(debug_duration(1.0,3.5));

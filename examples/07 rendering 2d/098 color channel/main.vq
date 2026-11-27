@@ -1,3 +1,0 @@
-print(render2d_clamp_channel(-4));
-print(render2d_clamp_channel(127));
-print(render2d_clamp_channel(300));

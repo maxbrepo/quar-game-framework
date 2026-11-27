@@ -1,2 +1,0 @@
-// Chapter 13C: clip switch reset.
-print(animation_clip_switch_time(0,1,1.25));

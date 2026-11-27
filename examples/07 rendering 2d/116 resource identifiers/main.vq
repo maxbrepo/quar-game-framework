@@ -1,3 +1,0 @@
-print(resource_valid_id(1));
-print(resource_valid_id(0));
-print(resource_valid_id(-1));

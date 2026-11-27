@@ -1,4 +1,0 @@
-// Chapter 10B: component initialization readiness.
-print(entity_component_ready(true,true,false));
-print(entity_component_ready(true,false,false));
-print(entity_component_ready(true,true,true));

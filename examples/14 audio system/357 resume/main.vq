@@ -1,2 +1,0 @@
-// Chapter 14A: resume.
-print(audio_resume_state(true,true));

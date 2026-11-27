@@ -1,2 +1,0 @@
-// Chapter 14A: cannot play unloaded.
-print(audio_can_play(true,false));

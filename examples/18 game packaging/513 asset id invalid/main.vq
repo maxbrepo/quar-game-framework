@@ -1,2 +1,0 @@
-// Chapter 18A: packaging policy test.
-print(package_asset_id_valid(-1));

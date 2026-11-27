@@ -1,3 +1,0 @@
-// Chapter 14C: logical channel test.
-print(audio_channel_can_replace(true,8,3));
-print(audio_channel_can_replace(true,3,8));

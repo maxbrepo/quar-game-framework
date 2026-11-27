@@ -1,4 +1,0 @@
-extern "C" i32 abs(i32 value);
-i32 input = -37;
-i32 result = abs(input);
-print(result);

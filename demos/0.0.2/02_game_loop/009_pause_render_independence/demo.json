@@ -1,8 +1,0 @@
-{
-  "version": "0.0.2",
-  "chapter": 2,
-  "id": "009",
-  "title": "Pause and Render Independence",
-  "backend": "SDL3",
-  "batch_frames": 60
-}

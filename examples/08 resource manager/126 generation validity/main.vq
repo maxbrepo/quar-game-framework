@@ -1,3 +1,0 @@
-print(resource_valid_generation(1));
-print(resource_valid_generation(0));
-print(resource_valid_generation(-1));

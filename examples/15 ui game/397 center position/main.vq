@@ -1,3 +1,0 @@
-// Chapter 15A: game UI core example.
-print(ui_center_x(10.0,100.0,20.0));
-print(ui_center_y(20.0,80.0,20.0));

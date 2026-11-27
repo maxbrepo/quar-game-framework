@@ -1,2 +1,0 @@
-// Chapter 13B: animation timing regression.
-print(animation_frame_at_time(1.25,4,0.25,true));

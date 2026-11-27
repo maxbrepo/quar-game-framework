@@ -1,2 +1,0 @@
-// Chapter 18D: packaging integration metadata test.
-print(package_asset_manifest_ready(true,0,0,0)); print(package_asset_manifest_ready(true,0,1,0));

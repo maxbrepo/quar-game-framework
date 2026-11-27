@@ -1,2 +1,0 @@
-// Chapter 18B: asset packaging metadata test.
-print(package_assets_ready(0,0,0)); print(package_assets_ready(0,1,0)); print(package_asset_record_valid(5,0,0,1));

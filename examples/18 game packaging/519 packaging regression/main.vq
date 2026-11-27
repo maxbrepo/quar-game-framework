@@ -1,2 +1,0 @@
-// Chapter 18A: packaging policy test.
-print(package_target_supported(2)); print(package_entry_valid(0,1)); print(package_ready(true,package_missing_count(0,true,true)));

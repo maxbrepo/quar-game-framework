@@ -1,2 +1,0 @@
-// QGF Chapter 17A diagnostic example.
-print(debug_should_log(3,0,false));

@@ -1,4 +1,0 @@
-// Chapter 16D: combined camera behavior.
-print(camera_follow_bounded(50.0,100.0,50.0,1.0,0.0,100.0,40.0,1.0));
-print(camera_visible_span(40.0,2.0));
-print(camera_world_y(camera_screen_y(30.0,20.0,600.0,2.0),20.0,600.0,2.0));

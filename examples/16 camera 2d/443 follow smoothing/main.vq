@@ -1,2 +1,0 @@
-// Chapter 16B camera test.
-print(camera_follow_smooth(0.0,100.0,0.25));

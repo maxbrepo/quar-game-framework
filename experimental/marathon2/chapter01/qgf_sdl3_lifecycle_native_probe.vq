@@ -1,8 +1,0 @@
-extern "C" u32 SDL_WasInit(u32 flags);
-extern "C" void SDL_Quit();
-u32 video_flags = 32;
-u32 before = SDL_WasInit(video_flags);
-print(before);
-SDL_Quit();
-u32 after = SDL_WasInit(video_flags);
-print(after);

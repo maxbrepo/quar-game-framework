@@ -1,2 +1,0 @@
-// QGF Chapter 17B logging policy example.
-print(debug_warning_count(1,2,true)); print(debug_error_count(1,3,true));

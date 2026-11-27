@@ -1,2 +1,0 @@
-// Chapter 15B: HUD and menu logic.
-print(ui_stack_y(10.0,20.0,5.0,3));
