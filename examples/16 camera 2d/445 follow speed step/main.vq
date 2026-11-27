@@ -1,2 +1,0 @@
-// Chapter 16B camera test.
-print(camera_follow_step(0.0,100.0,10.0,0.5));

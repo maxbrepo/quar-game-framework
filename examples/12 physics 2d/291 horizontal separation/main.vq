@@ -1,2 +1,0 @@
-// Chapter 12B: physics collision response.
-print(physics_box_separate_x(0.0,0.0,4.0,4.0,3.0,0.0,4.0,4.0));

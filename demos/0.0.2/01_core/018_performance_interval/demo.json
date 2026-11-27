@@ -1,8 +1,0 @@
-{
-  "version": "0.0.2",
-  "chapter": 1,
-  "id": "018",
-  "title": "Performance Interval",
-  "backend": "SDL3",
-  "batch_frames": 60
-}

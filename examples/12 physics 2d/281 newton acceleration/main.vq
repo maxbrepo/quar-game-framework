@@ -1,3 +1,0 @@
-// Chapter 12A: newton acceleration.
-print(physics_acceleration(12.0,3.0));
-print(physics_acceleration(12.0,0.0));

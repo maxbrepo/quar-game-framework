@@ -1,2 +1,0 @@
-// Chapter 12A: horizontal movement.
-print(physics_position(2.0,3.0,2.0));

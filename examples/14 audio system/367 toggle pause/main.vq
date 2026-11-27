@@ -1,2 +1,0 @@
-// Chapter 14B: logical audio test.
-print(audio_toggle_pause(true,false));

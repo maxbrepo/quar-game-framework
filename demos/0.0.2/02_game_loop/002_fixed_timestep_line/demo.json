@@ -1,8 +1,0 @@
-{
-  "version": "0.0.2",
-  "chapter": 2,
-  "id": "002",
-  "title": "Fixed Timestep Line",
-  "backend": "SDL3",
-  "batch_frames": 60
-}

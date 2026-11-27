@@ -1,2 +1,0 @@
-// Chapter 18C: distribution configuration metadata test.
-print(package_release_ready(true,true,true)); print(package_release_ready(true,false,true));

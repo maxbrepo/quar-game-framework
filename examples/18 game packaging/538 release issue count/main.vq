@@ -1,2 +1,0 @@
-// Chapter 18C: distribution configuration metadata test.
-int issues=package_release_issue_count(0,true); issues=package_release_issue_count(issues,false); issues=package_release_issue_count(issues,false); print(issues);

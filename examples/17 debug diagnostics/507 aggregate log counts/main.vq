@@ -1,2 +1,0 @@
-// Chapter 17D integration test.
-int count=debug_log_count(0,true); count=debug_log_count(count,false); count=debug_log_count(count,true); print(count); print(debug_count_limit_reached(count,2));

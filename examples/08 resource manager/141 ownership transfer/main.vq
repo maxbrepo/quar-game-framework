@@ -1,3 +1,0 @@
-print(resource_can_transfer(true, false, 1));
-print(resource_can_transfer(true, false, 2));
-print(resource_can_transfer(true, true, 1));

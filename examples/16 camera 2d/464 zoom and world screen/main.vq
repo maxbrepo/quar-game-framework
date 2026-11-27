@@ -1,2 +1,0 @@
-// Chapter 16D: combined camera behavior.
-print(camera_world_x(camera_screen_x(75.0,50.0,800.0,2.0),50.0,800.0,2.0));

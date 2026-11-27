@@ -1,3 +1,0 @@
-// Chapter 13C: clip selection.
-print(animation_clip_select(1,2,3));
-print(animation_clip_select(1,7,3));

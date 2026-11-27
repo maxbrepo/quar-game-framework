@@ -1,3 +1,0 @@
-// Chapter 15A: game UI core example.
-print(ui_visible(true,false));
-print(ui_visible(true,true));

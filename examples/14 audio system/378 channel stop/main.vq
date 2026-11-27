@@ -1,2 +1,0 @@
-// Chapter 14C: logical channel test.
-print(audio_channel_playing_after_stop(true));

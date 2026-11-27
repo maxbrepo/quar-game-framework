@@ -1,3 +1,0 @@
-// Chapter 13B: animation timing regression.
-print(animation_sheet_frame_x(2,3,4,16));
-print(animation_sheet_frame_y(2,3,4,32));

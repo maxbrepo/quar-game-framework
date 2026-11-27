@@ -1,2 +1,0 @@
-// Chapter 12D: physics consolidation.
-print(physics_three_step_position(0.0,0.0,4.0,0.5));

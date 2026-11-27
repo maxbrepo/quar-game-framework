@@ -1,2 +1,0 @@
-// Chapter 18D: packaging integration metadata test.
-print(package_target_release_ready(0,1,2,true,true)); print(package_target_release_ready(0,1,2,true,false));

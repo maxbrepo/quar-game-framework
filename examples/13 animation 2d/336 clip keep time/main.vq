@@ -1,2 +1,0 @@
-// Chapter 13C: clip keep time.
-print(animation_clip_switch_time(2,2,1.25));

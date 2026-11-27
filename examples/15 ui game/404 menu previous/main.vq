@@ -1,3 +1,0 @@
-// Chapter 15B: HUD and menu logic.
-print(ui_menu_previous(0,3));
-print(ui_menu_previous(2,3));

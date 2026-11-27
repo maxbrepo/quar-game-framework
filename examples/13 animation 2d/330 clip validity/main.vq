@@ -1,2 +1,0 @@
-// Chapter 13C: clip validity.
-print(animation_clip_valid(4,3,12,0.2));

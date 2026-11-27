@@ -1,2 +1,0 @@
-// Chapter 14B: logical audio test.
-print(audio_sound_start(true,false,1,4));

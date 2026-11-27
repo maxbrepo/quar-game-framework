@@ -1,2 +1,0 @@
-// QGF Chapter 17C profiling example.
-print(debug_frame_budget_ratio(0.04,0.02)); print(debug_profile_threshold(0.04,0.03)); print(debug_profile_mean(0.0,0));

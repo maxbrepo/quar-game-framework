@@ -1,2 +1,0 @@
-// Chapter 18C: distribution configuration metadata test.
-print(package_entry_asset_valid(2,3,true)); print(package_entry_asset_valid(3,3,true)); print(package_entry_asset_valid(0,1,false));

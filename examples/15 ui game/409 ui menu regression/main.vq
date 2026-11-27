@@ -1,3 +1,0 @@
-// Chapter 15B: HUD and menu logic.
-print(ui_menu_next(0,0));
-print(ui_button_active(true,true,true,15.0,15.0,10.0,10.0,20.0,20.0));

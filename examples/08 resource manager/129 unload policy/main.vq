@@ -1,3 +1,0 @@
-print(resource_can_unload(true, 0));
-print(resource_can_unload(true, 1));
-print(resource_can_unload(false, 0));

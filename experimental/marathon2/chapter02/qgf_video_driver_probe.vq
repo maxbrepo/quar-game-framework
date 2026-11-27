@@ -1,3 +1,0 @@
-extern "C" i32 SDL_GetNumVideoDrivers();
-i32 driver_count = SDL_GetNumVideoDrivers();
-print(driver_count);
