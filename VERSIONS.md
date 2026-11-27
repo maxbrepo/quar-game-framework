@@ -1,8 +1,8 @@
 # QGF — Version History
 
-## 0.0.2-dev — 17 November 2026
+## 0.0.2-alpha — 17 November 2026
 
-**Type:** Development prerelease (not an official stable release).
+**Type:** Alpha prerelease (not an official stable release).
 
 ### Development scope
 
@@ -13,11 +13,11 @@
 
 ### Repository status and boundaries
 
-- The working tree includes numerous uncommitted and untracked changes relative to the 0.0.1 Git baseline. Their authorship and correctness cannot be established from Git status alone.
+- The working tree includes numerous uncommitted and untracked changes relative to the 0.0.1-alpha Git baseline. Their authorship and correctness cannot be established from Git status alone.
 - The Visual Quar SDK is an external dependency; QGF does not modify its sources as part of this version update.
 - This prerelease version label does not imply a complete code audit or full native SDL3 regression pass.
 
-## 0.0.1 — 05 November 2026
+## 0.0.1-alpha — 05 November 2026
 
 **Type:** Initial experimental milestone / symbolic first release.
 

@@ -1,13 +1,13 @@
 # Quar Game Framework (QGF)
 
-**Current version: 0.0.2-dev (development prerelease)**  
+**Current version: 0.0.2-alpha (alpha prerelease)**  
 Experimental 2D game framework developed primarily in **Visual Quar**.
 
 QGF is a separate project from the Visual Quar / Quar SDK toolchain. Its goal is to build a lightweight game framework while using the SDK's execution and native interoperability capabilities, without modifying SDK sources from QGF.
 
-## Current version: 0.0.2-dev (development prerelease)
+## Current version: 0.0.2-alpha (alpha prerelease)
 
-**This README describes QGF 0.0.2-dev.** This is the current development version, **not** the historical 0.0.1 release and **not** a stable engine release.
+**This README describes QGF 0.0.2-alpha.** This is the current alpha version, **not** the historical 0.0.1-alpha release and **not** a stable engine release.
 
 ### Current scope
 
@@ -18,7 +18,7 @@ QGF is a separate project from the Visual Quar / Quar SDK toolchain. Its goal is
 
 ### Validation and limitations
 
-- Individual Chapter 2 demos and checkpoints have received positive tests on the user's PC; this does **not** establish a complete regression pass for all of QGF 0.0.2-dev.
+- Individual Chapter 2 demos and checkpoints have received positive tests on the user's PC; this does **not** establish a complete regression pass for all of QGF 0.0.2-alpha.
 - FPS reporting and some numerical behavior remain subject to limitations in the current Visual Quar typed SDK.
 - Advanced keyboard/event handling is deferred. Some native integrations remain experimental or incomplete.
 - QGF depends on an external Visual Quar SDK and does not maintain a modified private SDK implementation.
@@ -74,7 +74,7 @@ The D001 interactive demo currently exits when any key is pressed or the window 
 
 ## Version history
 
-This README documents **only QGF 0.0.2-dev**. See `VERSIONS.md` for historical releases, including 0.0.1, and `VERSION.md` for the current version declaration.
+This README documents **only QGF 0.0.2-alpha**. See `VERSIONS.md` for historical releases, including 0.0.1-alpha, and `VERSION.md` for the current version declaration.
 
 ## Development policy
 
