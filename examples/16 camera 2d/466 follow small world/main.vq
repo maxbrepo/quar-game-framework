@@ -1,2 +1,0 @@
-// Chapter 16D: combined camera behavior.
-print(camera_follow_bounded(0.0,100.0,50.0,1.0,0.0,40.0,100.0,1.0));

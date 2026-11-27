@@ -1,3 +1,0 @@
-print(resource_can_share(true, false, 2));
-print(resource_can_share(true, false, 0));
-print(resource_can_share(false, false, 2));

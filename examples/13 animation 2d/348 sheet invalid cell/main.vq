@@ -1,2 +1,0 @@
-// Chapter 13D: 348 sheet invalid cell.
-print(animation_sheet_cell_valid(12,4,12,16,16)); print(animation_sheet_cell_valid(2,0,12,16,16));

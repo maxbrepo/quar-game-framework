@@ -1,2 +1,0 @@
-// Chapter 18D: packaging integration metadata test.
-print(package_distribution_check(1,0,0,1,1,5,1,3,true,0,0,0)); print(package_distribution_check(1,0,0,1,1,5,1,3,true,0,0,1)); print(package_manifest_issue_count(0,true,true));

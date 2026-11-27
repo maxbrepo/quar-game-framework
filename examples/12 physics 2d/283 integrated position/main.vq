@@ -1,2 +1,0 @@
-// Chapter 12A: integrated position.
-print(physics_integrate_position(5.0,2.0,4.0,3.0));

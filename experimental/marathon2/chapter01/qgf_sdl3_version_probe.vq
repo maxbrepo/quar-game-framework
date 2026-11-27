@@ -1,3 +1,0 @@
-extern "C" i32 SDL_GetVersion();
-i32 version = SDL_GetVersion();
-print(version);

@@ -1,2 +1,0 @@
-// Chapter 12A: kinematic displacement.
-print(physics_displacement(2.0,4.0,3.0));

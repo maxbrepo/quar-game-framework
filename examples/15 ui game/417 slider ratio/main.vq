@@ -1,3 +1,0 @@
-// Chapter 15C: UI interaction helpers.
-print(ui_slider_ratio(75.0,50.0,100.0));
-print(ui_slider_ratio(200.0,50.0,100.0));

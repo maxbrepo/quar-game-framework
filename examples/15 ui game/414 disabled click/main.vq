@@ -1,2 +1,0 @@
-// Chapter 15C: UI interaction helpers.
-print(ui_button_clicked(true,false,true,false,15.0,15.0,10.0,10.0,20.0,20.0));

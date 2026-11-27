@@ -1,2 +1,0 @@
-// Chapter 13C: clip invalid range.
-print(animation_clip_valid(10,4,12,0.2));

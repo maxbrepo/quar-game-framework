@@ -1,2 +1,0 @@
-// Chapter 12A: velocity acceleration.
-print(physics_velocity(3.0,2.0,4.0));

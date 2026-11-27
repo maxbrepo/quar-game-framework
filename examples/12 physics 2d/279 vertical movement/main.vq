@@ -1,2 +1,0 @@
-// Chapter 12A: vertical movement.
-print(physics_position(10.0,-2.0,3.0));

@@ -1,3 +1,0 @@
-print(resource_cache_hit(true, true, false));
-print(resource_cache_miss(true, false, false));
-print(resource_cache_hit(true, true, true));

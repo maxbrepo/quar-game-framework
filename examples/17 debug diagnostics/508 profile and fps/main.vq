@@ -1,2 +1,0 @@
-// Chapter 17D integration test.
-print(debug_profile_mean(0.06,3)); print(debug_frame_fps(0.02));

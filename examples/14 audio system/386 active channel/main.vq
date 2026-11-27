@@ -1,3 +1,0 @@
-// Chapter 14D: combined audio control test.
-print(audio_channel_active(true,false,false));
-print(audio_channel_active(true,false,true));

@@ -1,3 +1,0 @@
-print(resource_is_exclusive(1));
-print(resource_is_exclusive(2));
-print(resource_is_exclusive(0));

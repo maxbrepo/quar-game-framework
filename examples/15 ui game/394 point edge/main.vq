@@ -1,2 +1,0 @@
-// Chapter 15A: game UI core example.
-print(ui_point_inside(30.0,15.0,10.0,10.0,20.0,20.0));

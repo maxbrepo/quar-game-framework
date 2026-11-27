@@ -1,2 +1,0 @@
-// Chapter 14A: can play.
-print(audio_can_play(true,true));

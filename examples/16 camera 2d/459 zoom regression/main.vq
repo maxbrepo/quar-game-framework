@@ -1,3 +1,0 @@
-// Chapter 16C camera test.
-print(camera_screen_x(100.0,camera_anchor_center(0.0,100.0,1.0,2.0),800.0,2.0));
-print(camera_bound_center(90.0,0.0,100.0,40.0,2.0));

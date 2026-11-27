@@ -1,2 +1,0 @@
-// Chapter 18C: distribution configuration metadata test.
-print(package_build_id_valid(1)); print(package_build_id_valid(0));

@@ -1,3 +1,0 @@
-// Chapter 15D: UI integration regression.
-print(ui_menu_pointer_click(true,true,true,false,5.0,5.0,0.0,0.0,10.0,10.0));
-print(ui_menu_pointer_click(false,true,true,false,5.0,5.0,0.0,0.0,10.0,10.0));

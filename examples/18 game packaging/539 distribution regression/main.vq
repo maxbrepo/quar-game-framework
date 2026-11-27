@@ -1,2 +1,0 @@
-// Chapter 18C: distribution configuration metadata test.
-print(package_distribution_ready(0,1,4,0,2,true,0,0,0)); print(package_distribution_ready(0,1,4,0,2,true,0,1,0)); print(package_distribution_ready(0,1,4,3,2,true,0,0,0));

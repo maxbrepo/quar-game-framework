@@ -1,3 +1,0 @@
-// Chapter 15D: UI integration regression.
-print(ui_slider_safe_value(25.0,0.0,100.0,0.0,80.0,true));
-print(ui_slider_safe_value(25.0,0.0,100.0,0.0,80.0,false));

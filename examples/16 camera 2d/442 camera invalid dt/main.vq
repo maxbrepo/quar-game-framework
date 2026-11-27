@@ -1,2 +1,0 @@
-// Chapter 16B camera test.
-print(camera_move(10.0,5.0,-1.0));

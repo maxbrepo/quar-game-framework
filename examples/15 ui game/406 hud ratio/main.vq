@@ -1,3 +1,0 @@
-// Chapter 15B: HUD and menu logic.
-print(ui_hud_ratio(25.0,100.0));
-print(ui_hud_ratio(20.0,0.0));

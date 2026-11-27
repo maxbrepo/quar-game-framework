@@ -1,3 +1,0 @@
-// Chapter 12A: mass validation.
-print(physics_valid_mass(2.0));
-print(physics_valid_mass(0.0));

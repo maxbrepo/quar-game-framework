@@ -1,3 +1,0 @@
-print(resource_valid_texture_size(64, 32));
-print(resource_valid_texture_size(0, 32));
-print(resource_valid_texture_size(64, -1));

@@ -1,2 +1,0 @@
-// Chapter 13D: 341 clip loop timing.
-print(animation_clip_frame_after_time(0.75,0.5,true,4,4,0.25,true));

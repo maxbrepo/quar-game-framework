@@ -1,2 +1,0 @@
-// QGF Chapter 17A diagnostic example.
-print(debug_count_limit_reached(5,5));

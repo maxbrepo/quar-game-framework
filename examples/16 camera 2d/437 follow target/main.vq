@@ -1,2 +1,0 @@
-// Chapter 16A: follow target.
-print(camera_follow(30.0,5.0));

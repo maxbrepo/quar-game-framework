@@ -1,3 +1,0 @@
-print(resource_acquire(0));
-print(resource_acquire(2));
-print(resource_acquire(-5));

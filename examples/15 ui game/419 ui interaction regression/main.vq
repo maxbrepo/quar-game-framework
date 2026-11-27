@@ -1,4 +1,0 @@
-// Chapter 15C: UI interaction helpers.
-print(ui_focus_valid(true,true,1,3));
-print(ui_menu_move(1,3,true,false));
-print(ui_button_clicked(true,true,true,false,50.0,50.0,0.0,0.0,10.0,10.0));

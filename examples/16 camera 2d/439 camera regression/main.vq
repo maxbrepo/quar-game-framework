@@ -1,2 +1,0 @@
-// Chapter 16A: camera regression.
-print(camera_left(50.0,100.0,1.0)); print(camera_right(50.0,100.0,1.0));
