@@ -1,0 +1,54 @@
+// Native SDL3 session using the external Quar SDK.
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+// Exclusive video session; do not take ownership of an existing video subsystem.
+bool qgf_sdl3_open(int app_state, int backend_state, int width, int height, int target_fps) {
+    if (qgf_session_can_begin(app_state, backend_state, width, height, target_fps) == false) { return false; }
+    u32 flags = 32;
+    if (SDL_WasInit(flags) != 0) { return false; }
+    return SDL_Init(flags);
+}
+
+// Caller must destroy owned renderer and window before closing.
+bool qgf_sdl3_close() {
+    u32 flags = 32;
+    SDL_Quit();
+    return SDL_WasInit(flags) == 0;
+}
+
+int qgf_sdl3_run_headless_session(int width, int height, int target_fps) {
+    int app_state = qgf_state_created();
+    int backend_state = qgf_backend_created();
+    int completed = 0;
+    if (qgf_session_can_begin(app_state, backend_state, width, height, target_fps)) {
+        u32 video_flags = 32;
+        bool native_ok = qgf_sdl3_open(app_state, backend_state, width, height, target_fps);
+        if (native_ok) {
+            backend_state = qgf_backend_prepare_verified(backend_state, qgf_backend_sdl3(), native_ok);
+            if (qgf_session_can_initialize(app_state, backend_state)) {
+                app_state = qgf_initialize_state(app_state);
+            }
+            if (qgf_session_can_start(app_state, backend_state)) {
+                backend_state = qgf_backend_start(backend_state);
+                app_state = qgf_start_state(app_state);
+            }
+            bool running = qgf_session_running(app_state, backend_state);
+            u32 active_flags = SDL_WasInit(video_flags);
+
+            bool can_release = qgf_session_can_release(app_state, backend_state);
+            bool released = qgf_sdl3_close();
+            if (can_release) {
+                app_state = qgf_stop_state(app_state);
+                backend_state = qgf_backend_stop(backend_state);
+            }
+
+            u32 remaining_flags = SDL_WasInit(video_flags);
+
+            if (released and running and active_flags == video_flags and remaining_flags == 0 and qgf_session_stopped(app_state, backend_state)) {
+                completed = 1;
+            }
+        }
+    }
+    return completed;
+}

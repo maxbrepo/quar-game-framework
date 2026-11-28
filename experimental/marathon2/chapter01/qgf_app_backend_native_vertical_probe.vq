@@ -1,0 +1,37 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+int app_state = qgf_state_created();
+int backend_state = qgf_backend_created();
+bool config_ok = qgf_config_valid(640, 480, 60);
+print(config_ok);
+u32 flags = 32;
+bool native_ok = false;
+if (config_ok) {
+    native_ok = SDL_Init(flags);
+}
+print(native_ok);
+if (native_ok) {
+    backend_state = qgf_backend_prepare_verified(backend_state, qgf_backend_sdl3(), native_ok);
+}
+print(backend_state);
+if (qgf_backend_can_start(backend_state)) {
+    app_state = qgf_initialize_state(app_state);
+    backend_state = qgf_backend_start(backend_state);
+    app_state = qgf_start_state(app_state);
+}
+print(app_state);
+print(backend_state);
+print(qgf_is_active(app_state));
+print(qgf_backend_is_running(backend_state));
+u32 video_active = SDL_WasInit(flags);
+print(video_active);
+if (native_ok) {
+    SDL_Quit();
+    app_state = qgf_stop_state(app_state);
+    backend_state = qgf_backend_stop(backend_state);
+}
+print(app_state);
+print(backend_state);
+u32 after = SDL_WasInit(flags);
+print(after);

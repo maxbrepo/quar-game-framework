@@ -1,0 +1,18 @@
+// Exercise existing integer timing functions without native SDL or floating-point operations.
+print(qgf_time_remaining_frame_ms(5, 16));
+print(qgf_time_remaining_frame_ms(16, 16));
+print(qgf_time_remaining_frame_ms(25, 16));
+print(qgf_time_remaining_frame_ms(-1, 16));
+print(qgf_time_remaining_frame_ms(5, 0));
+print(qgf_time_frame_budget_overrun_ms(25, 16));
+print(qgf_time_frame_budget_overrun_ms(5, 16));
+print(qgf_time_clamped_delta_ms(100, 350, 50));
+print(qgf_time_clamped_delta_ms(100, 110, 50));
+print(qgf_time_clamped_delta_ms(100, 90, 50));
+print(qgf_frame_fixed_steps(7, 50, 16, 2));
+print(qgf_frame_remaining_ms(7, 50, 16, 2));
+print(qgf_frame_fixed_steps(25, 7, 16, 4));
+print(qgf_frame_remaining_ms(25, 7, 16, 4));
+print(qgf_time_average_fps(60, 1000));
+print(qgf_time_average_fps(0, 1000));
+print(qgf_time_target_frame_ms(60));

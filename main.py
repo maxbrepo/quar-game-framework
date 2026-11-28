@@ -950,8 +950,8 @@ def run_demo(name, sdk, smoke=False, fps=None):
     with tempfile.TemporaryDirectory(prefix="qgf_demo_") as folder:
         temporary = Path(folder) / "main.vq"
         content = source.read_text(encoding="utf-8")
+        import json
         if smoke:
-            import json
             try:
                 metadata = json.loads((source.parent / "demo.json").read_text(encoding="utf-8"))
                 frames = metadata["batch_frames"]
@@ -986,6 +986,21 @@ def run_demo(name, sdk, smoke=False, fps=None):
         except ValueError as error:
             print(f"SKIP {name}: {error}")
             return None
+        try:
+            metadata_path = source.parent / "demo.json"
+            modules = json.loads(metadata_path.read_text(encoding="utf-8")).get("core_modules", []) if metadata_path.is_file() else []
+            if not isinstance(modules, list) or any(not isinstance(item, str) for item in modules):
+                raise ValueError("invalid core_modules")
+            root = Path(__file__).resolve().parent
+            core = (root / "core").resolve()
+            paths = [(root / item).resolve() for item in modules]
+            if len(set(paths)) != len(paths) or any(not path.is_relative_to(core) or path.suffix != ".vq" for path in paths):
+                raise ValueError("invalid or duplicate Core module")
+            if paths:
+                content = "\n".join(qrvm_source(path.read_text(encoding="utf-8")) for path in paths) + "\n" + qrvm_source(content)
+        except (OSError, ValueError, TypeError, AttributeError) as error:
+            print(f"FAIL {name}: Core assembly ({error})")
+            return False
         temporary.write_text(content, encoding="utf-8")
         command = [sys.executable, str(sdk / "main.py"), "--native-library", library,
                    "-f", str(temporary)]

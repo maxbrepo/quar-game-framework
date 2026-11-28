@@ -1,0 +1,26 @@
+// QGF Core lifecycle transition matrix, executed by QRVM.
+// Each pair prints the resulting state and error code for one attempted action.
+print(qgf_initialize_state(0));
+print(qgf_initialize_error(0));
+print(qgf_start_state(0));
+print(qgf_start_error(0));
+print(qgf_stop_state(0));
+print(qgf_stop_error(0));
+print(qgf_initialize_state(1));
+print(qgf_initialize_error(1));
+print(qgf_start_state(1));
+print(qgf_start_error(1));
+print(qgf_stop_state(1));
+print(qgf_stop_error(1));
+print(qgf_initialize_state(2));
+print(qgf_initialize_error(2));
+print(qgf_start_state(2));
+print(qgf_start_error(2));
+print(qgf_stop_state(2));
+print(qgf_stop_error(2));
+print(qgf_initialize_state(3));
+print(qgf_initialize_error(3));
+print(qgf_start_state(3));
+print(qgf_start_error(3));
+print(qgf_stop_state(3));
+print(qgf_stop_error(3));

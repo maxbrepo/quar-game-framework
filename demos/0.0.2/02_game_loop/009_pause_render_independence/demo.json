@@ -4,5 +4,12 @@
   "id": "009",
   "title": "Pause and Render Independence",
   "backend": "SDL3",
-  "batch_frames": 60
+  "batch_frames": 60,
+  "core_modules": [
+    "core/lifecycle.vq",
+    "core/platform.vq",
+    "core/session.vq",
+    "core/sdl3_session.vq",
+    "core/game_loop.vq"
+  ]
 }

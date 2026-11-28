@@ -1,0 +1,3 @@
+// QGF example: reusable headless SDL3 session through canonical Core modules.
+// Run with SDL_VIDEODRIVER=dummy and an external Quar SDK.
+print(qgf_sdl3_run_headless_session(640, 480, 60));

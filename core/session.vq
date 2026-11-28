@@ -1,0 +1,40 @@
+// Pure coordination between the existing application and backend lifecycles.
+// No native bindings or duplicated transition implementation.
+bool qgf_session_can_initialize(int app_state, int backend_state) {
+    if (qgf_can_initialize(app_state) == false) { return false; }
+    return backend_state == qgf_backend_ready();
+}
+
+bool qgf_session_can_start(int app_state, int backend_state) {
+    if (qgf_can_start(app_state) == false) { return false; }
+    return qgf_backend_can_start(backend_state);
+}
+
+bool qgf_session_can_stop(int app_state, int backend_state) {
+    if (qgf_can_stop(app_state) == false) { return false; }
+    return qgf_backend_can_stop(backend_state);
+}
+
+bool qgf_session_running(int app_state, int backend_state) {
+    if (qgf_is_active(app_state) == false) { return false; }
+    return qgf_backend_is_running(backend_state);
+}
+
+bool qgf_session_stopped(int app_state, int backend_state) {
+    if (qgf_is_stopped(app_state) == false) { return false; }
+    return qgf_backend_is_stopped(backend_state);
+}
+
+// A native session may begin only from two fresh lifecycle states
+// and with an application configuration accepted by the Core.
+bool qgf_session_can_begin(int app_state, int backend_state, int width, int height, int target_fps) {
+    if (qgf_config_valid(width, height, target_fps) == false) { return false; }
+    if (qgf_can_initialize(app_state) == false) { return false; }
+    return backend_state == qgf_backend_created();
+}
+
+// A native session may be released only while both lifecycles
+// are in a stoppable state. SDL_Quit remains the caller's responsibility.
+bool qgf_session_can_release(int app_state, int backend_state) {
+    return qgf_session_can_stop(app_state, backend_state);
+}

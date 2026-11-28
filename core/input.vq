@@ -110,3 +110,15 @@ int qgf_input_pointer_clamp_y(int y, int height) {
     if (y >= height) { return height - 1; }
     return y;
 }
+
+// Resolve opposing game actions into a signed movement axis.
+// Returns zero when both actions are active, neither is active, or a state is invalid.
+int qgf_input_action_axis(int negative_state, int positive_state) {
+    if (qgf_input_state_valid(negative_state) == false) { return 0; }
+    if (qgf_input_state_valid(positive_state) == false) { return 0; }
+    bool negative = qgf_input_frame_active(negative_state);
+    bool positive = qgf_input_frame_active(positive_state);
+    if (negative == positive) { return 0; }
+    if (negative) { return -1; }
+    return 1;
+}

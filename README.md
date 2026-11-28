@@ -1,32 +1,31 @@
 # Quar Game Framework (QGF)
 
-**Current version: 0.0.2-dev (development prerelease)**  
+**Version 0.0.3-dev — Development Update | Experimental Channel**
 Experimental 2D game framework developed primarily in **Visual Quar**.
 
-QGF is a separate project from the Visual Quar / Quar SDK toolchain. Its goal is to build a lightweight game framework while using the SDK's execution and native interoperability capabilities, without modifying SDK sources from QGF.
+QGF is a lightweight, modular 2D game framework using the external Visual Quar SDK and SDL3 for execution and native interoperability.
 
-## Current version: 0.0.2-dev (development prerelease)
+## Current development milestone: 0.0.3-dev
 
-**This README describes QGF 0.0.2-dev.** This is the current development version, **not** the historical 0.0.1 release and **not** a stable engine release.
+- Application/backend session coordination and native SDL3 lifecycle probes.
+- Timing, integer pacing, scheduler and loop-state regression coverage.
+- Configuration, window-state and logical input policies, including directional movement examples.
+- Existing SDL3 graphical demos from earlier alpha milestones.
 
-### Current scope
+This is an experimental prerelease, not a stable engine. Native window and input integration remain incomplete at the public core level. See [version history](VERSIONS.md) for earlier milestones.
 
-- The logical framework foundation and numbered examples established during Marathon A remain part of the project.
-- The Main Runner supports selecting and running examples and SDL3 graphical demos.
-- Native SDL3 demonstrations use Visual Quar through the SDK's QRVM and ABI/FFI pipeline.
-- Marathon 2, Pass B is integrating and validating native SDL3 behavior chapter by chapter. Chapter 2 (Game Loop) has undergone work on frame pacing, loop states, independent simulation/rendering and controlled termination.
+## Release channels
 
-### Validation and limitations
+| Branch | Release stage |
+| --- | --- |
+| `experimental` | Development (`-dev`) |
+| `unstable` | Alpha (`-alpha`) |
+| `testing` | Beta / release candidate (`-beta`, `-rc`) |
+| `stable` | Stable releases |
 
-- Individual Chapter 2 demos and checkpoints have received positive tests on the user's PC; this does **not** establish a complete regression pass for all of QGF 0.0.2-dev.
-- FPS reporting and some numerical behavior remain subject to limitations in the current Visual Quar typed SDK.
-- Advanced keyboard/event handling is deferred. Some native integrations remain experimental or incomplete.
-- QGF depends on an external Visual Quar SDK and does not maintain a modified private SDK implementation.
+## Requirements
 
-## Requirements and SDK installation
-
-- **Quar SDK 0.0.5-dev**: obtain it separately and place its contents in the project-root `sdk/` directory. Place the SDK files and directories directly inside `sdk/`, without an additional nested `quar-sdk/` directory.
-- The SDK must include QRVM and ABI/FFI support. It is an external dependency and is **not distributed or tracked in the QGF repository**.
+- A compatible external Visual Quar SDK, including QRVM and ABI/FFI support.
 - Python 3 for the current Main Runner / SDK bootstrap tooling.
 - SDL3 shared library for native graphical demos.
 - A graphical desktop session to display windows.
@@ -57,7 +56,7 @@ If SDL3 is installed but not discovered automatically:
 export QGF_SDL3_LIBRARY=/usr/local/lib/libSDL3.so.0
 ```
 
-The D001 interactive demo currently exits when any key is pressed or the window is closed. The bounded smoke mode checks execution and completion, not the visual correctness of pixels.
+D001 exits on any key or window close. Smoke tests check execution, not visual correctness.
 
 ## Project structure
 
@@ -65,16 +64,12 @@ The D001 interactive demo currently exits when any key is pressed or the window 
 - `examples/` — numbered Visual Quar examples.
 - `demos/` — interactive and smoke-test graphical demos.
 - `tests/` — regression tests and test utilities.
-- `docs/` — development notes.
+- `experimental/` — development probes.
+- `sdk/` — local external SDK dependency (not distributed with QGF).
 - `main.py` — Main Runner.
-- `sdk/` — locally installed Quar SDK 0.0.5-dev (excluded from Git).
 - `VERSION.md` — current version and scope.
 - `VERSIONS.md` — dated version history.
 - `SCHEMATICS.md` — architecture and boundaries.
-
-## Version history
-
-This README documents **only QGF 0.0.2-dev**. See `VERSIONS.md` for historical releases, including 0.0.1, and `VERSION.md` for the current version declaration.
 
 ## Development policy
 

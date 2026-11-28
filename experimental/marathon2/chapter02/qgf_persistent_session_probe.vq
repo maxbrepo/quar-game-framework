@@ -1,0 +1,21 @@
+int app_state = qgf_state_created();
+int backend_state = qgf_backend_created();
+print(qgf_sdl3_open(app_state, backend_state, 0, 480, 60));
+bool opened = qgf_sdl3_open(app_state, backend_state, 640, 480, 60);
+print(opened);
+if (opened) {
+    print(qgf_sdl3_open(app_state, backend_state, 640, 480, 60));
+    backend_state = qgf_backend_prepare_verified(backend_state, qgf_backend_sdl3(), opened);
+    if (qgf_session_can_initialize(app_state, backend_state)) { app_state = qgf_initialize_state(app_state); }
+    if (qgf_session_can_start(app_state, backend_state)) {
+        backend_state = qgf_backend_start(backend_state);
+        app_state = qgf_start_state(app_state);
+    }
+    print(qgf_session_running(app_state, backend_state));
+    print(qgf_session_can_release(app_state, backend_state));
+    print(qgf_sdl3_close());
+    app_state = qgf_stop_state(app_state);
+    backend_state = qgf_backend_stop(backend_state);
+    print(qgf_session_stopped(app_state, backend_state));
+}
+print(qgf_sdl3_run_headless_session(640, 480, 60));

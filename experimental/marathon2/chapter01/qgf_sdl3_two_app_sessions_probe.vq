@@ -1,0 +1,69 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+u32 video_flags = 32;
+int backend_state = 0;
+int app_state = qgf_state_created();
+int first_action = qgf_lifecycle_contract_action(backend_state, true);
+print(first_action);
+if (first_action == 1) {
+    bool first_ok = SDL_Init(video_flags);
+    backend_state = qgf_lifecycle_contract_apply(backend_state, first_action, first_ok);
+    print(first_ok);
+    print(qgf_lifecycle_contract_verify(0, first_action, backend_state, first_ok));
+    if (backend_state == 1) {
+        app_state = qgf_initialize_state(app_state);
+        app_state = qgf_start_state(app_state);
+    }
+}
+print(app_state);
+print(backend_state);
+u32 first_active = SDL_WasInit(video_flags);
+print(first_active);
+int denied = qgf_lifecycle_contract_action(backend_state, true);
+print(denied);
+int first_quit = qgf_lifecycle_contract_action(backend_state, false);
+print(first_quit);
+if (first_quit == 2) {
+    if (qgf_can_stop(app_state)) {
+        SDL_Quit();
+        backend_state = qgf_lifecycle_contract_apply(backend_state, first_quit, true);
+        app_state = qgf_stop_state(app_state);
+    }
+}
+print(app_state);
+print(backend_state);
+u32 first_after = SDL_WasInit(video_flags);
+print(first_after);
+print(qgf_can_initialize(app_state));
+app_state = qgf_state_created();
+print(app_state);
+int second_action = qgf_lifecycle_contract_action(backend_state, true);
+print(second_action);
+if (second_action == 1) {
+    bool second_ok = SDL_Init(video_flags);
+    backend_state = qgf_lifecycle_contract_apply(backend_state, second_action, second_ok);
+    print(second_ok);
+    print(qgf_lifecycle_contract_verify(0, second_action, backend_state, second_ok));
+    if (backend_state == 1) {
+        app_state = qgf_initialize_state(app_state);
+        app_state = qgf_start_state(app_state);
+    }
+}
+print(app_state);
+print(backend_state);
+u32 second_active = SDL_WasInit(video_flags);
+print(second_active);
+int second_quit = qgf_lifecycle_contract_action(backend_state, false);
+print(second_quit);
+if (second_quit == 2) {
+    if (qgf_can_stop(app_state)) {
+        SDL_Quit();
+        backend_state = qgf_lifecycle_contract_apply(backend_state, second_quit, true);
+        app_state = qgf_stop_state(app_state);
+    }
+}
+print(app_state);
+print(backend_state);
+u32 second_after = SDL_WasInit(video_flags);
+print(second_after);

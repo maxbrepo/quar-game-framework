@@ -154,3 +154,20 @@ bool qgf_backend_is_running(int state) {
 bool qgf_backend_is_stopped(int state) {
     return state == 3;
 }
+
+
+// A native caller may confirm SDL3 initialization without advertising
+// unconditional availability through qgf_backend_available().
+// NONE keeps using the existing canonical prepare path.
+bool qgf_backend_can_prepare_verified(int state, int backend, bool native_initialized) {
+    if (state != 0) { return false; }
+    if (backend == 1) { return native_initialized; }
+    return qgf_backend_can_prepare(state, backend);
+}
+
+int qgf_backend_prepare_verified(int state, int backend, bool native_initialized) {
+    if (qgf_backend_can_prepare_verified(state, backend, native_initialized)) {
+        return qgf_backend_ready();
+    }
+    return state;
+}

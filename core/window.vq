@@ -77,7 +77,8 @@ int qgf_window_change_mode(int current_mode, int state, int requested_mode) {
     return current_mode;
 }
 bool qgf_window_can_change_title(int state, int title_length) {
-    if (state == 3) { return false; }
+    if (state < 0) { return false; }
+    if (state >= 3) { return false; }
     return qgf_window_title_length_valid(title_length);
 }
 bool qgf_window_can_resize_with_limits(int state, int width, int height, int min_width, int min_height, int max_width, int max_height) {

@@ -1,0 +1,69 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+u32 flags = 32;
+int completed = 0;
+int app_state = qgf_state_created();
+int backend_state = qgf_backend_created();
+bool native_ok = SDL_Init(flags);
+print(native_ok);
+if (native_ok) {
+    backend_state = qgf_backend_prepare_verified(backend_state, qgf_backend_sdl3(), native_ok);
+    if (qgf_session_can_initialize(app_state, backend_state)) {
+        app_state = qgf_initialize_state(app_state);
+    }
+    if (qgf_session_can_start(app_state, backend_state)) {
+        backend_state = qgf_backend_start(backend_state);
+        app_state = qgf_start_state(app_state);
+    }
+}
+print(qgf_session_running(app_state, backend_state));
+u32 video_active = SDL_WasInit(flags);
+print(video_active);
+if (native_ok) {
+    SDL_Quit();
+    if (qgf_session_can_stop(app_state, backend_state)) {
+        app_state = qgf_stop_state(app_state);
+        backend_state = qgf_backend_stop(backend_state);
+    }
+}
+print(qgf_session_stopped(app_state, backend_state));
+u32 after = SDL_WasInit(flags);
+print(after);
+if (qgf_session_stopped(app_state, backend_state)) {
+    completed = completed + 1;
+}
+backend_state = qgf_backend_reset(backend_state);
+app_state = qgf_state_created();
+print(backend_state);
+print(app_state);
+native_ok = SDL_Init(flags);
+print(native_ok);
+if (native_ok) {
+    backend_state = qgf_backend_prepare_verified(backend_state, qgf_backend_sdl3(), native_ok);
+    if (qgf_session_can_initialize(app_state, backend_state)) {
+        app_state = qgf_initialize_state(app_state);
+    }
+    if (qgf_session_can_start(app_state, backend_state)) {
+        backend_state = qgf_backend_start(backend_state);
+        app_state = qgf_start_state(app_state);
+    }
+}
+print(qgf_session_running(app_state, backend_state));
+video_active = SDL_WasInit(flags);
+print(video_active);
+if (native_ok) {
+    SDL_Quit();
+    if (qgf_session_can_stop(app_state, backend_state)) {
+        app_state = qgf_stop_state(app_state);
+        backend_state = qgf_backend_stop(backend_state);
+    }
+}
+print(qgf_session_stopped(app_state, backend_state));
+after = SDL_WasInit(flags);
+print(after);
+if (qgf_session_stopped(app_state, backend_state)) {
+    completed = completed + 1;
+}
+print(completed);
+print(qgf_backend_available(qgf_backend_sdl3()));

@@ -1,0 +1,14 @@
+print(qgf_session_can_begin(qgf_state_created(), qgf_backend_created(), 640, 480, 60));
+print(qgf_session_can_begin(qgf_state_created(), qgf_backend_created(), 0, 480, 60));
+print(qgf_session_can_begin(qgf_state_created(), qgf_backend_created(), 640, 0, 60));
+print(qgf_session_can_begin(qgf_state_created(), qgf_backend_created(), 640, 480, 0));
+print(qgf_session_can_begin(qgf_state_initialized(), qgf_backend_created(), 640, 480, 60));
+print(qgf_session_can_begin(qgf_state_created(), qgf_backend_ready(), 640, 480, 60));
+print(qgf_session_can_begin(qgf_state_running(), qgf_backend_active(), 640, 480, 60));
+print(qgf_session_can_begin(qgf_state_stopped(), qgf_backend_stopped(), 640, 480, 60));
+print(qgf_session_can_release(qgf_state_created(), qgf_backend_created()));
+print(qgf_session_can_release(qgf_state_initialized(), qgf_backend_ready()));
+print(qgf_session_can_release(qgf_state_running(), qgf_backend_active()));
+print(qgf_session_can_release(qgf_state_initialized(), qgf_backend_active()));
+print(qgf_session_can_release(qgf_state_running(), qgf_backend_ready()));
+print(qgf_session_can_release(qgf_state_stopped(), qgf_backend_stopped()));

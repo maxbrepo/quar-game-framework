@@ -13,7 +13,7 @@ def test_metadata_and_independent_counters():
     assert 'u64 expected_renders = 60;' in source
     assert 'update_count = update_count + one_frame;' in source
     assert 'render_count = render_count + one_frame;' in source
-    assert source.index('if (frame_count == pause_at)') < source.index('if (state == running_state) {\n        position_x')
+    assert source.index('if (frame_count == pause_at)') < source.index('if (qgf_loop_can_update(state)) {\n        int steps_due')
     assert source.count('SDL_RenderPresent(renderer);') == 1
     assert 'QGF_DEMO_OK' in source
 
@@ -35,14 +35,14 @@ def test_simulated_state_transitions():
 
 def test_stopping_state_cannot_be_overridden_by_timed_transitions():
     source = (DEMO / 'main.vq').read_text()
-    assert 'if (state != stopping_state) {\n        if (frame_count == pause_at)' in source
-    assert 'if (frame_count == resume_at) { state = running_state; }' in source
-    assert source.rindex('SDL_DestroyRenderer(renderer);') < source.rindex('SDL_DestroyWindow(window);') < source.rindex('SDL_Quit();')
+    assert 'if (qgf_loop_can_render(state)) {\n        if (frame_count == pause_at)' in source
+    assert 'if (frame_count == resume_at) { state = qgf_loop_resume(state); }' in source
+    assert source.rindex('SDL_DestroyRenderer(renderer);') < source.rindex('SDL_DestroyWindow(window);') < source.index('qgf_sdl3_close();', source.index('SDL_DestroyWindow(window);'))
 
 
 def test_stop_event_skips_render_and_frame_increment():
     source = (DEMO / 'main.vq').read_text()
-    guard = source.index('    if (state != stopping_state) {\n        SDL_SetRenderDrawColorFloat')
+    guard = source.index('    if (qgf_loop_can_render(state)) {\n        SDL_SetRenderDrawColorFloat')
     present = source.index('        SDL_RenderPresent(renderer);', guard)
     count = source.index('        frame_count = frame_count + one_frame;', present)
     end_guard = source.index('    }\n    if (batch_mode)', count)
@@ -81,9 +81,9 @@ def test_source_event_priority_and_cleanup_after_loop():
     pump = source.index('SDL_PumpEvents();', loop)
     quit_event = source.index('if (SDL_HasEvent(quit_event))', pump)
     key_event = source.index('if (SDL_HasEvent(key_event))', quit_event)
-    transitions = source.index('if (state != stopping_state) {', key_event)
-    updates = source.index('if (state == running_state) {\n        position_x', transitions)
-    render_guard = source.index('if (state != stopping_state) {\n        SDL_SetRenderDrawColorFloat', updates)
+    transitions = source.index('if (qgf_loop_can_render(state)) {', key_event)
+    updates = source.index('if (qgf_loop_can_update(state)) {\n        int steps_due', transitions)
+    render_guard = source.index('if (qgf_loop_can_render(state)) {\n        SDL_SetRenderDrawColorFloat', updates)
     exit_guard = source.index('if (state == stopping_state) { running = false; }', render_guard)
     cleanup = source.index('SDL_DestroyRenderer(renderer);', exit_guard)
     assert loop < pump < quit_event < key_event < transitions < updates < render_guard < exit_guard < cleanup

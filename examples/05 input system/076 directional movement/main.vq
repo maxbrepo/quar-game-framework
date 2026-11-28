@@ -1,0 +1,28 @@
+// Deterministic gameplay demonstration; no native input or renderer required.
+int x = 0;
+int y = 0;
+int loop_state = qgf_loop_running();
+int left = qgf_input_up();
+int right = qgf_input_pressed();
+int up = qgf_input_pressed();
+int down = qgf_input_up();
+int frame = 0;
+while (frame < 7) {
+    if (frame == 1) { loop_state = qgf_loop_pause(loop_state); }
+    if (frame == 2) { loop_state = qgf_loop_resume(loop_state); }
+    if (frame == 3) { left = qgf_input_pressed(); }
+    if (frame == 4) { right = qgf_input_released(); up = qgf_input_released(); }
+    if (frame == 5) { loop_state = qgf_loop_stop(loop_state); }
+    if (frame == 6) { loop_state = qgf_loop_finish(loop_state); }
+    if (qgf_loop_can_update(loop_state)) {
+        x = x + qgf_input_action_axis(left, right);
+        y = y + qgf_input_action_axis(up, down);
+    }
+    print(x);
+    print(y);
+    left = qgf_input_advance_frame(left);
+    right = qgf_input_advance_frame(right);
+    up = qgf_input_advance_frame(up);
+    down = qgf_input_advance_frame(down);
+    frame = frame + 1;
+}

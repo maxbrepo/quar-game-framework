@@ -1,0 +1,39 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+u32 video_flags = 32;
+int state = 0;
+bool first_ok = SDL_Init(video_flags);
+if (first_ok) {
+    state = 1;
+} else {
+    state = 2;
+}
+print(state);
+u32 first_active = SDL_WasInit(video_flags);
+print(first_active);
+if (state == 1) {
+    SDL_Quit();
+    state = 0;
+}
+print(state);
+u32 first_after = SDL_WasInit(video_flags);
+print(first_after);
+if (state == 0) {
+    bool second_ok = SDL_Init(video_flags);
+    if (second_ok) {
+        state = 1;
+    } else {
+        state = 2;
+    }
+}
+print(state);
+u32 second_active = SDL_WasInit(video_flags);
+print(second_active);
+if (state == 1) {
+    SDL_Quit();
+    state = 0;
+}
+print(state);
+u32 second_after = SDL_WasInit(video_flags);
+print(second_after);

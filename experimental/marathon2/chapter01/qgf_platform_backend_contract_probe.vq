@@ -1,0 +1,13 @@
+int backend = qgf_backend_sdl3();
+print(backend);
+print(qgf_backend_known(backend));
+print(qgf_backend_available(backend));
+print(qgf_backend_requires_native_bridge(backend));
+print(qgf_backend_can_use_native(backend));
+print(qgf_backend_prepare_error(qgf_backend_created(), backend));
+print(qgf_backend_prepare(qgf_backend_created(), backend));
+print(qgf_backend_supports_window(backend));
+print(qgf_backend_supports_render2d(backend));
+print(qgf_backend_supports_input(backend));
+print(qgf_platform_config_valid(qgf_platform_linux(), backend));
+print(qgf_platform_error(qgf_platform_linux(), backend));

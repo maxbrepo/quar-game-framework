@@ -119,3 +119,27 @@ double qgf_frame_render_alpha(int previous_ms, int delta_ms, int step_ms, int ma
     int remaining_ms = qgf_frame_remaining_ms(previous_ms, delta_ms, step_ms, max_steps);
     return qgf_render_alpha(remaining_ms, step_ms);
 }
+
+// Game loop states are independent of application lifecycle states.
+int qgf_loop_running() { return 0; }
+int qgf_loop_paused() { return 1; }
+int qgf_loop_stopping() { return 2; }
+int qgf_loop_terminated() { return 3; }
+bool qgf_loop_can_update(int state) { return state == qgf_loop_running(); }
+bool qgf_loop_can_render(int state) { return state == qgf_loop_running() or state == qgf_loop_paused(); }
+int qgf_loop_pause(int state) {
+    if (state == qgf_loop_running()) { return qgf_loop_paused(); }
+    return state;
+}
+int qgf_loop_resume(int state) {
+    if (state == qgf_loop_paused()) { return qgf_loop_running(); }
+    return state;
+}
+int qgf_loop_stop(int state) {
+    if (qgf_loop_can_render(state)) { return qgf_loop_stopping(); }
+    return state;
+}
+int qgf_loop_finish(int state) {
+    if (state == qgf_loop_stopping()) { return qgf_loop_terminated(); }
+    return state;
+}

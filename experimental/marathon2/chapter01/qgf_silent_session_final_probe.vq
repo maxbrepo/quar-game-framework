@@ -1,0 +1,5 @@
+print(qgf_sdl3_run_headless_session(0, 480, 60));
+print(qgf_sdl3_run_headless_session(640, 0, 60));
+print(qgf_sdl3_run_headless_session(640, 480, 0));
+print(qgf_sdl3_run_headless_session(640, 480, 60));
+print(qgf_sdl3_run_headless_session(640, 480, 60));

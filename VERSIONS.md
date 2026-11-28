@@ -1,36 +1,36 @@
 # QGF — Version History
 
-## 0.0.2-dev — 17 November 2026
+## 0.0.3-dev — 2026-11-28
 
-**Type:** Development prerelease (not an official stable release).
+**Channel:** experimental
+**Type:** Development update
 
-### Development scope
+- Extended application and backend session coordination and SDL3 lifecycle probes.
+- Integer pacing, scheduling and game-loop state regression coverage.
+- Window configuration and state policies.
+- Logical input actions, axes and directional movement examples.
+- Expanded regression tests and development probes.
 
-- Ongoing Marathon 2 native SDL3 integration and Game Loop work.
-- Versioned graphical demos, runner improvements, and structural regression tests are present in the development tree.
-- Chapter 2 Pass B has received positive user test feedback for its latest checkpoint; this does not certify the entire repository or all demos.
-- Numeric interoperability issues and advanced event handling remain subject to further SDK integration and validation.
+Native window and input integration remain incomplete at the public core level. Test inventory does not certify that every test passes. Quar SDK remains an external dependency.
 
-### Repository status and boundaries
+## 0.0.2-alpha — 2026-11-17
 
-- The working tree includes numerous uncommitted and untracked changes relative to the 0.0.1 Git baseline. Their authorship and correctness cannot be established from Git status alone.
-- The Visual Quar SDK is an external dependency; QGF does not modify its sources as part of this version update.
-- This prerelease version label does not imply a complete code audit or full native SDL3 regression pass.
+**Channel:** unstable
+**Type:** Alpha update
 
-## 0.0.1 — 05 November 2026
+- Expanded native SDL3 demos: moving primitives, sequential windows and restart handling.
+- Game loop, delta time, fixed timestep and frame pacing.
+- FPS measurement and pause/render independence.
 
-**Type:** Initial experimental milestone / symbolic first release.
+Originally labelled 0.0.2-dev. Date refers to the original commit; exact push date is unverified.
 
-### Confirmed accomplishments
 
-- Marathon A established the first 11 logical chapters and 275 numbered Visual Quar examples, previously tested on the user's PC.
-- A Main Runner was developed to execute examples and select graphical demos.
-- Marathon B began native SDL3 support through the Visual Quar ABI/FFI mechanism.
-- The first graphical demo, `d001_hello_pixels`, was confirmed successful by the user: an SDL3 window renders a line and a point.
-- SDL3 was built and installed on the user's Ubuntu 24.04 machine; its shared library is detected by the system.
+## 0.0.1-alpha — 2026-11-05
 
-### Current boundaries
+**Channel:** unstable
+**Type:** First functional alpha
 
-- The graphical demo is an initial proof of execution, not a complete rendering backend.
-- More SDL3 features, game interaction, sprite handling and integration remain future work.
-- QGF must not patch or silently fork Visual Quar SDK; required language/runtime features belong in the SDK project.
+- Logical foundations covering 11 chapters and 275 numbered Visual Quar examples.
+- Main Runner for examples and graphical demos.
+- Initial SDL3 integration through Visual Quar ABI/FFI.
+- First functional graphical demo: D001 Hello Pixels.

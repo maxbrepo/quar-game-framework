@@ -1,0 +1,19 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+u32 flags = 32;
+int state = qgf_backend_created();
+bool native_ok = SDL_Init(flags);
+print(native_ok);
+print(qgf_backend_can_prepare_verified(state, qgf_backend_sdl3(), native_ok));
+state = qgf_backend_prepare_verified(state, qgf_backend_sdl3(), native_ok);
+print(state);
+print(qgf_backend_can_start(state));
+print(qgf_backend_can_stop(state));
+print(qgf_backend_available(qgf_backend_sdl3()));
+u32 active = SDL_WasInit(flags);
+print(active);
+if (native_ok) {
+    SDL_Quit();
+}
+print(qgf_backend_is_stopped(state));

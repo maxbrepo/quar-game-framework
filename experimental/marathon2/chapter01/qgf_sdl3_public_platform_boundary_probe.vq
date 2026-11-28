@@ -1,0 +1,56 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+int platform = qgf_platform_linux();
+int sdl_backend = qgf_backend_sdl3();
+int none_backend = qgf_backend_none();
+print(qgf_platform_config_valid(platform, sdl_backend));
+print(qgf_backend_known(sdl_backend));
+print(qgf_backend_available(sdl_backend));
+print(qgf_backend_can_use_native(sdl_backend));
+print(qgf_backend_requires_native_bridge(sdl_backend));
+print(qgf_platform_error(platform, sdl_backend));
+int public_state = qgf_backend_created();
+print(qgf_backend_prepare_error(public_state, sdl_backend));
+print(qgf_backend_prepare(public_state, sdl_backend));
+print(qgf_backend_available(none_backend));
+int none_state = qgf_backend_prepare(public_state, none_backend);
+print(none_state);
+none_state = qgf_backend_start(none_state);
+print(none_state);
+none_state = qgf_backend_stop(none_state);
+print(none_state);
+none_state = qgf_backend_reset(none_state);
+print(none_state);
+int app_state = qgf_state_created();
+int native_state = 0;
+int action = qgf_lifecycle_contract_action(native_state, true);
+print(action);
+u32 flags = 32;
+if (action == 1) {
+    bool native_ok = SDL_Init(flags);
+    native_state = qgf_lifecycle_contract_apply(native_state, action, native_ok);
+    print(native_ok);
+    print(qgf_lifecycle_contract_verify(0, action, native_state, native_ok));
+    if (native_state == 1) {
+        app_state = qgf_initialize_state(app_state);
+        app_state = qgf_start_state(app_state);
+    }
+}
+print(app_state);
+print(native_state);
+u32 video = SDL_WasInit(flags);
+print(video);
+print(qgf_backend_available(sdl_backend));
+int quit_action = qgf_lifecycle_contract_action(native_state, false);
+print(quit_action);
+if (quit_action == 2) {
+    SDL_Quit();
+    native_state = qgf_lifecycle_contract_apply(native_state, quit_action, true);
+    app_state = qgf_stop_state(app_state);
+}
+print(app_state);
+print(native_state);
+u32 after = SDL_WasInit(flags);
+print(after);
+print(qgf_backend_prepare_error(public_state, sdl_backend));

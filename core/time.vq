@@ -2,7 +2,7 @@
 // The caller supplies timestamps and frame counts; this module never reads SDL3.
 
 bool qgf_time_interval_valid(int start_ms, int end_ms) {
-    return start_ms >= 0 && end_ms >= start_ms;
+    return start_ms >= 0 and end_ms >= start_ms;
 }
 
 int qgf_time_elapsed_ms(int start_ms, int end_ms) {
@@ -18,7 +18,7 @@ int qgf_time_delta_ms(int previous_ms, int current_ms) {
 
 // Return whole-number average FPS, or zero for an invalid interval.
 int qgf_time_average_fps(int frame_count, int elapsed_ms) {
-    if (frame_count <= 0 || elapsed_ms <= 0) {
+    if (frame_count <= 0 or elapsed_ms <= 0) {
         return 0;
     }
     return frame_count * 1000 / elapsed_ms;
@@ -26,7 +26,7 @@ int qgf_time_average_fps(int frame_count, int elapsed_ms) {
 
 // Return average frame duration in milliseconds.
 double qgf_time_average_frame_ms(int frame_count, int elapsed_ms) {
-    if (frame_count <= 0 || elapsed_ms <= 0) {
+    if (frame_count <= 0 or elapsed_ms <= 0) {
         return 0.0;
     }
     return elapsed_ms * 1.0 / frame_count;
@@ -34,7 +34,7 @@ double qgf_time_average_frame_ms(int frame_count, int elapsed_ms) {
 
 // A positive value indicates that the frame exceeded its target budget.
 int qgf_time_frame_budget_overrun_ms(int frame_ms, int target_ms) {
-    if (frame_ms < 0 || target_ms <= 0) {
+    if (frame_ms < 0 or target_ms <= 0) {
         return 0;
     }
     if (frame_ms <= target_ms) {
@@ -65,7 +65,7 @@ int qgf_time_target_frame_ms(int target_fps) {
 
 // Return the remaining delay for a frame, or zero if already over budget.
 int qgf_time_remaining_frame_ms(int frame_ms, int target_ms) {
-    if (frame_ms < 0 || target_ms <= 0 || frame_ms >= target_ms) {
+    if (frame_ms < 0 or target_ms <= 0 or frame_ms >= target_ms) {
         return 0;
     }
     return target_ms - frame_ms;

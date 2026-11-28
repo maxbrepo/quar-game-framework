@@ -1,0 +1,31 @@
+extern "C" bool SDL_Init(u32 flags);
+extern "C" u32 SDL_WasInit(u32 flags);
+extern "C" void SDL_Quit();
+u32 video_flags = 32;
+int state = 0;
+int action = qgf_lifecycle_contract_action(state, true);
+print(action);
+bool init_ok = SDL_Init(video_flags);
+print(init_ok);
+state = qgf_lifecycle_contract_apply(state, action, init_ok);
+print(state);
+print(qgf_lifecycle_contract_verify(0, action, state, init_ok));
+u32 active = SDL_WasInit(video_flags);
+print(active);
+if (state == 1) {
+    int shutdown_action = qgf_lifecycle_contract_action(state, false);
+    print(shutdown_action);
+    SDL_Quit();
+    state = qgf_lifecycle_contract_apply(state, shutdown_action, true);
+    print(state);
+    u32 after = SDL_WasInit(video_flags);
+    print(after);
+}
+if (state == 2) {
+    int denied = qgf_lifecycle_contract_action(state, true);
+    print(denied);
+    int reset_action = qgf_lifecycle_contract_action(state, false);
+    print(reset_action);
+    state = qgf_lifecycle_contract_apply(state, reset_action, true);
+    print(state);
+}
